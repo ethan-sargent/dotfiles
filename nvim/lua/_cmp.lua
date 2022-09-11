@@ -1,7 +1,12 @@
 -- Set up nvim-cmp.
 local cmp = require'cmp'
 
-cmp.setup({
+cmp.setup {
+      enabled = function()
+        -- disable completion if the cursor is `Comment` syntax group 
+        local context = require'cmp.config.context'
+        return not context.in_treesitter_capture('comment')
+      end,
     snippet = {
         -- REQUIRED - you must specify a snippet engine
         expand = function(args)
@@ -38,7 +43,7 @@ cmp.setup({
     }, {
         { name = 'buffer' },
     })
-})
+}
 
 -- Set configuration for specific filetype.
 cmp.setup.filetype('gitcommit', {

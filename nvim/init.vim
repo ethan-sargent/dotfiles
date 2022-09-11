@@ -5,7 +5,7 @@ if empty(glob(data_dir . '/autoload/plug.vim'))
   autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
 endif
 
-" --- Plugins ---
+" --- Plugins -- im
 call plug#begin("~/.vim/plugged")
 Plug 'arzg/vim-colors-xcode'
 Plug 'ryanoasis/vim-devicons'
@@ -24,6 +24,7 @@ Plug 'hrsh7th/cmp-cmdline'
 Plug 'hrsh7th/nvim-cmp'
 Plug 'hrsh7th/cmp-vsnip'
 Plug 'hrsh7th/vim-vsnip'
+Plug 'sam4llis/nvim-tundra'
 call plug#end()
 set completeopt=menu,menuone,noselect
 
@@ -38,6 +39,7 @@ set expandtab
 set signcolumn=yes
 set autoindent
 set smartindent
+set background=dark
 
 augroup shortenTabs
     au!
@@ -49,15 +51,14 @@ augroup END
 if (has("termguicolors"))
     set termguicolors
 endif
-syntax enable
-colorscheme xcodedark
+colorscheme tundra 
 
-augroup vim-colors-xcode
-    autocmd!
-    " italic comments
-    au ColorScheme * hi Comment        cterm=italic gui=italic
-    au ColorScheme * hi SpecialComment cterm=italic gui=italic
-augroup END
+" augroup vim-colors-xcode
+"     autocmd!
+"     " italic comments
+"     au ColorScheme * hi Comment        cterm=italic gui=italic
+"     au ColorScheme * hi SpecialComment cterm=italic gui=italic
+" augroup END
 
 
 " apexcode filetype detection
