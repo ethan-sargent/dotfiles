@@ -6,3 +6,6 @@ require('lspconfig').apex_ls.setup {
     '-Dlwc.typegeneration.disabled=true',
     'apex.jorje.lsp.ApexLanguageServerLauncher' }
 }
+
+require('lspconfig').clangd.setup {}
+

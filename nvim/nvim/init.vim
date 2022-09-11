@@ -16,10 +16,20 @@ Plug 'neovim/nvim-lspconfig'
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 Plug 'nvim-lua/plenary.nvim'
 Plug 'nvim-telescope/telescope.nvim', { 'tag': '0.1.0' }
+Plug 'nvim-telescope/telescope-fzf-native.nvim', { 'do': 'cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build' }
+Plug 'hrsh7th/cmp-nvim-lsp'
+Plug 'hrsh7th/cmp-buffer'
+Plug 'hrsh7th/cmp-path'
+Plug 'hrsh7th/cmp-cmdline'
+Plug 'hrsh7th/nvim-cmp'
+Plug 'hrsh7th/cmp-vsnip'
+Plug 'hrsh7th/vim-vsnip'
 call plug#end()
+set completeopt=menu,menuone,noselect
 
 " --- Config ---
 set rnu
+set nu
 filetype plugin on
 set nohlsearch
 set softtabstop=4 tabstop=4
@@ -44,11 +54,11 @@ colorscheme xcodedark
 
 augroup vim-colors-xcode
     autocmd!
+    " italic comments
+    au ColorScheme * hi Comment        cterm=italic gui=italic
+    au ColorScheme * hi SpecialComment cterm=italic gui=italic
 augroup END
 
-" italic comments
-autocmd vim-colors-xcode ColorScheme * hi Comment        cterm=italic gui=italic
-autocmd vim-colors-xcode ColorScheme * hi SpecialComment cterm=italic gui=italicj
 
 " apexcode filetype detection
 au BufRead,BufNewFile *.cls,*.apex set filetype=apexcode
@@ -59,12 +69,6 @@ nnoremap <leader>fg <cmd>Telescope live_grep<cr>
 nnoremap <leader>fb <cmd>Telescope buffers<cr>
 nnoremap <leader>fh <cmd>Telescope help_tags<cr>
 
-" Using Lua functions
-nnoremap <leader>ff <cmd>lua require('telescope.builtin').find_files()<cr>
-nnoremap <leader>fg <cmd>lua require('telescope.builtin').live_grep()<cr>
-nnoremap <leader>fb <cmd>lua require('telescope.builtin').buffers()<cr>
-nnoremap <leader>fh <cmd>lua require('telescope.builtin').help_tags()<cr>
-
-lua require('config')
-lua require('treesitter')
-lua require('lspconfig')
+lua require('_telescope')
+lua require('_treesitter')
+lua require('_cmp')
