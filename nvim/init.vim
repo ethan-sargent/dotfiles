@@ -33,14 +33,17 @@ set rnu
 set nu
 filetype plugin on
 set nohlsearch
+set incsearch
 set softtabstop=4 tabstop=4
 set shiftwidth=4
 set expandtab 
 set signcolumn=yes
 set autoindent
 set smartindent
-<<<<<<< HEAD
 set background=dark
+
+nnoremap <SPACE> <Nop>
+let mapleader=" "
 
 augroup shortenTabs
     au!
@@ -53,18 +56,22 @@ if (has("termguicolors"))
     set termguicolors
 endif
 colorscheme tundra 
+" colorscheme xcodedark
 
-" augroup vim-colors-xcode
-"     autocmd!
-"     " italic comments
-"     au ColorScheme * hi Comment        cterm=italic gui=italic
-"     au ColorScheme * hi SpecialComment cterm=italic gui=italic
-" augroup END
+augroup vim-colors-xcode
+    autocmd!
+    " italic comments
+    au ColorScheme * hi Comment        cterm=italic gui=italic
+    au ColorScheme * hi SpecialComment cterm=italic gui=italic
+augroup END
 
 
-" apexcode filetype detection
-au BufRead,BufNewFile *.cls,*.apex set filetype=apexcode
-
+" apex specific functions
+augroup sfdxApex
+    au!
+    au BufRead,BufNewFile *.cls,*.apex,*.trigger set filetype=apexcode
+    au FileType apexcode nnoremap <buffer> <leader>wo :!sfdx force:source:deploy --sourcepath %<Enter>
+augroup END
 " Find files using Telescope command-line sugar.
 nnoremap <leader>ff <cmd>Telescope find_files<cr>
 nnoremap <leader>fg <cmd>Telescope live_grep<cr>
