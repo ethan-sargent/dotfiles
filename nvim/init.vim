@@ -41,9 +41,11 @@ set signcolumn=yes
 set autoindent
 set smartindent
 set background=dark
+set undofile
 
 nnoremap <SPACE> <Nop>
 let mapleader=" "
+tnoremap <Esc> <C-\><C-n>
 
 augroup shortenTabs
     au!
@@ -52,9 +54,7 @@ augroup shortenTabs
 augroup END
 
 " Color Scheme
-if (has("termguicolors"))
-    set termguicolors
-endif
+set termguicolors
 colorscheme tundra 
 " colorscheme xcodedark
 
@@ -70,8 +70,10 @@ augroup END
 augroup sfdxApex
     au!
     au BufRead,BufNewFile *.cls,*.apex,*.trigger set filetype=apexcode
-    au FileType apexcode nnoremap <buffer> <leader>wo :!sfdx force:source:deploy --sourcepath %<Enter>
+    au FileType apexcode 
 augroup END
+
+nnoremap <buffer> <leader>wo :!sfdx force:source:deploy --sourcepath %<Enter>
 " Find files using Telescope command-line sugar.
 nnoremap <leader>ff <cmd>Telescope find_files<cr>
 nnoremap <leader>fg <cmd>Telescope live_grep<cr>
