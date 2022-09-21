@@ -2,11 +2,7 @@
 local cmp = require'cmp'
 
 cmp.setup {
-      enabled = function()
-        -- disable completion if the cursor is `Comment` syntax group  
-        local context = require'cmp.config.context'
-        return not context.in_treesitter_capture('comment')
-      end,
+    enabled = true,
     snippet = {
         -- REQUIRED - you must specify a snippet engine
         expand = function(args)
@@ -171,6 +167,12 @@ require'lspconfig'.sumneko_lua.setup {
       },
     },
   },
+    on_attach = on_attach,
+    flags = lsp_flags,
+    capabilities = capabilities
+}
+
+require'lspconfig'.gopls.setup {
     on_attach = on_attach,
     flags = lsp_flags,
     capabilities = capabilities

@@ -1,14 +1,14 @@
 " -- setup vimplug if not set up -- 
 let data_dir = has('nvim') ? stdpath('data') . '/site' : '~/.vim'
 if empty(glob(data_dir . '/autoload/plug.vim'))
-  silent execute '!curl -fLo '.data_dir.'/autoload/plug.vim --create-dirs  https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
-  autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
+    silent execute '!curl -fLo '.data_dir.'/autoload/plug.vim --create-dirs  https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
+    autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
 endif
 
 " --- Plugins -- im
 call plug#begin("~/.vim/plugged")
 Plug 'arzg/vim-colors-xcode'
-Plug 'ryanoasis/vim-devicons'
+Plug 'kyazdani42/nvim-web-devicons'
 Plug 'windwp/nvim-autopairs'
 Plug 'mechatroner/rainbow_csv'
 Plug 'tpope/vim-surround'
@@ -25,55 +25,48 @@ Plug 'hrsh7th/nvim-cmp'
 Plug 'hrsh7th/cmp-vsnip'
 Plug 'hrsh7th/vim-vsnip'
 Plug 'sam4llis/nvim-tundra'
+Plug 'tpope/vim-vinegar'
+Plug 'feline-nvim/feline.nvim'
 call plug#end()
 set completeopt=menu,menuone,noselect
 
 " --- Config ---
 set rnu
 set nu
-filetype plugin on
+" filetype plugin on
 set nohlsearch
 set incsearch
-set softtabstop=4 tabstop=4
-set shiftwidth=4
+set ts=2 sts=2 sw=2
 set expandtab 
 set signcolumn=yes
 set autoindent
 set smartindent
-set background=dark
 set undofile
+set ignorecase
+set smartcase
+set termguicolors
+set nowrap
+set guitablabel=\[%N\]\ %t\ %M
+set synmaxcol=500
 
 nnoremap <SPACE> <Nop>
 let mapleader=" "
 tnoremap <Esc> <C-\><C-n>
-
-augroup shortenTabs
-    au!
-    au FileType css,json,*.js,*.jsx,*.ts,*.tsx,*.html,*.htm setlocal tabstop=2
-    au FileType css,json,*.js,*.jsx,*.ts,*.tsx,*.html,*.htm setlocal shiftwidth=2
-augroup END
-
-" Color Scheme
-set termguicolors
-colorscheme tundra 
-" colorscheme xcodedark
-
-augroup vim-colors-xcode
-    autocmd!
-    " italic comments
-    au ColorScheme * hi Comment        cterm=italic gui=italic
-    au ColorScheme * hi SpecialComment cterm=italic gui=italic
-augroup END
 
 
 " apex specific functions
 augroup sfdxApex
     au!
     au BufRead,BufNewFile *.cls,*.apex,*.trigger set filetype=apexcode
-    au FileType apexcode 
 augroup END
 
-nnoremap <buffer> <leader>wo :!sfdx force:source:deploy --sourcepath %<Enter>
+" sfdx key bindings
+nnoremap <leader>sd :!sfdx force:source:deploy --sourcepath %<Enter>
+nnoremap <leader>sr :!sfdx force:source:retrieve --sourcepath %<Enter>
+nnoremap <leader>so :!sfdx force:org:open<Enter>
+nnoremap <leader>st :!sfdx force:apex:test:run --tests %:t:r --synchronous<Enter>
+
+
 " Find files using Telescope command-line sugar.
 nnoremap <leader>ff <cmd>Telescope find_files<cr>
 nnoremap <leader>fg <cmd>Telescope live_grep<cr>
@@ -83,3 +76,5 @@ nnoremap <leader>fh <cmd>Telescope help_tags<cr>
 lua require('_telescope')
 lua require('_treesitter')
 lua require('_cmp')
+lua require('_tundra')
+lua require('_feline')
