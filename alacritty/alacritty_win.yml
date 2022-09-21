@@ -1,0 +1,70 @@
+window:
+  padding:
+    x: 5
+    y: 5
+  decorations: full 
+  startup_mode: Windowed
+  dynamic_title: false
+  opacity: 1.0
+
+scrolling:
+  history: 0 
+
+font:
+  normal:
+    family: FiraCode NF 
+    style: Regular 
+  bold:
+    family: FiraCode NF
+    style: Bold
+  size: 12
+
+draw_bold_text_with_bright_colors: true
+
+custom_cursor_colors: true
+
+colors:
+  primary:
+    background: '0x111827'
+    foreground: '0xDFDFE0'
+  cursor:
+    cursorColor: '0xFFFFFF'
+    selectionBackground: '0xFFFFFF'
+  normal:
+    black:  '0x414453'
+    blue:   '0x4EB0CC'
+    cyan:   '0xB281EB'
+    green:  '0x78C2B3'
+    purple: '0xFF7AB2'
+    red:    '0xFF8170'
+    white:  '0xDFDFE0'
+    yellow: '0xD9C97C'
+  bright:
+    black:  '0x7F8C98'
+    blue:   '0x6BDFFF'
+    cyan:   '0xDABAFF'
+    green:  '0xACF2E4'
+    purple: '0xFF7AB2'
+    red:    '0xFF8170'
+    white:  '0xDFDFE0'
+    yellow: '0xFFA14F'
+
+
+cursor:
+  style:
+    shape: Block
+    blinking: On
+
+shell:
+  program: 'C:\Windows\system32\wsl.exe'
+
+env:
+  TERM: xterm-256color
+#  args:
+#    - --login
+
+# Startup directory
+#
+# Directory the shell is started in. If this is unset, or `None`, the working
+# directory of the parent process will be used.
+working_directory: '\\wsl$\Ubuntu\home\ethandev'
