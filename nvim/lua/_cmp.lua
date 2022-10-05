@@ -129,9 +129,9 @@ require('lspconfig').rust_analyzer.setup{
     }
 }
 require('lspconfig').apex_ls.setup {
-    cmd = { '/home/ethandev/dev/apex_lsp/apex-jorje-lsp', 
+    cmd = { '/home/ethandev/dev/languageservers/apex/apex-jorje-lsp',
     '-Ddebug.internal.errors=true',
-    '-Ddebug.semantic.errors=false', 
+    '-Ddebug.semantic.errors=false',
     '-Ddebug.completion.statistics=false',
     '-Dlwc.typegeneration.disabled=true',
     'apex.jorje.lsp.ApexLanguageServerLauncher' },
