@@ -48,6 +48,7 @@ set termguicolors
 set nowrap
 set guitablabel=\[%N\]\ %t\ %M
 set synmaxcol=500
+set mouse=
 
 nnoremap <SPACE> <Nop>
 let mapleader=" "

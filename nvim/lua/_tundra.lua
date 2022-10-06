@@ -1,5 +1,5 @@
 require('nvim-tundra').setup({
-  transparent_background = false,
+  transparent_background = true,
   editor = {
     search = {},
     substitute = {},
