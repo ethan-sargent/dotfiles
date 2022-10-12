@@ -1,4 +1,4 @@
--- Set up nvim-cmp.
+-- Set up nvim-cmp.cmp
 local cmp = require'cmp'
 
 cmp.setup {
@@ -128,15 +128,20 @@ require('lspconfig').rust_analyzer.setup{
         ["rust-analyzer"] = {}
     }
 }
-require('lspconfig').apex_ls.setup {
-    cmd = { '/home/ethandev/dev/languageservers/apex/apex-jorje-lsp',
-    '-Ddebug.internal.errors=true',
-    '-Ddebug.semantic.errors=false',
-    '-Ddebug.completion.statistics=false',
-    '-Dlwc.typegeneration.disabled=true',
-    'apex.jorje.lsp.ApexLanguageServerLauncher' },
-    on_attach = on_attach,
-    capabilities = capabilities,
+-- require('lspconfig').apex_ls.setup {
+--     cmd = { '/path/to/native/image/apex-jorje-lsp',
+--     '-Ddebug.internal.errors=true',
+--     '-Ddebug.semantic.errors=false',
+--     '-Ddebug.completion.statistics=false',
+--     '-Dlwc.typegeneration.disabled=true',
+--     'apex.jorje.lsp.ApexLanguageServerLauncher' },
+--     on_attach = on_attach,
+--     capabilities = capabilities,
+-- }
+require'lspconfig'.apex_ls.setup {
+  apex_jar_path = '/Users/ethan.sargent/languageservers/apex/apex-jorje-lsp.jar',
+  apex_enable_semantic_errors = false, -- Whether to allow Apex Language Server to surface semantic errors
+  apex_enable_completion_statistics = false, -- Whether to allow Apex Language Server to collect telemetry on code completion usage
 }
 
 vim.g.completion_enable_snippet = 'vim-vsnip'

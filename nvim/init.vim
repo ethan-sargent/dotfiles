@@ -27,6 +27,8 @@ Plug 'hrsh7th/vim-vsnip'
 Plug 'sam4llis/nvim-tundra'
 Plug 'tpope/vim-vinegar'
 Plug 'feline-nvim/feline.nvim'
+Plug 'windwp/nvim-ts-autotag'
+Plug 'williamboman/mason.nvim'
 call plug#end()
 set completeopt=menu,menuone,noselect
 
@@ -62,11 +64,12 @@ augroup sfdxApex
 augroup END
 
 " sfdx key bindings
-nnoremap <leader>sd :!sfdx force:source:deploy --sourcepath %<Enter>
+nnoremap <leader>sd :w  <bar> !sfdx force:source:deploy --sourcepath %<Enter>
 nnoremap <leader>sr :!sfdx force:source:retrieve --sourcepath %<Enter>
-nnoremap <leader>so :!sfdx force:org:open<Enter>
+nnoremap <leader>sq :w  <bar> !sfdx force:data:soql:query  --soqlqueryfile % <Enter>
+nnoremap <leader>sae :w <bar> !sfdx force:apex:execute --apexcodefile % <Enter>
 nnoremap <leader>st :!sfdx force:apex:test:run --tests %:t:r --synchronous<Enter>
-
+nnoremap <leader>so :!sfdx force:org:open<Enter>
 
 " Find files using Telescope command-line sugar.
 nnoremap <leader>ff <cmd>Telescope find_files<cr>
@@ -79,3 +82,5 @@ lua require('_treesitter')
 lua require('_cmp')
 lua require('_tundra')
 lua require('_feline')
+lua require('_ts_autotags')
+lua require('_mason')
