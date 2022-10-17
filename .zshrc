@@ -23,11 +23,20 @@ setopt AUTO_LIST            # Automatically list choices on ambiguous completion
 setopt COMPLETE_IN_WORD     # Complete from both ends of a word.
 
 zstyle ':completion:*' completer _complete _approximate _extensions
-
+zstyle ':completion:*' matcher-list '' 'm:{a-zA-Z}={A-Za-z}' 'r:|[._-]=* r:|=*' 'l:|=* r:|=*'
+# partial completion suggestions
+zstyle ':completion:*' list-suffixes 
+zstyle ':completion:*' expand prefix suffix 
 zstyle ':completion:*' use-cache on
 zstyle ':completion:*' cache-path "$XDG_CACHE_HOME/zsh/.zcompcache"
-zstyle ':completion:*' format 'Completing %d'
+zstyle ':completion:*' complete-options true
 
+zstyle ':completion:*:*:*:*:corrections' format '%F{yellow}!- %d (errors: %e) -!%f'
+zstyle ':completion:*:*:*:*:descriptions' format '%F{blue}-- %D %d --%f'
+zstyle ':completion:*:*:*:*:messages' format ' %F{purple} -- %d --%f'
+zstyle ':completion:*:*:*:*:warnings' format ' %F{red}-- no matches found --%f'
+
+zstyle ':completion:*:*:cd:*' tag-order local-directories directory-stack path-directories
 zstyle ':completion:*' menu select
 export CLICOLOR=1
 zstyle ':completion:*' menu select
