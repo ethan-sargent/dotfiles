@@ -6,18 +6,23 @@
 * copy alacritty file for OS
 * change to zsh
 * install starship
-* copy zshrc
+* copy zshrc and zshenv
 * install oh-my-tmux
 * symlink tmux configuration files
 
 ## Tools 
 
+* alacritty
 * neovim
+* starship
 * fd-find
 * fzf
 * rg
-* ag
+* volta (oxidised nvm)
 * sfdx cli
+* zoxide
+* exa
+
 
 
 ## Git

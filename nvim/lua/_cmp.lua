@@ -37,6 +37,7 @@ cmp.setup {
         -- { name = 'ultisnips' }, -- For ultisnips users.
         -- { name = 'snippy' }, -- For snippy users.
     }, {
+      -- removing buffer suggestions 
         -- { name = 'buffer' },
     })
 }
@@ -103,7 +104,7 @@ local on_attach = function(client, bufnr)
     vim.keymap.set('n', 'gr', vim.lsp.buf.references, bufopts)
     vim.keymap.set('n', '<space>f', vim.lsp.buf.formatting, bufopts)
 end
-local capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())
+local capabilities = require('cmp_nvim_lsp').default_capabilities(vim.lsp.protocol.make_client_capabilities())
 
 local lsp_flags = {
     -- This is the default in Nvim 0.7+
@@ -184,5 +185,4 @@ require'lspconfig'.gopls.setup {
 }
 
 -- setup autopairs
-require("nvim-autopairs").setup {
-}
+-- require("nvim-autopairs").setup {}

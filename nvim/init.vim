@@ -29,6 +29,8 @@ Plug 'tpope/vim-vinegar'
 Plug 'feline-nvim/feline.nvim'
 Plug 'windwp/nvim-ts-autotag'
 Plug 'williamboman/mason.nvim'
+Plug 'williamboman/mason-lspconfig.nvim'
+Plug 'numToStr/Comment.nvim'
 call plug#end()
 set completeopt=menu,menuone,noselect
 
@@ -79,8 +81,9 @@ nnoremap <leader>fh <cmd>Telescope help_tags<cr>
 
 lua require('_telescope')
 lua require('_treesitter')
+lua require('_mason')
 lua require('_cmp')
 lua require('_tundra')
 lua require('_feline')
 lua require('_ts_autotags')
-lua require('_mason')
+lua require('_comment')
