@@ -1,3 +1,13 @@
+local builtin = require('telescope.builtin')
+vim.keymap.set('n', 'ff', builtin.find_files, {})
+vim.keymap.set('n', 'fg', builtin.live_grep, {})
+vim.keymap.set('n', 'fb', builtin.buffers, {})
+vim.keymap.set('n', 'fh', builtin.help_tags, {})
+-- Find files using Telescope command-line sugar.
+-- nnoremap <leader>ff <cmd>Telescope find_files<cr>
+-- nnoremap <leader>fg <cmd>Telescope live_grep<cr>
+-- nnoremap <leader>fb <cmd>Telescope buffers<cr>
+-- nnoremap <leader>fh <cmd>Telescope help_tags<cr>
 require('telescope').setup {
   extensions = {
     fzf = {
