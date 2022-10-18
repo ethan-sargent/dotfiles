@@ -1,4 +1,4 @@
-#!/usr/bin/zsh
+#!/bin/zsh
 # zmodload zsh/zprof
 
 setopt histignorealldups sharehistory histignorespace

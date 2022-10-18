@@ -2,7 +2,7 @@
 
 ## Config 
 
-* symlink nvim folder
+* execute setup.sh to create and symlink config folders
 * copy alacritty file for OS
 * change to zsh
 * install starship
