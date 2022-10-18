@@ -1,7 +1,13 @@
+#!/usr/bin/zsh
+#
+# on macos, 
 . "$HOME/.cargo/env"
 
-# XDG
-export XDG_CONFIG_HOME=${XDG_CONFIG_HOME:-~/.config}
+# on MacOS, set these in /etc/zshenv to source from ~/.config/zsh automatically
+# export XDG_CONFIG_HOME="$HOME"/.config}
+# export ZDOTDIR="$XDG_CONFIG_HOME"/zsh
+
+# XDG compat
 export XDG_CACHE_HOME=${XDG_CACHE_HOME:-~/.cache}
 export XDG_DATA_HOME=${XDG_DATA_HOME:-~/.local/share}
 export XDG_STATE_HOME=${XDG_STATE_HOME:-~/.local/state}

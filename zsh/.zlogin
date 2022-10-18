@@ -1,3 +1,4 @@
+#!/usr/bin/zsh
 # Execute code in the background to not affect the current session
 {
   # Compile zcompdump, if modified, to increase startup speed.
