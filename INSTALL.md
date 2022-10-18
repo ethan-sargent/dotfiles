@@ -1,10 +1,10 @@
-# How to Setup Dotfiles
+# Installation
 
 ## Config 
 
+* ensure using zsh
 * execute setup.sh to create and symlink config folders
-* copy alacritty file for OS
-* change to zsh
+* copy alacritty file based on OS to .config/alacritty/alacritty.yml
 * install starship
 * copy zshrc and zshenv
 * install oh-my-tmux
@@ -22,7 +22,6 @@
 * sfdx cli
 * zoxide
 * exa
-
 
 
 ## Git
