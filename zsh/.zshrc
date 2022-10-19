@@ -46,7 +46,7 @@ export TERM="screen-256color"
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 alias sfdx-fzf-refresh="sfdx commands --json | jq '. | unique' > .sfdxcommands.json"
-alias vim="/usr/local/bin/nvim"
+alias vim="nvim"
 alias ls="exa"
 
 export PATH=$PATH:$HOME/.local/bin
