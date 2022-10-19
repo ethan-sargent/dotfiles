@@ -4,7 +4,7 @@
 . "$HOME/.cargo/env"
 
 # on MacOS, set these in /etc/zshenv to source from ~/.config/zsh automatically
-# export XDG_CONFIG_HOME="$HOME"/.config}
+# export XDG_CONFIG_HOME="$HOME"/.config
 # export ZDOTDIR="$XDG_CONFIG_HOME"/zsh
 
 # XDG compat

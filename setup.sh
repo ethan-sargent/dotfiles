@@ -8,8 +8,8 @@ printf $SCRIPT_DIR
 source $SCRIPT_DIR/zsh/.zshenv
 
 # symlink zsh and nvim
-ln -s "$SCRIPT_DIR"/zsh "$XDG_CONFIG_HOME"/zsh
-ln -s "$SCRIPT_DIR"/nvim "$XDG_CONFIG_HOME"/nvim
+ln -s "$SCRIPT_DIR"/zsh "$XDG_CONFIG_HOME"
+ln -s "$SCRIPT_DIR"/nvim "$XDG_CONFIG_HOME"
 
 # TODO: make tmux XDG compliant and symlink
 
