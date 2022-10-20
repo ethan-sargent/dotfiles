@@ -54,6 +54,8 @@ export JAVA_HOME=/Library/Java/JavaVirtualMachines/graalvm-ce-java17-22.2.0/Cont
 export PATH=$JAVA_HOME/bin:$PATH
 
 
+# export PATH="/usr/local/opt/node@16/bin:$PATH"
+
 eval "$(starship init zsh)"
 eval "$(zoxide init zsh)"
 export SFDX_AC_ZSH_SETUP_PATH=/Users/ethan.sargent/Library/Caches/sfdx/autocomplete/zsh_setup && test -f $SFDX_AC_ZSH_SETUP_PATH && source $SFDX_AC_ZSH_SETUP_PATH; # sfdx autocomplete setup
