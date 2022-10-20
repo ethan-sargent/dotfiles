@@ -1,2 +1,4 @@
 .DS_STORE
+zsh/.zcompdump*
+zsh/.zsh_history
 
