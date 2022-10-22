@@ -20,13 +20,18 @@ return require('packer').startup({ function(use)
   use 'lewis6991/impatient.nvim'
 
   -- Interface 
-  -- use 'arzg/vim-colors-xcode'
+  use 'folke/tokyonight.nvim'
   use {
     'sam4llis/nvim-tundra',
     'kyazdani42/nvim-web-devicons',
-    'feline-nvim/feline.nvim',
     'folke/trouble.nvim',
-    -- config = function() require('config._tundra') end
+  }
+
+
+  use {
+    'nvim-lualine/lualine.nvim',
+    requires = { 'kyazdani42/nvim-web-devicons', opt = true },
+    config = function() require('config._lualine') end
   }
 
   use { 'tpope/vim-vinegar' }
@@ -99,3 +104,4 @@ config = {
     open_fn = require('packer.util').float,
   }
 }})
+
