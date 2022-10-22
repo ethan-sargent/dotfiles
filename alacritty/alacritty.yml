@@ -1,9 +1,9 @@
 window:
   padding:
     x: 5
-    y: 5
-  decorations: transparent
-  startup_mode: Windowed
+    y: 5 
+  decorations: full 
+  startup_mode: Fullscreen
   dynamic_title: true
   opacity: 1.0
 
@@ -22,7 +22,7 @@ custom_cursor_colors: true
 
 colors:
   primary:
-    background: '0x111827'
+    background: '0x1a1b26'
     foreground: '0xDFDFE0'
   cursor:
     cursorColor: '0xFFFFFF'
