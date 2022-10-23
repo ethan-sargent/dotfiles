@@ -35,31 +35,17 @@ let mapleader=" "
 tnoremap <Esc> <C-\><C-n>
 
 
-" apex specific functions
+" Apex filetype detection and sfdx key bindings
 augroup sfdxApex
     au!
     au BufRead,BufNewFile *.cls,*.apex,*.trigger set filetype=apexcode
+    au FileType apexcode nnoremap <leader>sd :w  <bar> !sfdx force:source:deploy --sourcepath %<Enter>
+    au FileType apexcode nnoremap <leader>sr :!sfdx force:source:retrieve --sourcepath %<Enter>
+    au FileType apexcode nnoremap <leader>sq :!sfdx force:data:soql:query  --soqlqueryfile % <Enter>
+    au FileType apexcode nnoremap <leader>sae :!sfdx force:apex:execute --apexcodefile % <Enter>
+    au FileType apexcode nnoremap <leader>st :!sfdx force:apex:test:run --tests %:t:r --synchronous<Enter>
+    au FileType apexcode nnoremap <leader>so :!sfdx force:org:open<Enter>
 augroup END
 
-" sfdx key bindings
-nnoremap <leader>sd :w  <bar> !sfdx force:source:deploy --sourcepath %<Enter>
-nnoremap <leader>sr :!sfdx force:source:retrieve --sourcepath %<Enter>
-nnoremap <leader>sq :!sfdx force:data:soql:query  --soqlqueryfile % <Enter>
-nnoremap <leader>sae :!sfdx force:apex:execute --apexcodefile % <Enter>
-nnoremap <leader>st :!sfdx force:apex:test:run --tests %:t:r --synchronous<Enter>
-nnoremap <leader>so :!sfdx force:org:open<Enter>
 
-
-lua require('config._telescope')
-lua require('config._treesitter')
-lua require('config._mason')
-lua require('config._cmp')
-lua require('config._feline')
-lua require('config._ts_autotags')
-lua require('config._comment')
-lua require('config._trouble')
-
-" lua require('config._tundra')
-lua require('config._tokyonight')
-colorscheme tokyonight-night
 

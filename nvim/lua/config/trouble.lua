@@ -1,5 +1,5 @@
 require"trouble".setup {
-
+  auto_jump = {"lsp_definitions", "lsp_references"}
 }
 
 -- Trouble Keybinds

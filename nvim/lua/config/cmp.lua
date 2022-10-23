@@ -1,4 +1,6 @@
+require('config.mason')
 -- Set up nvim-cmp.cmp
+
 local cmp = require'cmp'
 
 cmp.setup {
@@ -93,15 +95,15 @@ local on_attach = function(client, bufnr)
     vim.keymap.set('n', 'K', vim.lsp.buf.hover, bufopts)
     vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, bufopts)
     vim.keymap.set('n', '<C-k>', vim.lsp.buf.signature_help, bufopts)
-    vim.keymap.set('n', '<space>wa', vim.lsp.buf.add_workspace_folder, bufopts)
-    vim.keymap.set('n', '<space>wr', vim.lsp.buf.remove_workspace_folder, bufopts)
-    vim.keymap.set('n', '<space>wl', function()
+    vim.keymap.set('n', '<leader>wa', vim.lsp.buf.add_workspace_folder, bufopts)
+    vim.keymap.set('n', '<leader>wr', vim.lsp.buf.remove_workspace_folder, bufopts)
+    vim.keymap.set('n', '<leader>wl', function()
         print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
     end, bufopts)
-    vim.keymap.set('n', '<space>D', vim.lsp.buf.type_definition, bufopts)
-    vim.keymap.set('n', '<space>rn', vim.lsp.buf.rename, bufopts)
-    vim.keymap.set('n', '<space>ca', vim.lsp.buf.code_action, bufopts)
-    vim.keymap.set('n', '<space>f', vim.lsp.buf.formatting, bufopts)
+    vim.keymap.set('n', '<leader>D', vim.lsp.buf.type_definition, bufopts)
+    vim.keymap.set('n', '<leader>rn', vim.lsp.buf.rename, bufopts)
+    vim.keymap.set('n', '<leader>ca', vim.lsp.buf.code_action, bufopts)
+    vim.keymap.set('n', '<leader>F', vim.lsp.buf.formatting, bufopts)
 end
 local capabilities = require('cmp_nvim_lsp').default_capabilities(vim.lsp.protocol.make_client_capabilities())
 
@@ -142,6 +144,8 @@ require'lspconfig'.apex_ls.setup {
   apex_jar_path = '/Users/ethan.sargent/languageservers/apex/apex-jorje-lsp.jar',
   apex_enable_semantic_errors = false, -- Whether to allow Apex Language Server to surface semantic errors
   apex_enable_completion_statistics = false, -- Whether to allow Apex Language Server to collect telemetry on code completion usage
+  on_attach = on_attach,
+  capabilities = capabilities
 }
 
 vim.g.completion_enable_snippet = 'vim-vsnip'
@@ -182,7 +186,10 @@ require'lspconfig'.gopls.setup {
     flags = lsp_flags,
     capabilities = capabilities
 }
-require'lspconfig'.eslint.setup {}
+require'lspconfig'.eslint.setup {
+  on_attach = on_attach,
+  capabilities = capabilities
+}
 
 -- setup autopairs
 require("nvim-autopairs").setup {}
