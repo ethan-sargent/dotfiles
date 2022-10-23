@@ -18,12 +18,14 @@ return require('packer').startup({ function(use)
   use 'wbthomason/packer.nvim'
   -- Performance
   use { 'lewis6991/impatient.nvim' }
-  use { 'glepnir/dashboard-nvim' }
+  use {
+    'glepnir/dashboard-nvim',
+    config = function() require('config.dashboard') end
+  }
 
   -- utilities
   use {
     'tpope/vim-vinegar',
-    'tpope/vim-surround',
   }
 
   use {
@@ -44,12 +46,26 @@ return require('packer').startup({ function(use)
 
   -- Editing features
   use {
-    'numToStr/Comment.nvim',
-    config = function() require('config.comment') end
+    'tpope/vim-surround',
   }
+
+  use {
+    'windwp/nvim-autopairs',
+    config = function() require('config.autopairs') end,
+    event = "InsertEnter",
+    opt = true
+  }
+
+  use {
+    'numToStr/Comment.nvim',
+    config = function() require('config.comment') end,
+    keys = 'g'
+  }
+
   use {
     'windwp/nvim-ts-autotag',
     after = 'nvim-treesitter',
+    event = 'InsertEnter',
     config = function() require('config.ts_autotags') end
   }
 
@@ -70,7 +86,6 @@ return require('packer').startup({ function(use)
       'hrsh7th/cmp-cmdline',
       'hrsh7th/cmp-vsnip',
       'hrsh7th/vim-vsnip',
-      'windwp/nvim-autopairs',
       'williamboman/mason.nvim',
       'williamboman/mason-lspconfig.nvim',
       'neovim/nvim-lspconfig',
@@ -89,6 +104,7 @@ return require('packer').startup({ function(use)
   use {
     'nvim-telescope/telescope-fzf-native.nvim',
     keys = '<leader>f',
+    cmd = {'Telescope', 'Telescope find_files', 'Telescope live_grep'},
     run = 'make'
   }
 
@@ -102,6 +118,7 @@ return require('packer').startup({ function(use)
     requires = {"kyazdani42/nvim-web-devicons"},
     config = function() require("config.trouble") end
   }
+
   -- file-type plugins 
   use { 'mechatroner/rainbow_csv',
     ft = 'csv'

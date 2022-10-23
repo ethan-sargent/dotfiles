@@ -190,6 +190,3 @@ require'lspconfig'.eslint.setup {
   on_attach = on_attach,
   capabilities = capabilities
 }
-
--- setup autopairs
-require("nvim-autopairs").setup {}
