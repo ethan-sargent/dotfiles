@@ -2,4 +2,6 @@
 !.zshrc
 !.zshenv
 !.zprofile
+!.zlogin
+!.p10k.zsh
 !etc_zshenv
