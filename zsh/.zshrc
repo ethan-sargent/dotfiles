@@ -30,11 +30,11 @@ source "$ZDOTDIR"/completion.zsh
 
 
 alias sfdx-fzf-refresh="sfdx commands --json | jq '. | unique' > .sfdxcommands.json"
+export PATH=$PATH:$HOME/.local/bin
+
 # apply aliases if installed
 command -v nvim > /dev/null 2>&1  && { alias vim="nvim" } 
 command -v exa > /dev/null 2>&1   && { alias ls="exa"   } 
-
-export PATH=$PATH:$HOME/.local/bin
 
 # Java
 export JAVA_HOME=/Library/Java/JavaVirtualMachines/graalvm-ce-java17-22.2.0/Contents/Home
