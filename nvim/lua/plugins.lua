@@ -35,13 +35,12 @@ return require('packer').startup({ function(use)
   }
 
   use { 'nvim-treesitter/nvim-treesitter',
-    event = 'BufReadPre',
     run = function() require('nvim-treesitter.install').update({ with_sync = true }) end,
     config = function() require('config.treesitter') end
   }
   use {
     'nvim-treesitter/nvim-treesitter-context',
-    after = 'nvim-treesitter'
+    requires = { 'nvim-treesitter/nvim-treesitter' }
   }
 
   -- Editing features
