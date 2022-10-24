@@ -18,7 +18,4 @@ export EDITOR="nvim"
 export VISUAL="nvim"
 
 
-# Node Compiler detection env vars
 
-export LDFLAGS="-L/usr/local/opt/node@16/lib"
-export CPPFLAGS="-I/usr/local/opt/node@16/include"

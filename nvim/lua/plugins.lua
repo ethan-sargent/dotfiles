@@ -83,8 +83,8 @@ return require('packer').startup({ function(use)
       'hrsh7th/cmp-buffer',
       'hrsh7th/cmp-path',
       'hrsh7th/cmp-cmdline',
-      'hrsh7th/cmp-vsnip',
-      'hrsh7th/vim-vsnip',
+      'L3MON4D3/LuaSnip',
+      'saadparwaiz1/cmp_luasnip',
       'williamboman/mason.nvim',
       'williamboman/mason-lspconfig.nvim',
       'neovim/nvim-lspconfig',
@@ -95,7 +95,7 @@ return require('packer').startup({ function(use)
   use {
     'nvim-telescope/telescope.nvim',
     tag = '0.1.0',
-    requires = { 'nvim-lua/plenary.nvim'},
+    requires = { 'nvim-lua/plenary.nvim' },
     after = 'telescope-fzf-native.nvim',
     config = function() require('config.telescope') end,
   }
@@ -103,7 +103,7 @@ return require('packer').startup({ function(use)
   use {
     'nvim-telescope/telescope-fzf-native.nvim',
     keys = '<leader>f',
-    cmd = {'Telescope', 'Telescope find_files', 'Telescope live_grep'},
+    cmd = { 'Telescope', 'Telescope find_files', 'Telescope live_grep' },
     run = 'make'
   }
 
@@ -114,11 +114,11 @@ return require('packer').startup({ function(use)
 
   use {
     "folke/trouble.nvim",
-    requires = {"kyazdani42/nvim-web-devicons"},
+    requires = { "kyazdani42/nvim-web-devicons" },
     config = function() require("config.trouble") end
   }
 
-  -- file-type plugins 
+  -- file-type plugins
   use { 'mechatroner/rainbow_csv',
     ft = 'csv'
   }
