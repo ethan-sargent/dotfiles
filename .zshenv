@@ -1,0 +1,1 @@
+. "$HOME"/zsh/.zshenv

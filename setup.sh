@@ -4,27 +4,39 @@
 #
 SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 
-# ensure XDG_CONFIG_HOME is set
-printf "ensuring XDG compliance\n"
-source $SCRIPT_DIR/zsh/.zshenv
+if [[ -v $XDG_CONFIG_HOME ]]; then
+  printf "no existing XDG_CONFIG_HOME, using $HOME/.config\n"
+  XDG_CONFIG_HOME = "$HOME"/.config
+else
+  printf "XDG_CONFIG_HOME found! using $XDG_CONFIG_HOME\n"
+fi
 
-# printf "attempting to symlink configuration into XDG_CONFIG_HOME: $XDG_CONFIG_HOME\n"
-# if [[ test -d "$XDG_CONFIG_HOME"/zsh ]] then
-#   "XDG_CONFIG_HOME"/zsh "XDG_CONFIG_HOME"/zsh_backup
-#   printf "saving old zsh configuration at $XDG_CONFIG_HOME/zsh_backup\n"
-# fi
-#
-# if [[ test -d "$XDG_CONFIG_HOME"/nvim ]] then
-#   mv "XDG_CONFIG_HOME"/nvim "XDG_CONFIG_HOME"/nvim_backup
-#   printf "saving old nvim configuration at $XDG_CONFIG_HOME/nvim_backup\n"
-# fi
-# symlink zsh and nvim
-ln -s "$SCRIPT_DIR"/zsh "$XDG_CONFIG_HOME"
-ln -s "$SCRIPT_DIR"/nvim "$XDG_CONFIG_HOME"
+if [[ ! -d "$XDG_CONFIG_HOME" ]]; then
+  printf "no directory $XDG_CONFIG_HOME found, creating...\n"
+  mkdir -p "$XDG_CONFIG_HOME"
+fi
 
-# TODO: make tmux XDG compliant and symlink
+printf "linking minimal zshenv to $HOME/.zshenv\n"
+if [[ ! -f "$HOME"/.zshenv ]] then 
+  ln -s "$SCRIPT_DIR"/.zshenv "$HOME"/.zshenv
+else
+  printf "file found at $HOME/.zshenv, skipping...\n"
+fi
 
-# TODO: Copy alacritty config based on OS due to Mac config incompatiblities
+printf "linking configuration now\n"
+dirs=("zsh" "nvim" "tmux" "fzf" "git")
+for dir in $dirs; do
+  if [[ -d "$XDG_CONFIG_HOME/$dir" && ! -L "$XDG_CONFIG_HOME/$dir" ]]; then
+    mv "$XDG_CONFIG_HOME/$dir" "$XDG_CONFIG_HOME/$dir".BAK
+    printf "saving old $dir configuration at $XDG_CONFIG_HOME/$dir.BAK\n"
+  fi
+  if [[ -L "$XDG_CONFIG_HOME/$dir" ]]; then
+    printf "$XDG_CONFIG_HOME/$dir is a link, skipping...\n"
+  else
+    ln -s "$SCRIPT_DIR/$dir" "$XDG_CONFIG_HOME"
+    printf "configuration for $dir linked\n"
+  fi
+done
 
-
+printf "Setup complete!\n"
 
