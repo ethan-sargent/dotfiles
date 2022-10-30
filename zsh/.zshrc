@@ -24,21 +24,18 @@ source "$ZDOTDIR"/bindings.zsh
 source "$ZDOTDIR"/completion.zsh
  
 # ensure setup SFDX FZF Keybinds extension
-# TODO: keep fzf config in ZDOTDIR 
 # https://github.com/surajp/fzf-sfdx
-[ -f "$ZDOTDIR"/plugins/fzf.zsh ] && source "$ZDOTDIR"/plugins/fzf.zsh 
+[ -f "$ZDOTDIR"/plugins/fzf/fzf.zsh ] && source "$ZDOTDIR"/plugins/fzf/fzf.zsh 
 
 
-alias sfdx-fzf-refresh="sfdx commands --json | jq '. | unique' > .sfdxcommands.json"
+# ensure .local/bin is on path
 export PATH=$PATH:$HOME/.local/bin
 
-# apply aliases if installed
-command -v nvim > /dev/null 2>&1  && { alias vim="nvim" } 
-command -v exa > /dev/null 2>&1   && { alias ls="exa"   } 
+# setup aliases
+source "$ZDOTDIR/aliases.zsh"
 
-# Java
-export JAVA_HOME=/Library/Java/JavaVirtualMachines/graalvm-ce-java17-22.2.0/Contents/Home
-export PATH=$JAVA_HOME/bin:$PATH
+# export JAVA_HOME=/Library/Java/JavaVirtualMachines/graalvm-ce-java17-22.2.0/Contents/Home
+# export PATH=$JAVA_HOME/bin:$PATH
 
 eval "$(zoxide init zsh)"
 

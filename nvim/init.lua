@@ -27,6 +27,7 @@ opt.guitablabel   = "[%N] %t %M"
 opt.synmaxcol     = 500
 opt.mouse         = ""
 
+-- TODO: update this to use native lua commands
 vim.cmd([[
 nnoremap <SPACE> <Nop>
 let mapleader=" "
