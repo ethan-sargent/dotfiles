@@ -26,6 +26,7 @@ return require('packer').startup({ function(use)
   -- utilities
   use {
     'tpope/vim-vinegar',
+    'tpope/vim-fugitive'
   }
 
   use {
