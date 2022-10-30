@@ -21,5 +21,4 @@
 
 * rustup
 * volta (node version manager)
-* java (trying graalvm - AOT/optimising compiler)
 
