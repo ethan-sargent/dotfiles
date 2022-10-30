@@ -26,7 +26,7 @@ source "$ZDOTDIR"/completion.zsh
 # ensure setup SFDX FZF Keybinds extension
 # TODO: keep fzf config in ZDOTDIR 
 # https://github.com/surajp/fzf-sfdx
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+[ -f "$ZDOTDIR"/plugins/fzf.zsh ] && source "$ZDOTDIR"/plugins/fzf.zsh 
 
 
 alias sfdx-fzf-refresh="sfdx commands --json | jq '. | unique' > .sfdxcommands.json"
@@ -47,7 +47,8 @@ export VOLTA_HOME="$HOME/.volta"
 export PATH="$VOLTA_HOME/bin:$PATH"
 
 # To customize prompt, run `p10k configure` or edit ~/.config/zsh/.p10k.zsh.
-source ~/powerlevel10k/powerlevel10k.zsh-theme
-[ -f ~/.config/zsh/.p10k.zsh ] && source ~/.config/zsh/.p10k.zsh
+# Moved default installation directory to ensure inclusion in repo
+source "$ZDOTDIR"/plugins/powerlevel10k/powerlevel10k.zsh-theme
+[ -f "$ZDOTDIR"/.p10k.zsh ] && source "$ZDOTDIR"/.p10k.zsh
 # end profiling
 # zprof
