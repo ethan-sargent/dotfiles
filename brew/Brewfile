@@ -1,0 +1,30 @@
+# specify a directory to install
+cask_args appdir: '/Applications', require_sha: true
+# taps
+tap 'homebrew/bundle'
+tap 'homebrew/core'
+tap 'homebrew/cask'
+tap 'homebrew/cask-fonts'
+
+brew 'git'
+brew 'mas'    # Mac App-Store apps
+brew 'stow' 
+brew 'ripgrep'
+brew 'fd'
+brew 'fzf'
+brew 'jq'
+brew 'yq'
+brew 'coreutils'
+brew 'bat'
+brew 'zoxide'
+brew 'volta'
+brew 'neovim'
+brew 'cmake'
+
+cask 'alfred'
+cask '1password'
+cask '1password-cli'
+
+
+
+
