@@ -1,1 +1,1 @@
-. "$HOME"/zsh/.zshenv
+. "$HOME"/.config/zsh/.zshenv
