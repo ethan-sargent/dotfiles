@@ -2,4 +2,5 @@
 zsh/.zcompdump*
 zsh/.zsh_history
 git/.gitconfig
+nvim/plugin/packer_compiled.lua
 
