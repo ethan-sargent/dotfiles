@@ -1,11 +1,12 @@
 #!/bin/zsh
 
 # sfdx autocomplete setup
-if [[ -f "/Users/ethan.sargent/Library/Caches/sfdx/autocomplete/zsh_setup" ]]; then
- source  "/Users/ethan.sargent/Library/Caches/sfdx/autocomplete/zsh_setup" 
+# macos only atm
+if [[ -f "$HOME/Library/Caches/sfdx/autocomplete/zsh_setup" ]]; then
+ source  "$HOME/Library/Caches/sfdx/autocomplete/zsh_setup" 
 fi
 
-# Use modern completion system
+# Use modern completion system with caches
 autoload -Uz compinit 
 compinit -d "$XDG_CACHE_HOME/zsh/zcompdump-$ZSH_VERSION"
 _comp_options+=(globdots) # With hidden files
