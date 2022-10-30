@@ -30,13 +30,15 @@ for dir in $dirs; do
     mv "$XDG_CONFIG_HOME/$dir" "$XDG_CONFIG_HOME/$dir".BAK
     printf "saving old $dir configuration at $XDG_CONFIG_HOME/$dir.BAK\n"
   fi
-  if [[ -L "$XDG_CONFIG_HOME/$dir" ]]; then
-    printf "$XDG_CONFIG_HOME/$dir is a link, skipping...\n"
+  if [[ -d "$XDG_CONFIG_HOME/$dir" || -f "$XDG_CONFIG_HOME/$dir" || -L "$XDG_CONFIG_HOME/$dir" ]]; then
+    printf "$XDG_CONFIG_HOME/$dir exists, skipping...\n"
   else
     ln -s "$SCRIPT_DIR/$dir" "$XDG_CONFIG_HOME"
     printf "configuration for $dir linked\n"
   fi
 done
 
+printf "If you would like to add the global gitignore config, run \n"
+printf "git config --global core.excludesfile $XDG_CONFIG_HOME/git/.gitignore_global\n"
 printf "Setup complete!\n"
 

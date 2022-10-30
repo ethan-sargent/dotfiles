@@ -2,8 +2,9 @@
 
 ## Config 
 
-* ensure using zsh
-* execute setup.sh to create and symlink config folders
+* zsh-only
+* run setup.sh to create and symlink config folders
+  * this will backup non-linked config folders to .config/CONFIG_PROGRAM_BAK
 * copy alacritty file based on OS to .config/alacritty/alacritty.yml
 * install starship
 * copy zshrc and zshenv
@@ -22,9 +23,4 @@
 * sfdx cli
 * zoxide
 * exa
-
-
-## Git
-* copy gitignore global to home
-* execute git config --global core.excludesfile ~/.gitignore_global to apply
 
