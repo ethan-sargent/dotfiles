@@ -1,4 +1,13 @@
-# Ethan's dotfiles
+
+## Installation:
+My prompt uses powerlevel10k (https://github.com/romkatv/powerlevel10k) - use the below command to clone the p10k repo automatically.
+
+```
+git clone https://github.com/ethan-sargent/dotfiles --recurse-submodules
+```
+For further details, see INSTALL.md - config installation should be as simple as running setup.sh.
+Please take a backup of your config before executing it!
+I've smoke-tested my script to check it won't nuke configs, and it should rename folders to config_dir.BAK - but I don't know if there are edge cases where it might break.
 
 
 ## Dependencies and Tools
