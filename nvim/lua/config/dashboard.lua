@@ -17,8 +17,8 @@ local dashboard_custom_header = {
      '⠀⠀⠀⠀⠀⠀⠈⠛⠿⣿⣿⣿⣿⣿⣶⣶⣿⣿⣿⣿⣿⠿⠋⠁⠀⠀⠀⠀⠀⠀ ',
      '⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠉⠉⠛⠛⠛⠛⠛⠛⠉⠉⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀ ',
      }
+
 db.custom_header = dashboard_custom_header
-                  -- if not config will use default banner
 -- db.custom_center  -- table type and in this table you can set icon,desc,shortcut,action keywords. desc must be exist and type is string
                   -- icon type is nil or string
                   -- icon_hl table type { fg ,bg} see `:h vim.api.nvim_set_hl` opts
