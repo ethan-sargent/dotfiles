@@ -15,7 +15,7 @@ setopt MENU_COMPLETE        # Automatically highlight first element of completio
 setopt AUTO_LIST            # Automatically list choices on ambiguous completion.
 
 zstyle ':completion:*' completer _complete _approximate _extensions
-zstyle ':completion:*' matcher-list '' 'm:{a-zA-Z}={A-Za-z}' 'r:|[._-]=* r:|=*' 'l:|=* r:|=*'
+zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}' '+r:|[._-]=* r:|=*' '+l:|=*'
 
 # partial completion suggestions
 zstyle ':completion:*' list-suffixes 

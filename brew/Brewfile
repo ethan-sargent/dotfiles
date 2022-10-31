@@ -1,30 +1,46 @@
 # specify a directory to install
-cask_args appdir: '/Applications', require_sha: true
+cask_args appdir: "/Applications", require_sha: true
 # taps
-tap 'homebrew/bundle'
-tap 'homebrew/core'
-tap 'homebrew/cask'
-tap 'homebrew/cask-fonts'
+tap "homebrew/bundle"
+tap "homebrew/core"
+tap "homebrew/cask"
+tap "homebrew/cask-fonts"
 
-brew 'git'
-brew 'mas'    # Mac App-Store apps
-brew 'stow' 
-brew 'ripgrep'
-brew 'fd'
-brew 'fzf'
-brew 'jq'
-brew 'yq'
-brew 'coreutils'
-brew 'bat'
-brew 'zoxide'
-brew 'volta'
-brew 'neovim'
-brew 'cmake'
+brew "git"          
+brew "subversion"
+brew "cmake"
+brew "bat"        # better cat
+brew "neovim"      
+brew "ripgrep"
+brew "fd"         # fast GNU find alternative 
+brew "fzf"        # fuzzy find filter
+brew "jq"         # cli json processor
+brew "yq"         # go version of jq, with xml and yaml support
+brew "mas"        # Mac App-Store apps
+brew "coreutils"  # GNU Core utils 
+brew "volta"      # Rust shim-based version manager
+brew "wget"       # non-interactive network getter
+brew "zoxide"     # directory jumper 
+brew "exa"        # ls alternative
+brew "tmux"
+brew "tokei"      # codebase statistics
+brew "typescript"
 
-cask 'alfred'
-cask '1password'
-cask '1password-cli'
+cask "alfred"
+cask "1password"
+cask "1password-cli"
+cask "firefox", greedy: true
+cask "spotify"
+cask "visual-studio-code"
+cask "alacritty"  # minimalist and high performance terminal emulator
 
+# fonts
+cask "font-roboto-mono-nerd-font"
+cask "font-inconsolata"
+cask "font-inconsolata-nerd-font"
+cask "font-meslo-lg-nerd-font"
+cask "font-meslo-lg"
 
-
-
+mas "Affinity Designer", id: 824171161
+mas "Affinity Photo", id: 824183456
+mas "Magnet", id: 441258766
