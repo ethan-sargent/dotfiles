@@ -6,6 +6,13 @@ if [[ -f "$HOME/Library/Caches/sfdx/autocomplete/zsh_setup" ]]; then
  source  "$HOME/Library/Caches/sfdx/autocomplete/zsh_setup" 
 fi
 
+# brew completion support
+if type brew &>/dev/null
+then
+  FPATH="$(brew --prefix)/share/zsh/site-functions:${FPATH}"
+fi
+
+
 # Use modern completion system with caches
 autoload -Uz compinit 
 compinit -d "$XDG_CACHE_HOME/zsh/zcompdump-$ZSH_VERSION"
