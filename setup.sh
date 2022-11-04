@@ -24,7 +24,7 @@ else
 fi
 
 printf "linking configuration now\n"
-dirs=("zsh" "nvim" "tmux" "fzf" "git")
+dirs=(zsh nvim tmux fzf git kitty tig bat)
 for dir in $dirs; do
   if [[ -d "$XDG_CONFIG_HOME/$dir" && ! -L "$XDG_CONFIG_HOME/$dir" ]]; then
     mv "$XDG_CONFIG_HOME/$dir" "$XDG_CONFIG_HOME/$dir".BAK
@@ -39,6 +39,6 @@ for dir in $dirs; do
 done
 
 printf "If you would like to add the global gitignore config, run \n"
-printf "git config --global core.excludesfile $XDG_CONFIG_HOME/git/.gitignore_global\n"
+printf "git config --global core.excludesfile $XDG_CONFIG_HOME/git/gitignore_global\n"
 printf "Setup complete!\n"
 
