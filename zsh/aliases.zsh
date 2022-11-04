@@ -8,3 +8,5 @@ alias sfdx-fzf-refresh="sfdx commands --json | jq '. | unique' > .sfdxcommands.j
 (($+commands[nvim]))  && { alias vim="nvim" } 
 (($+commands[exa]))   && { alias ls="exa"   } 
 (($+commands[bat]))   && { alias cat="bat"   } 
+(($+commands[just]))  && { alias j="just" } 
+
