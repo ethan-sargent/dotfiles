@@ -11,15 +11,6 @@ export XDG_DATA_HOME=${XDG_DATA_HOME:-~/.local/share}
 export XDG_STATE_HOME=${XDG_STATE_HOME:-~/.local/state}
 export XDG_RUNTIME_DIR=${XDG_RUNTIME_DIR:-~/.xdg}
 
-# editor
-if (( $+commands[nvim] )) then 
-  export VISUAL="nvim"
-  export EDITOR="nvim"
-else
-  export VISUAL="vim"
-  export EDITOR="vim"
-fi
-
 # MacOS-specific 
 if [[ "$OSTYPE" == darwin* ]]; then
   export JAVA_HOME=/Library/Java/JavaVirtualMachines/graalvm-ce-java17-22.2.0/Contents/Home

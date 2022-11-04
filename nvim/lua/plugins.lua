@@ -18,9 +18,10 @@ return require('packer').startup({ function(use)
   use 'wbthomason/packer.nvim'
   -- Performance
   use { 'lewis6991/impatient.nvim' }
+
   use {
-    'glepnir/dashboard-nvim',
-    config = function() require('config.dashboard') end
+    'mhinz/vim-startify',
+    config = function() require('config.startify') end
   }
 
   -- utilities
@@ -44,6 +45,9 @@ return require('packer').startup({ function(use)
   use { 'nvim-treesitter/nvim-treesitter',
     run = function() require('nvim-treesitter.install').update({ with_sync = true }) end,
     config = function() require('config.treesitter') end
+  }
+  use { 'NoahTheDuke/vim-just',
+    requires = 'nvim-treesitter',
   }
   use {
     'nvim-treesitter/nvim-treesitter-context',
@@ -103,15 +107,21 @@ return require('packer').startup({ function(use)
     'nvim-telescope/telescope.nvim',
     tag = '0.1.0',
     requires = { 'nvim-lua/plenary.nvim' },
-    after = 'telescope-fzf-native.nvim',
+    after = 'telescope-fzy-native.nvim',
     config = function() require('config.telescope') end,
   }
 
+  -- use {
+  --   'nvim-telescope/telescope-fzf-native.nvim',
+  --   keys = '<leader>f',
+  --   cmd = { 'Telescope', 'Telescope find_files'},
+  --   run = 'make'
+  -- }
+
   use {
-    'nvim-telescope/telescope-fzf-native.nvim',
+    'nvim-telescope/telescope-fzy-native.nvim',
     keys = '<leader>f',
-    cmd = { 'Telescope', 'Telescope find_files', 'Telescope live_grep' },
-    run = 'make'
+    cmd = { 'Telescope', 'Telescope find_files' },
   }
 
   use {

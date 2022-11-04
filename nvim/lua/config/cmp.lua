@@ -148,7 +148,7 @@ require 'lspconfig'.apex_ls.setup {
   capabilities = capabilities
 }
 
-vim.g.completion_enable_snippet = 'vim-vsnip'
+vim.g.completion_enable_snippet = 'luasnip'
 capabilities.textDocument.completion.completionItem.snippetSupport = true
 require('lspconfig').clangd.setup {
   on_attach = on_attach,

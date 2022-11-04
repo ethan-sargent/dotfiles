@@ -17,3 +17,12 @@ fi
 
 # disables shell session storage
 export SHELL_SESSIONS_DISABLE=1
+
+# editor
+if (($+commands[nvim])) then 
+  export VISUAL="nvim"
+  export EDITOR="nvim"
+else
+  export VISUAL="vim"
+  export EDITOR="vim"
+fi

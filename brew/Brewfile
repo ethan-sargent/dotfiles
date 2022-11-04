@@ -35,11 +35,11 @@ cask "visual-studio-code"
 cask "alacritty"  # minimalist and high performance terminal emulator
 
 # fonts
+cask "font-roboto"
 cask "font-roboto-mono-nerd-font"
 cask "font-inconsolata"
 cask "font-inconsolata-nerd-font"
-cask "font-meslo-lg-nerd-font"
-cask "font-meslo-lg"
+cask "font-sf-mono"
 
 mas "Affinity Designer", id: 824171161
 mas "Affinity Photo", id: 824183456
