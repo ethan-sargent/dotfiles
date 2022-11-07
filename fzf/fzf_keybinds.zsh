@@ -115,7 +115,7 @@ __fzf_sfdx_flags(){
   for i in "${@:2}"
   do fullcmd+=" ${i//\"/\\\\\\\"}" #we have to triple escape the double quotes here as it will be used within double quotes again in the command below
   done
-  local ret=`cat ~/.sfdxcommands.json | jq -r ".[] | select(.id==\"$selected\") | .flags | keys[]" | $(__fzfcmd) -m --bind='ctrl-z:ignore,alt-j:preview-down,alt-k:preview-up' --preview='cat ~/.sfdxcommands.json | jq -r ".[] | select(.id==\"'$selected'\") | .flags | to_entries[] | select (.key==\""{}"\") | [\"Command:\n'"$fullcmd"'\n\",\"Flag Description:\",.value][]"' --preview-window='right:wrap'`
+  local ret=`cat $XDG_CACHE_HOME/fzf/sfdxcommands.json | jq -r ".[] | select(.id==\"$selected\") | .flags | keys[]" | $(__fzfcmd) -m --bind='ctrl-z:ignore,alt-j:preview-down,alt-k:preview-up' --preview='cat $XDG_CONFIG_HOME/fzf/.sfdxcommands.json | jq -r ".[] | select(.id==\"'$selected'\") | .flags | to_entries[] | select (.key==\""{}"\") | [\"Command:\n'"$fullcmd"'\n\",\"Flag Description:\",.value][]"' --preview-window='right:wrap'`
   echo "${ret//$'\n'/ --}"
 }
 
@@ -124,7 +124,7 @@ fzf-sfdx(){
   local fullcmd="$LBUFFER"
   local cmd="$(echo $fullcmd | awk '{print $1}')"
   local subcmd="$(echo $fullcmd | awk '{print $2}')"
-  local match="$(cat ~/.sfdxcommands.json | jq -r '.[] | select(.id=="'$subcmd'")')"
+  local match="$(cat $XDG_CACHE_HOME/fzf/sfdxcommands.json | jq -r '.[] | select(.id=="'$subcmd'")')"
   if [[ "$cmd" = "sfdx" && "$match" != "" ]]
   then
     local flag="$(__fzf_sfdx_flags $subcmd $fullcmd)"
@@ -138,7 +138,7 @@ fzf-sfdx(){
     if [[ "$subcmd" != "" ]]; then
      querystr="--query $subcmd" 
     fi
-    local selected="$(cat ~/.sfdxcommands.json | jq -r '.[].id' | $(__fzfcmd) +m --bind=ctrl-z:ignore,alt-j:preview-down,alt-k:preview-up --preview='cat ~/.sfdxcommands.json | jq -r ".[] | select (.id==\""{}"\") | [\"\nDescription:\n \"+.description,\"\nUsage:\n \"+select(has(\"usage\")).usage, \"\nExamples:\n \"+(select(has(\"examples\")).examples|join(\"\n\"))][]"' --preview-window='right:wrap' $querystr)"
+    local selected="$(cat $XDG_CACHE_HOME/fzf/sfdxcommands.json | jq -r '.[].id' | $(__fzfcmd) +m --bind=ctrl-z:ignore,alt-j:preview-down,alt-k:preview-up --preview='cat $XDG_CONFIG_HOME/fzf/.sfdxcommands.json | jq -r ".[] | select (.id==\""{}"\") | [\"\nDescription:\n \"+.description,\"\nUsage:\n \"+select(has(\"usage\")).usage, \"\nExamples:\n \"+(select(has(\"examples\")).examples|join(\"\n\"))][]"' --preview-window='right:wrap' $querystr)"
     if [[ "$selected" != "" ]]; then
       LBUFFER="sfdx $selected"
     fi
