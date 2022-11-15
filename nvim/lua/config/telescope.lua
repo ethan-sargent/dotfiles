@@ -5,9 +5,17 @@ vim.keymap.set('n', '<leader>fb', builtin.buffers, {})
 vim.keymap.set('n', '<leader>fh', builtin.help_tags, {})
 
 require('telescope').setup {
-  file_ignore_patterns = {
-    "^node_modules/",
-    "./vlocity-src"
+  defaults = {
+    vimgrep_arguments = {
+      "rg",
+      "--color=never",
+      "--no-heading",
+      "--with-filename",
+      "--line-number",
+      "--column",
+      "--smart-case",
+      "--trim" -- add this value
+    },
   },
   extensions = {
     fzy = {
@@ -16,6 +24,11 @@ require('telescope').setup {
       override_file_sorter = true,
       case_mode = "smart_case",
     }
+  },
+  pickers = {
+    find_files = {
+      find_command = { "fd", "--type", "f", "--strip-cwd-prefix" }
+    },
   }
 }
 -- To get fzf loaded and working with telescope, you need to call

@@ -1,4 +1,7 @@
+-- loads mason + mason lspconfig first to autolink mason installed lsp servers to cmp
 require('config.mason')
+-- install vs code snippets into luasnip 
+-- require("luasnip.loaders.from_vscode").lazy_load()
 -- Set up nvim-cmp.cmp
 
 local cmp = require 'cmp'
@@ -145,7 +148,8 @@ require 'lspconfig'.apex_ls.setup {
   apex_enable_semantic_errors = false, -- Whether to allow Apex Language Server to surface semantic errors
   apex_enable_completion_statistics = false, -- Whether to allow Apex Language Server to collect telemetry on code completion usage
   on_attach = on_attach,
-  capabilities = capabilities
+  capabilities = capabilities,
+  filetypes = { "apexcode", "apex", "anonapex"}
 }
 
 vim.g.completion_enable_snippet = 'luasnip'

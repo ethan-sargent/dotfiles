@@ -4,14 +4,12 @@
 
 # To get a full list of supported fonts use the `kitty +list-fonts` command.
 
-font_family MesloLGS NF Medium
-italic_font MesloLGS NF Medium
+font_size       16.0
 
-bold_font        MesloLGS NF Semibold
-bold_italic_font MesloLGS NF Semibold
-
-#font_family      JetBrainsMono Nerd Font
-font_size 16.0
+font_family       SF Mono Retina 
+italic_font       SF Mono Retina
+bold_font         SF Mono Bold 
+bold_italic_font  SF Mono Bold
 
 scrollback_lines 8000
 
@@ -20,14 +18,6 @@ paste_actions quote-urls-at-prompt
 strip_trailing_spaces never
 
 select_by_word_characters @-./_~?&=%+#
-
-# unmap left click for open link (easy miss click)
-mouse_map left click ungrabbed no-op
-
-#: Click the link under the mouse or move the cursor
-mouse_map ctrl+left click ungrabbed mouse_handle_click selection link prompt
-
-mouse_map ctrl+left press ungrabbed mouse_selection normal
 
 mouse_map right press ungrabbed copy_to_clipboard
 
@@ -89,12 +79,13 @@ confirm_os_window_close -1
 
 
 tab_bar_style powerline
-
+tab_powerline_style slanted
 
 
 # emoji from https://emojipedia.org/regional-indicator-symbol-letter-z/
 # title parse see https://github.com/kovidgoyal/kitty/blob/587f44ad4eb7fe545b0e580168cf0c32117b87c7/kitty/tab_bar.py#L175
-tab_title_template "{fmt.fg.red}{bell_symbol}{activity_symbol}{fmt.fg.tab}{index}:{'🇿' if layout_name == 'stack' and num_windows > 1 else ''}{title}"
+tab_title_template "{fmt.fg.red}{bell_symbol}{activity_symbol}{fmt.fg.tab}{title}{sup.index}"
+# tab_title_template "{fmt.fg.red}{bell_symbol}{activity_symbol}{fmt.fg.tab}{index}:{'🇿' if layout_name == 'stack' and num_windows > 1 else ''}{title}"
 
 
 
@@ -119,7 +110,7 @@ background_image_linear no
 #: When background image is scaled, whether linear interpolation
 #: should be used.
 
-dynamic_background_opacity yes
+dynamic_background_opacity no
 
 #: Allow changing of the background_opacity dynamically, using either
 #: keyboard shortcuts (increase_background_opacity and
@@ -128,7 +119,7 @@ dynamic_background_opacity yes
 
 
 
-allow_remote_control yes
+allow_remote_control no
 
 #: Allow other programs to control kitty. If you turn this on other
 #: programs can control all aspects of kitty, including sending text
@@ -184,12 +175,12 @@ term xterm-256color
 
 
 
-kitty_mod ctrl+shift
+kitty_mod cmd+shift
 
 # kitty_mod has to be modifiers not keys, see
 # https://github.com/kovidgoyal/kitty/discussions/3457#discussioncomment-587511
 # so you can NOT do this:
-#kitty_mod ctrl+a
+#kitty_mod ctrl+b
 
 
 
@@ -197,23 +188,24 @@ kitty_mod ctrl+shift
 # disable this as can lead to window created by accident via press by ctrl+shift+v paste command and then press enter
 map kitty_mod+enter no-op
 map cmd+enter       no-op
+map ctrl+b>c         new-window
 
 
 
-map ctrl+a>x close_window
+map ctrl+b>x close_window
 
 
-map ctrl+a>] next_window
+map ctrl+b>] next_window
 
 
 
-map ctrl+a>[ previous_window
+map ctrl+b>[ previous_window
 
 
-map ctrl+a>period move_window_forward
+map ctrl+b>period move_window_forward
 
 
-map ctrl+a>comma move_window_backward
+map ctrl+b>comma move_window_backward
 
 
 
@@ -221,9 +213,9 @@ map kitty_mod+t new_tab_with_cwd
 # new_tab will not keep cwd, use `new_tab_with_cwd` instead or `launch --cwd=current --type=tab`
 # see https://sw.kovidgoyal.net/kitty/faq/#how-do-i-open-a-new-window-or-tab-with-the-same-working-directory-as-the-current-window
 # tmux like tab create via `--cwd=last_reported`, warning: this need kitty `shell_integration enabled`
-map ctrl+a>c launch --cwd=last_reported --type=tab
+map ctrl+b>c launch --cwd=last_reported --type=tab
 
-map ctrl+a>, set_tab_title
+map ctrl+b>, set_tab_title
 
 #: Increase font size
 
@@ -248,33 +240,33 @@ map ctrl+0 change_font_size all 0
 map f11 toggle_fullscreen
 
 
-# map ctrl+a>e edit_config_file
-map ctrl+a>e launch --type=tab nvim ~/.config/kitty/kitty.conf
+# map ctrl+b>e edit_config_file
+map ctrl+b>e launch --type=tab nvim ~/.config/kitty/kitty.conf
 
 
 #: Reload kitty.conf
 
-map ctrl+a>r combine : load_config_file : launch --type=overlay --hold --allow-remote-control kitty @ send-text "kitty config reloaded"
+map ctrl+b>r combine : load_config_file : launch --type=overlay --hold --allow-remote-control kitty @ send-text "kitty config reloaded"
 
 #: Debug kitty configuration
 
-map ctrl+a>d     debug_config
+map ctrl+b>d     debug_config
 
 
 
 # BEGIN_KITTY_THEME
-# Apprentice
+# Tokyo Night Storm
 include current-theme.conf
 # END_KITTY_THEME
 
 # default alphabet see https://github.com/kovidgoyal/kitty/blob/0c4b20aa4e6b29ccf7c389e15d7ff5189f8e98f5/kittens/hints/main.py#L125
 # qwerty alphabets borrow from https://github.com/fcsonline/tmux-thumbs#Alphabets
-map ctrl+a>space kitten hints --alphabet asdfqwerzxcvjklmiuopghtybn1234567890 --customize-processing custom-hints.py
+map ctrl+b>space kitten hints --alphabet asdfqwerzxcvjklmiuopghtybn1234567890 --customize-processing custom-hints.py
 
 map f3 kitten hints --program '*'
 
 # https://github.com/console-rs/console/pull/85/files
 # https://github.com/console-rs/console/pull/84
-# map double ctrl+a to ctrl+a (home)
-map ctrl+a>ctrl+a send_text all \x01
+# map double ctrl+b to ctrl+b (home)
+map ctrl+b>ctrl+b send_text all \x01
 

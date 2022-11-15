@@ -34,6 +34,7 @@
     # =========================[ Line #1 ]=========================
     # os_icon               # os identifier
     dir                     # current directory
+    # sfdxenv
     vcs                     # git status
     # =========================[ Line #2 ]=========================
     newline                 # \n
@@ -1581,6 +1582,9 @@
   # Type `p10k help segment` for documentation and a more sophisticated example.
   function prompt_example() {
     p10k segment -f 2 -i '⭐' -t 'hello, %n'
+  }
+  function prompt_sfdxenv() {
+    p10k segment -f 3 -t "$(yq .target-org .sf/config.json)" -c "$(test -f .sf/config.json)"
   }
 
   # User-defined prompt segments may optionally provide an instant_prompt_* function. Its job

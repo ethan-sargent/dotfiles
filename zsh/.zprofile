@@ -26,3 +26,5 @@ else
   export VISUAL="vim"
   export EDITOR="vim"
 fi
+
+export SFDX_DISABLE_TELEMETRY=true
