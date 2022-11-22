@@ -31,6 +31,22 @@ local bubbles_theme = {
   },
 }
 
+local function read_file(path)
+  local file = io.open(path, "r") -- r read mode and b binary mode
+  if not file then return nil end
+  local content = file:read("*a") -- *a or *all reads the whole file
+  file:close()
+  return content
+end
+
+local function sfdx_current_org()
+  local sfConfigFile = read_file(".sf/config.json");
+  if not sfConfigFile then return nil end
+  local parsedConfig = vim.json.decode(sfConfigFile);
+  return parsedConfig["target-org"]
+end
+
+
 require('lualine').setup {
   options = {
     theme = 'tokyonight',
@@ -41,7 +57,7 @@ require('lualine').setup {
     lualine_a = {
       { 'mode', separator = { left = '' }, right_padding = 2 },
     },
-    lualine_b = { 'filename', 'branch' },
+    lualine_b = { 'filename', 'branch', sfdx_current_org },
     lualine_c = { 'fileformat' },
     lualine_x = {},
     lualine_y = { 'filetype', 'progress' },
