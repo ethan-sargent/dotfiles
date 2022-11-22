@@ -46,7 +46,7 @@ augroup END
   nnoremap <leader>so :!sfdx force:org:open<Enter>
 ]])
 
-local function get_visual_selection()
+local function get_visual_selection(preserve_newlines)
   local s_start = vim.fn.getpos("'<")
   local s_end = vim.fn.getpos("'>")
   local n_lines = math.abs(s_end[2] - s_start[2]) + 1
@@ -60,12 +60,18 @@ local function get_visual_selection()
   else
     lines[n_lines] = string.sub(lines[n_lines], 1, s_end[3])
   end
-  return table.concat(lines, '\n')
+  local separator
+  if preserve_newlines then
+    separator = '\n'
+  else
+    separator = ''
+  end
+  return table.concat(lines, separator)
 end
 
 function SFDX_VISUAL_QUERY()
-  vim.cmd(string.format('!sfdx force:data:soql:query -q "%s" <Enter>', get_visual_selection()));
+  vim.cmd(string.format('!sfdx force:data:soql:query -q "%s"', get_visual_selection(false)));
 end
 
-vim.api.nvim_set_keymap("v", "<leader>sq", ":lua SFDX_VISUAL_QUERY()", {})
+vim.api.nvim_set_keymap("v", "<leader>sq", "<cmd>:lua SFDX_VISUAL_QUERY()<CR>", {})
 

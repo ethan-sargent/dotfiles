@@ -1,33 +1,33 @@
 
 ## Installation:
-My prompt uses powerlevel10k (https://github.com/romkatv/powerlevel10k) - use the below command to clone the p10k repo automatically.
+My prompt uses powerlevel10k (https://github.com/romkatv/powerlevel10k) - use the below command to clone the p10k repo 
+automatically as a submodule in the correct location for it to autoload.
 
 ```
 git clone https://github.com/ethan-sargent/dotfiles --recurse-submodules
 ```
-For further details, see INSTALL.md - config installation should be as simple as running setup.sh.
-Please take a backup of your config before executing it!
-I've smoke-tested my script to check it won't nuke configs, and it should rename folders to config_dir.BAK - but I don't know if there are edge cases where it might break.
+To apply the configuration see INSTALL.md - config installation should be as simple as running setup.sh.
 
-
-## Dependencies and Tools
+Make sure you take a backup of your XDG_CONFIG_HOME dir before executing it! 
+it _should_ back up any existing config rather than overwrite it, but cannot guarantee this.
 
 ### Core
 
 * Neovim 
-* Alacritty (OpenGL terminal emulator)
-* Tmux (terminal multiplexer - tabs/splits/layouts
-* Starship (prompt customisation)
+* Kitty - performant terminal with built-in layout management
+* Powerlevel10k (async prompt customisation)
 
 ### CLI utils
-* ripgrep (very fast file searches incl contents)
-* fzf (fuzzy find)
-* zoxide (cd)
-* exa (ls replacement)
-* fd-find (ergonomic search-by-name)
+
+* ripgrep 
+* fzf (fuzzy find) - additional support for fuzzy search and doc preview of SFDX commands
+* zoxide (cd) - directory jumper
+* exa (ls replacement) - better cross platform color support
+* fd-find - GNU find replacement
 
 ### Toolchains
 
-* rustup
-* volta (node version manager)
+* rustup - Rust
+* volta (node version manager) - NodeJS/NPM shim
+
 

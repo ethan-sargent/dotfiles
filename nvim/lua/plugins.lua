@@ -111,13 +111,6 @@ return require('packer').startup({ function(use)
     config = function() require('config.telescope') end,
   }
 
-  -- use {
-  --   'nvim-telescope/telescope-fzf-native.nvim',
-  --   keys = '<leader>f',
-  --   cmd = { 'Telescope', 'Telescope find_files'},
-  --   run = 'make'
-  -- }
-
   use {
     'nvim-telescope/telescope-fzy-native.nvim',
     keys = '<leader>f',

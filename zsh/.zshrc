@@ -34,6 +34,9 @@ export PATH=$PATH:$HOME/.local/bin
 # setup aliases
 source "$ZDOTDIR/aliases.zsh"
 
+# setup SFDX configuration
+source "$ZDOTDIR/sfdx.zsh"
+
 # export JAVA_HOME=/Library/Java/JavaVirtualMachines/graalvm-ce-java17-22.2.0/Contents/Home
 # export PATH=$JAVA_HOME/bin:$PATH
 
