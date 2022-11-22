@@ -1,9 +1,10 @@
 alias sfdx-fzf-refresh="sfdx commands --json | jq '. | unique' > $XDG_CACHE_HOME/fzf/sfdxcommands.json"
 
-alias dxenv="cat .sf/config.json | yq .target-org"
+alias dxenv="cat .sfdx/sfdx-config.json | yq .defaultusername"
 
 dxd() { 
-  sf config set target-org=$1 
+  echo $(cat .sfdx/sfdx-config.json | jq ".\"defaultusername\" = \"$1\"") > .sfdx/sfdx-config.json
+  cat .sfdx/sfdx-config.json | jq '."defaultusername"'
 }
 
 # commit ID

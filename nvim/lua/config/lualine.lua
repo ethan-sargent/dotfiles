@@ -40,10 +40,10 @@ local function read_file(path)
 end
 
 local function sfdx_current_org()
-  local sfConfigFile = read_file(".sf/config.json");
-  if not sfConfigFile then return nil end
+  local sfConfigFile = read_file(".sfdx/sfdx-config.json");
+  if not sfConfigFile then return '' end
   local parsedConfig = vim.json.decode(sfConfigFile);
-  return parsedConfig["target-org"]
+  return parsedConfig["defaultusername"]
 end
 
 
