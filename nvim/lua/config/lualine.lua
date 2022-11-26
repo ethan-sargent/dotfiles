@@ -43,7 +43,7 @@ local function sfdx_current_org()
   local sfConfigFile = read_file(".sfdx/sfdx-config.json");
   if not sfConfigFile then return '' end
   local parsedConfig = vim.json.decode(sfConfigFile);
-  return parsedConfig["defaultusername"]
+  return '' .. parsedConfig["defaultusername"]
 end
 
 
@@ -52,6 +52,7 @@ require('lualine').setup {
     theme = 'tokyonight',
     component_separators = '|',
     section_separators = { left = '', right = '' },
+    globalstatus = true,
   },
   sections = {
     lualine_a = {
@@ -60,7 +61,12 @@ require('lualine').setup {
     lualine_b = { 'filename', 'branch', sfdx_current_org },
     lualine_c = { 'fileformat' },
     lualine_x = {},
-    lualine_y = { 'filetype', 'progress' },
+    lualine_y = {
+      {
+      'filetype',
+      },
+      'progress'
+    },
     lualine_z = {
       { 'location', separator = { right = '' }, left_padding = 2 },
     },

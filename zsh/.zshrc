@@ -35,7 +35,8 @@ export PATH=$PATH:$HOME/.local/bin
 source "$ZDOTDIR/aliases.zsh"
 
 # setup SFDX configuration
-source "$ZDOTDIR/sfdx.zsh"
+# moved to zshenv for nvim aliases
+# source "$ZDOTDIR/sfdx.zsh"
 
 # export JAVA_HOME=/Library/Java/JavaVirtualMachines/graalvm-ce-java17-22.2.0/Contents/Home
 # export PATH=$JAVA_HOME/bin:$PATH

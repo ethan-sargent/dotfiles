@@ -30,6 +30,11 @@ return require('packer').startup({ function(use)
     'tpope/vim-fugitive'
   }
 
+  -- use {
+  --   'sam4llis/nvim-tundra',
+  --   config = function() require('config.tundra') end
+  -- }
+
   use {
     'lewis6991/gitsigns.nvim',
     tag = 'release',
@@ -38,7 +43,7 @@ return require('packer').startup({ function(use)
 
   use {
     'nvim-lualine/lualine.nvim',
-    requires = { 'kyazdani42/nvim-web-devicons', opt = true },
+    requires = { 'kyazdani42/nvim-web-devicons' },
     config = function() require('config.lualine') end
   }
 

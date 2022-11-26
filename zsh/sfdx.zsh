@@ -9,8 +9,8 @@ dxd() {
 
 # commit ID
 dxinc() {
-  test -d deploy && rm -r deploy
-  local incdir="${1:-8000}"
-  sfdx sfpowerkit:project:diff -d "$incdir" -r "$2" -x
+  local incdir="${2:-deploy}"
+  test -d "$incdir" && rm -r "$incdir" && mkdir -p "$incdir"
+  sfdx sfpowerkit:project:diff -d "$incdir" -r "$1" -x
 }
 
