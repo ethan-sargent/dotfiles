@@ -34,5 +34,6 @@ require('telescope').setup {
 -- To get fzf loaded and working with telescope, you need to call
 -- load_extension, somewhere after setup function:
 -- require('telescope').load_extension('fzf')
+--
 -- This will load fzy_native and have it override the default file sorter
 require('telescope').load_extension('fzy_native')

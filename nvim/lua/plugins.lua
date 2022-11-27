@@ -20,20 +20,17 @@ return require('packer').startup({ function(use)
   use { 'lewis6991/impatient.nvim' }
 
   use {
-    'mhinz/vim-startify',
-    config = function() require('config.startify') end
+    "startup-nvim/startup.nvim",
+    requires = {"nvim-telescope/telescope.nvim", "nvim-lua/plenary.nvim"},
+    config = function()
+      require"startup".setup()
+    end
   }
-
   -- utilities
   use {
     'tpope/vim-vinegar',
     'tpope/vim-fugitive'
   }
-
-  -- use {
-  --   'sam4llis/nvim-tundra',
-  --   config = function() require('config.tundra') end
-  -- }
 
   use {
     'lewis6991/gitsigns.nvim',
