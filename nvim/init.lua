@@ -31,6 +31,7 @@ opt.gdefault      = true
 
 vim.api.nvim_set_keymap("n", "<SPACE>", "", {});
 g.mapleader = " "
-vim.api.nvim_set_keymap("t", "<Esc>", "<C-\\><C-n>" , {});
+-- Terminal mode keybinds
+vim.api.nvim_set_keymap("t", "<leader><Esc>", "<C-\\><C-n>" , {});
 
 require('sfdx')
