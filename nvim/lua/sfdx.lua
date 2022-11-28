@@ -65,5 +65,5 @@ vim.api.nvim_set_keymap("n", "<leader>sae", ":!sfdx force:apex:execute --apexcod
 vim.api.nvim_set_keymap("n", "<leader>st", ":!sfdx force:apex:test:run --tests \"%:t:r\" --synchronous<Enter>", {});
 vim.api.nvim_set_keymap("n", "<leader>so", ":!sfdx force:org:open<Enter>", {});
 
-vim.api.nvim_set_keymap("n", "<leader>sc", ":!dxd ", {});
+vim.api.nvim_set_keymap("n", "<leader>dxd", ":!dxd ", {});
 

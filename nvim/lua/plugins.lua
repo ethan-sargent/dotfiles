@@ -21,7 +21,7 @@ return require('packer').startup({ function(use)
 
   use {
     "startup-nvim/startup.nvim",
-    requires = {"nvim-telescope/telescope.nvim", "nvim-lua/plenary.nvim"},
+    requires = { "nvim-telescope/telescope.nvim", "nvim-lua/plenary.nvim" },
     config = function()
       require("config.startup")
     end
@@ -57,10 +57,14 @@ return require('packer').startup({ function(use)
   }
 
   -- Editing features
-  use {
-    'tpope/vim-surround',
+  use { "kylechui/nvim-surround",
+    tag = "*",
+    config = function()
+      require("nvim-surround").setup({
+        -- Configuration here, or leave empty to use defaults
+      })
+    end
   }
-
   use {
     'windwp/nvim-autopairs',
     config = function() require('config.autopairs') end,
@@ -78,16 +82,15 @@ return require('packer').startup({ function(use)
     'windwp/nvim-ts-autotag',
     after = 'nvim-treesitter',
     event = 'InsertEnter',
-    config = function() require('config.ts_autotags') end
+    config = function() require('config.ts-autotags') end
   }
 
-  -- LSP and Completion
-  -- use {
-  --   'williamboman/mason.nvim',
-  --   'williamboman/mason-lspconfig.nvim',
-  --   'neovim/nvim-lspconfig',
-  --   config = function() require('config.mason') end
-  -- }
+  use { "akinsho/toggleterm.nvim",
+    tag = '2.3.0',
+    config = function()
+      require("config.toggleterm")
+    end
+  }
 
   use { 'hrsh7th/nvim-cmp',
     requires = {

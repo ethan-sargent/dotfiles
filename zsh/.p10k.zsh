@@ -1585,7 +1585,7 @@
     p10k segment -f 2 -i '⭐' -t 'hello, %n'
   }
   function prompt_sfdxenv() {
-    if [[ -f '.sfdx/sfdx-config.json' ]]; then
+    if [[ -f './sfdx-project.json' && -f './.sfdx/sfdx-config.json' ]]; then
       p10k segment -f 14 -i '' -t "$(yq .defaultusername .sfdx/sfdx-config.json)"
       # p10k segment -f 14 -t "$(yq .defaultusername .sfdx/sfdx-config.json)"
     fi
