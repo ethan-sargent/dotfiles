@@ -4,7 +4,6 @@ alias dxenv="cat .sfdx/sfdx-config.json | yq .defaultusername"
 
 dxd() { 
   echo $(cat .sfdx/sfdx-config.json | jq ".\"defaultusername\" = \"$1\"") > .sfdx/sfdx-config.json
-  cat .sfdx/sfdx-config.json | jq '."defaultusername"'
 }
 
 # commit ID
