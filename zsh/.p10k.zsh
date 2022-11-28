@@ -34,7 +34,7 @@
     # =========================[ Line #1 ]=========================
     # os_icon               # os identifier
     dir                     # current directory
-    # sfdxenv
+    sfdxenv
     vcs                     # git status
     # =========================[ Line #2 ]=========================
     newline                 # \n
@@ -1584,7 +1584,9 @@
     p10k segment -f 2 -i '⭐' -t 'hello, %n'
   }
   function prompt_sfdxenv() {
-    p10k segment -f 3 -t "$(yq .target-org .sf/config.json)" -c "$(test -f .sf/config.json)"
+    if [[ -f '.sfdx/sfdx-config.json' ]]; then
+      p10k segment -f 14 -i '' -t "$(yq .defaultusername .sfdx/sfdx-config.json)"
+    fi
   }
 
   # User-defined prompt segments may optionally provide an instant_prompt_* function. Its job
