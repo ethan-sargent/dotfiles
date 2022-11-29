@@ -74,6 +74,9 @@ return require('packer').startup({ function(use)
 
   use {
     'numToStr/Comment.nvim',
+    requires = {
+      'JoosepAlviste/nvim-ts-context-commentstring'
+    },
     config = function() require('config.comment') end,
     keys = 'g'
   }

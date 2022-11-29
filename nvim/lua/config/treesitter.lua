@@ -38,6 +38,10 @@ require('nvim-treesitter.configs').setup {
       node_incremental = '<TAB>',
       node_decremental = '<S-TAB>',
     }
+  },
+  context_commentstring = {
+    enable = true,
+    enable_autocmd = false,
   }
 }
 

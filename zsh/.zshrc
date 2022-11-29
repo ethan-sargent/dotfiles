@@ -1,6 +1,6 @@
 #!/bin/zsh
 # enable profiling startup time
-# zmodload zsh/zprof
+zmodload zsh/zprof
 
 # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.config/zsh/.zshrc.
 # Initialization code that may require console input (password prompts, [y/n]
@@ -52,4 +52,4 @@ export PATH="$VOLTA_HOME/bin:$PATH"
 source "$ZDOTDIR"/plugins/powerlevel10k/powerlevel10k.zsh-theme
 [ -f "$ZDOTDIR"/.p10k.zsh ] && source "$ZDOTDIR"/.p10k.zsh
 # end profiling
-# zprof
+zprof > ~/.zstartuplog

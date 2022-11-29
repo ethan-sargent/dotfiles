@@ -42,7 +42,8 @@ function GetVisualSelection(preserve_newlines)
   else
     separator = ''
   end
-  return table.concat(lines, separator)
+  return string.gsub(table.concat(lines, separator), '%%', [[\%]])
+
 end
 
 function SfdxVisualQuery()
@@ -56,13 +57,13 @@ function SwcCompile()
    vim.cmd('!npx swc "%" -o "%:r.js"');
 end
 
-vim.api.nvim_set_keymap("n", "<leader>swc", "<cmd>:lua SwcCompile()<CR>", {})
+vim.api.nvim_set_keymap("n", "<leader>swc", "<cmd>:lua SwcCompile()<CR>", {noremap = true})
 
-vim.api.nvim_set_keymap("n", "<leader>sd", ":w  <bar> !sfdx force:source:deploy --sourcepath \"%\"<Enter>", {});
-vim.api.nvim_set_keymap("n", "<leader>sr", ":!sfdx force:source:retrieve --sourcepath \"%\"<Enter>", {});
-vim.api.nvim_set_keymap("n", "<leader>sq", ":!sfdx force:data:soql:query  --soqlqueryfile \"%\" <Enter>", {});
-vim.api.nvim_set_keymap("n", "<leader>sae", ":!sfdx force:apex:execute --apexcodefile \"%\" <Enter>", {});
-vim.api.nvim_set_keymap("n", "<leader>st", ":!sfdx force:apex:test:run --tests \"%:t:r\" --synchronous<Enter>", {});
+vim.api.nvim_set_keymap("n", "<leader>sd", ":w  <bar> !sfdx force:source:deploy --sourcepath \"%\"<Enter>", {noremap = true});
+vim.api.nvim_set_keymap("n", "<leader>sr", ":!sfdx force:source:retrieve --sourcepath \"%\"<Enter>", {noremap = true});
+vim.api.nvim_set_keymap("n", "<leader>sq", ":!sfdx force:data:soql:query  --soqlqueryfile \"%\" <Enter>", {noremap = true});
+vim.api.nvim_set_keymap("n", "<leader>sae", ":!sfdx force:apex:execute --apexcodefile \"%\" <Enter>", {noremap = true});
+vim.api.nvim_set_keymap("n", "<leader>st", ":!sfdx force:apex:test:run --tests \"%:t:r\" --synchronous<Enter>", {noremap = true});
 vim.api.nvim_set_keymap("n", "<leader>so", ":!sfdx force:org:open<Enter>", {});
 
 vim.api.nvim_set_keymap("n", "<leader>dxd", ":!dxd ", {});

@@ -1,10 +1,12 @@
 local opt = vim.opt
 local g = vim.g
+vim.api.nvim_set_keymap("n", "<Space>", "", {});
+g.mapleader = " "
 
 -- Plugins
 require('impatient')
 require('plugins')
-
+require('sfdx')
 
 opt.completeopt   = "menu,menuone,noselect"
 opt.rnu           = true
@@ -29,9 +31,7 @@ opt.mouse         = ""
 opt.gdefault      = true
 
 
-vim.api.nvim_set_keymap("n", "<SPACE>", "", {});
-g.mapleader = " "
--- Terminal mode keybinds
-vim.api.nvim_set_keymap("t", "<leader><Esc>", "<C-\\><C-n>" , {});
 
-require('sfdx')
+-- Terminal mode keybinds
+vim.api.nvim_set_keymap("t", "<leader><Esc>", "<C-\\><C-n>" , {noremap = true});
+
