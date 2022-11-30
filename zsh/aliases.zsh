@@ -6,3 +6,6 @@
 (($+commands[bat]))   && { alias cat="bat"  } 
 (($+commands[just]))  && { alias j="just"   } 
 (($+commands[git]))   && { alias g="git"    } 
+
+alias azco="az repos pr checkout --id"
+

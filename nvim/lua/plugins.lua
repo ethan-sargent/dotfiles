@@ -114,16 +114,19 @@ return require('packer').startup({ function(use)
   use {
     'nvim-telescope/telescope.nvim',
     tag = '0.1.0',
-    requires = { 'nvim-lua/plenary.nvim' },
-    after = 'telescope-fzy-native.nvim',
+    requires = { 'nvim-lua/plenary.nvim', 'nvim-telescope/telescope-fzf-native.nvim'  },
     config = function() require('config.telescope') end,
   }
 
-  use {
-    'nvim-telescope/telescope-fzy-native.nvim',
-    keys = '<leader>f',
-    cmd = { 'Telescope', 'Telescope find_files' },
+  use {'nvim-telescope/telescope-fzf-native.nvim',
+    run = 'cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build',
   }
+
+  -- use {
+  --   'nvim-telescope/telescope-fzy-native.nvim',
+  --   keys = '<leader>f',
+  --   cmd = { 'Telescope', 'Telescope find_files' },
+  -- }
 
   use {
     'folke/tokyonight.nvim',
