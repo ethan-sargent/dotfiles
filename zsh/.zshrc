@@ -9,6 +9,8 @@ if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
 
+
+
 setopt histignorealldups sharehistory histignorespace
 
 # Keep 1000 lines of history within the shell and save it to ~/.zsh_history:
@@ -30,6 +32,7 @@ source "$ZDOTDIR"/completion.zsh
 
 # ensure .local/bin is on path
 export PATH=$PATH:$HOME/.local/bin
+export PATH=$PATH:$HOME/local/bin
 
 # setup aliases
 source "$ZDOTDIR/aliases.zsh"
