@@ -23,6 +23,14 @@ else
   export HOMEBREW_PREFIX=/usr/local
 fi
 
+# add bison into start of path if exists
+brew --prefix bison &> /dev/null
+if [ $? -eq 0 ]; then  
+  export PATH="$(brew --prefix bison)/bin:$PATH"
+fi
+
+export PATH="/usr/local/sbin:$PATH"
+
 # disables zsh sessions 
 export SHELL_SESSIONS_DISABLE=1
 

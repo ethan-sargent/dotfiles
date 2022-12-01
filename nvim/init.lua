@@ -2,6 +2,7 @@ local opt = vim.opt
 local g = vim.g
 vim.api.nvim_set_keymap("n", "<Space>", "", {});
 g.mapleader = " "
+g.maplocalleader = "\\"
 
 -- Plugins
 require('impatient')
@@ -33,5 +34,5 @@ opt.gdefault      = true
 
 
 -- Terminal mode keybinds
-vim.api.nvim_set_keymap("t", "<leader><Esc>", "<C-\\><C-n>" , {noremap = true});
+vim.api.nvim_set_keymap("t", "<localleader><Esc>", "<C-\\><C-n>" , {noremap = true});
 

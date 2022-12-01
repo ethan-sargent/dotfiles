@@ -1,9 +1,13 @@
 alias sfdx-fzf-refresh="sfdx commands --json | jq '. | unique' > $XDG_CACHE_HOME/fzf/sfdxcommands.json"
 
-alias dxenv="cat .sfdx/sfdx-config.json | yq .defaultusername"
+alias dxenv="<.sfdx/sfdx-config.json | yq .defaultusername"
 
 dxd() { 
-  echo $(cat .sfdx/sfdx-config.json | jq ".\"defaultusername\" = \"$1\"") > .sfdx/sfdx-config.json
+  echo $(jq ".defaultusername = \"$1\""  .sfdx/sfdx-config.json) > .sfdx/sfdx-config.json
+}
+
+dxalias() { 
+  echo $(jq .defaultusername -r .sfdx/sfdx-config.json)
 }
 
 # commit ID
@@ -12,4 +16,20 @@ dxinc() {
   test -d "$incdir" && rm -r "$incdir" && mkdir -p "$incdir"
   sfdx sfpowerkit:project:diff -d "$incdir" -r "$1" -x
 }
+
+# commit id, org to validate against, dir to package into (optional)
+dxinccheck(){
+  local incdir="${3:-deploy}"
+  local user="${2:-dit}"
+  test -d "$incdir" && rm -r "$incdir" && mkdir -p "$incdir"
+  sfdx sfpowerkit:project:diff -d "$incdir" -r "$1" -x 
+  sfdx force:source:deploy --checkonly -p "$incdir"/force-app -u "$user"
+}
+
+dxincdeploy(){
+  local incdir="${2:-deploy}"
+  local user="${1:-dit}"
+  sfdx force:source:deploy -p "$incdir"/force-app -u "$user"
+}
+
 
