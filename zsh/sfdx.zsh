@@ -48,7 +48,6 @@ dxinccheck(){
 }
 
 dxincautodeploy() {
-  trap 'tput cnorm; exit' INT TERM
   if [[ ! -f .sfdx/.lastincref ]]; then
     >&2 echo "No previous commit ref stored in .sfdx/.lastincref"
   fi
