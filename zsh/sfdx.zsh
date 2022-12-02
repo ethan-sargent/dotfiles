@@ -6,7 +6,8 @@ dxd() {
   if $(jq ".orgs | has(\"$1\")" ~/.sfdx/alias.json -e); then
     echo $(jq ".defaultusername = \"$1\""  .sfdx/sfdx-config.json) > .sfdx/sfdx-config.json;
   else
-    echo "Alias $1 not found"
+    echo "Alias $1 not found. Aliases:" 
+    jq '.orgs | keys' ~/.sfdx/alias.json
   fi
 }
 
