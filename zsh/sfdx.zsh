@@ -1,9 +1,13 @@
 alias sfdx-fzf-refresh="sfdx commands --json | jq '. | unique' > $XDG_CACHE_HOME/fzf/sfdxcommands.json"
 
-alias dxenv="<.sfdx/sfdx-config.json | yq .defaultusername"
+alias dxenv="jq \".defaultusername\" .sfdx/sfdx-config.json"
 
 dxd() { 
-  echo $(jq ".defaultusername = \"$1\""  .sfdx/sfdx-config.json) > .sfdx/sfdx-config.json
+  if $(jq ".orgs | has(\"$1\")" ~/.sfdx/alias.json -e); then
+    echo $(jq ".defaultusername = \"$1\""  .sfdx/sfdx-config.json) > .sfdx/sfdx-config.json;
+  else
+    echo "Alias $1 not found"
+  fi
 }
 
 dxalias() { 
@@ -18,6 +22,7 @@ dxinc() {
 }
 
 # commit id, org to validate against, dir to package into (optional)
+# dxinccheck a0d1ebe72
 dxinccheck(){
   local incdir="${3:-deploy}"
   local user="${2:-dit}"

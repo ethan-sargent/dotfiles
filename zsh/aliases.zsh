@@ -7,5 +7,15 @@
 (($+commands[just]))  && { alias j="just"   } 
 (($+commands[git]))   && { alias g="git"    } 
 
-alias azco="az repos pr checkout --id"
+# checkout branch and pull latest changes
+azco() {
+  az repos pr checkout --id "$1"
+  g pull
+}
+
+azcocheck() {
+  azco "$1"
+  g log --oneline
+}
+
 
