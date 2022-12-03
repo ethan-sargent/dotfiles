@@ -1,8 +1,9 @@
 -- loads mason + mason lspconfig first to autolink mason installed lsp servers to cmp
 require('config.mason')
--- install vs code snippets into luasnip 
--- require("luasnip.loaders.from_vscode").lazy_load()
+-- install vs code snippets into luasnip
+require("luasnip.loaders.from_vscode").lazy_load()
 -- Set up nvim-cmp.cmp
+local lspkind = require('lspkind');
 
 local cmp = require 'cmp'
 
@@ -15,15 +16,19 @@ cmp.setup {
     end,
   },
   window = {
-    completion = cmp.config.window.bordered(),
-    documentation = cmp.config.window.bordered(),
+    completion = {
+      col_offset = 0,
+      side_padding = 0,
+    }
+    -- completion = cmp.config.window.bordered(),
+    -- documentation = cmp.config.window.bordered(),
   },
   mapping = cmp.mapping.preset.insert({
     ['<C-b>'] = cmp.mapping.scroll_docs(-4),
     ['<C-f>'] = cmp.mapping.scroll_docs(4),
     ['<C-Space>'] = cmp.mapping.complete(),
     ['<C-e>'] = cmp.mapping.abort(),
-    ['<CR>'] = cmp.mapping.confirm({ select = true }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
+    ['<CR>'] = cmp.mapping.confirm({ select = false }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
     ['<Tab>'] = function(fallback)
       if cmp.visible() then
         cmp.select_next_item()
@@ -44,7 +49,29 @@ cmp.setup {
     { name = 'luasnip' },
   }, {
     -- { name = 'buffer' }, -- removing buffer suggestions
-  })
+  }),
+  formatting = {
+    fields = { "abbr", "menu", "kind" },
+    format = function (entry, vim_item)
+      local kind = lspkind.cmp_format({
+        mode = 'symbol_text',
+        maxwidth = 50,
+      })(entry, vim_item);
+      local strings = vim.split(kind.kind, "%s", { trimempty = true })
+      kind.abbr = " " .. kind.abbr
+      kind.kind = strings[1]
+      local type = entry:get_completion_item().detail
+      if type == nil then
+         type = '';
+      else
+        type = ' (' .. type .. ')'
+      end
+      kind.menu = "   " .. strings[2] .. type
+      
+      
+      return kind
+    end
+  }
 }
 
 -- Set configuration for specific filetype.
@@ -56,7 +83,7 @@ cmp.setup.filetype('gitcommit', {
   })
 })
 
--- Use buffer source for `/` (if you enabled `native_menu`, this won't work anymore).
+
 cmp.setup.cmdline('/', {
   mapping = cmp.mapping.preset.cmdline(),
   sources = {
@@ -64,7 +91,7 @@ cmp.setup.cmdline('/', {
   }
 })
 
--- Use cmdline & path source for ':' (if you enabled `native_menu`, this won't work anymore).
+
 cmp.setup.cmdline(':', {
   mapping = cmp.mapping.preset.cmdline(),
   sources = cmp.config.sources({
@@ -152,7 +179,7 @@ require 'lspconfig'.apex_ls.setup {
   apex_enable_completion_statistics = false, -- Whether to allow Apex Language Server to collect telemetry on code completion usage
   on_attach = on_attach,
   capabilities = capabilities,
-  filetypes = { "apexcode", "apex", "anonapex"}
+  filetypes = { "apexcode", "apex", "anonapex" }
 }
 
 vim.g.completion_enable_snippet = 'luasnip'
