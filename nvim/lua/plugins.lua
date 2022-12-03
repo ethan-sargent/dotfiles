@@ -137,8 +137,16 @@ return require('packer').startup({ function(use)
   }
 
   use {
+    disable = true,
     "folke/trouble.nvim",
     config = function() require("config.trouble") end
+  }
+  use {
+    "kkharji/lspsaga.nvim",
+    branch = "main",
+    config = function()
+      require("config.lsp-saga")
+    end,
   }
 
   -- file-type plugins
