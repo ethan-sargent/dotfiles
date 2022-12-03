@@ -24,3 +24,6 @@
 * zoxide
 * exa
 
+## nvim cmake flags:
+
+make CMAKE_BUILD_TYPE=Release CMAKE_EXTRA_FLAGS="-DCMAKE_EXE_LINKER_FLAGS=-fuse-ld=mold -DCMAKE_C_COMPILER=clang"
