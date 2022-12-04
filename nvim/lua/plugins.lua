@@ -36,6 +36,13 @@ return require('packer').startup({ function(use)
     tag = 'release',
     config = function() require('config.gitsigns') end
   }
+  use {
+    "catppuccin/nvim",
+    as = "catppuccin",
+    config = function()
+      require('config.catppuccin')
+    end
+  }
 
   use {
     'nvim-lualine/lualine.nvim',
@@ -129,6 +136,7 @@ return require('packer').startup({ function(use)
   -- }
 
   use {
+    disable = true,
     'folke/tokyonight.nvim',
     config = function() require('config.tokyonight') end
   }
