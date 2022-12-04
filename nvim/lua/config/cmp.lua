@@ -58,7 +58,7 @@ cmp.setup {
         maxwidth = 50,
       })(entry, vim_item);
       local strings = vim.split(kind.kind, "%s", { trimempty = true })
-      kind.abbr = " " .. kind.abbr
+      kind.abbr = kind.abbr
       kind.kind = strings[1]
       local type = entry:get_completion_item().detail
       if type == nil then
