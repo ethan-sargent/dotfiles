@@ -36,14 +36,18 @@ dxincbuild() {
 }
 
 # commit id, org to validate against, dir to package into (optional)
-# dxinccheck a0d1ebe72
+# dxinccheck feature/abcdef
 dxinccheck(){
-  local fork_point=$(git merge-base acfr-qfr/rolling HEAD --fork-point)
-  local commit_id="${1:-$fork_point}"
+  if [[ -z $1 ]]; then
+    >&2 echo "No target branch for fork-point specified. Exiting..."
+    return 1;
+  fi
+  local fork_point=$(git merge-base "$1" HEAD --fork-point)
+  echo "fork_point = $fork_point"
   local incdir="${3:-deploy}"
   local user="${2:-dit}"
   test -d "$incdir" && rm -r "$incdir" && mkdir -p "$incdir"
-  sfdx sfpowerkit:project:diff -d "$incdir" -r "$commit_id" -x 
+  sfdx sfpowerkit:project:diff -d "$incdir" -r "$fork_point" -x 
   sfdx force:source:deploy --checkonly -p "$incdir"/force-app -u "$user"
 }
 

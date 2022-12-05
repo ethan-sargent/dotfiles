@@ -19,15 +19,15 @@ require('lualine').setup {
   options = {
     theme = 'catppuccin',
     component_separators = '|',
-    section_separators = { left = '', right = '' },
+    section_separators = { left = '', right = '' },
     globalstatus = false,
   },
   sections = {
     lualine_a = {
-      { 'mode', separator = { left = '' }, right_padding = 0 },
+      { 'mode', separator = { left = '' }, right_padding = 0 },
     },
     lualine_b = { 'filename', 'branch', sfdx_current_org },
-    lualine_c = { 'fileformat' },
+    lualine_c = { 'fileformat', separator = {right = ''} },
     lualine_x = {},
     lualine_y = {
       {
@@ -36,7 +36,7 @@ require('lualine').setup {
       'progress'
     },
     lualine_z = {
-      { 'location', separator = { right = '' }, left_padding = 2 },
+      { 'location', separator = { right = '' }, left_padding = 2 },
     },
   },
   inactive_sections = {
