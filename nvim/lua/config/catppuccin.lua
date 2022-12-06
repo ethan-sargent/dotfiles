@@ -1,11 +1,13 @@
 vim.cmd.colorscheme "catppuccin"
 
 require("catppuccin").setup {
+  flavour = "macchiato",
   integrations = {
     cmp = true,
     gitsigns = true,
     telescope = true,
     lsp_saga = true,
+    mason = true,
     markdown = true,
     treesitter = true,
     treesitter_context = true,

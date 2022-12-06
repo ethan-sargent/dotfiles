@@ -42,13 +42,14 @@ dxinccheck(){
     >&2 echo "No target branch for fork-point specified. Exiting..."
     return 1;
   fi
-  local fork_point=$(git merge-base "$1" HEAD --fork-point)
+  local fork_point=$(git merge-base "$1" HEAD)
   echo "fork_point = $fork_point"
   local incdir="${3:-deploy}"
   local user="${2:-dit}"
   test -d "$incdir" && rm -r "$incdir" && mkdir -p "$incdir"
-  sfdx sfpowerkit:project:diff -d "$incdir" -r "$fork_point" -x 
-  sfdx force:source:deploy --checkonly -p "$incdir"/force-app -u "$user"
+  sfdx sgd:source:delta --to "HEAD" --from "$fork_point" --output "$incdir" --generate-delta
+  # sfdx sfpowerkit:project:diff -d "$incdir" -r "$fork_point" -x
+  sfdx force:source:deploy --checkonly -p "$incdir"/force-app -u "$user" --json
 }
 
 dxincautodeploy() {

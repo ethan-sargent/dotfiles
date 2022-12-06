@@ -17,11 +17,12 @@ local hydra = {
 dashboard.section.header.val = hydra
 
 dashboard.section.buttons.val = {
-    dashboard.button( "n", "  New file" , ":ene <BAR> startinsert <CR>"),
-    dashboard.button( "f", "  Find file", ":Telescope find_files<CR>"),
-    dashboard.button( "r", "  Recent"   , ":Telescope oldfiles<CR>"),
-    dashboard.button( "s", "  Settings" , ":e $MYVIMRC | :cd %:p:h | pwd<CR>"),
-    dashboard.button( "q", "  Quit NVIM", ":qa<CR>"),
+    dashboard.button( "n", "  New file" , "<cmd>ene <BAR> startinsert <CR>"),
+    dashboard.button( "f", "  Find file", "<cmd>Telescope find_files<CR>"),
+    dashboard.button( "r", "  Recent"   , "<cmd>Telescope oldfiles<CR>"),
+    dashboard.button( "s", "  Settings" , "<cmd>e $MYVIMRC | :cd %:p:h<CR> | pwd<CR>"),
+    dashboard.button( "g", "  GTD", "<cmd>Neorg gtd views<CR>"),
+    dashboard.button( "q", "  Quit NVIM", "<cmd>qa<CR>"),
 }
 
 require("alpha").setup(dashboard.config)

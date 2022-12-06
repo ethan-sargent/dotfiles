@@ -6,18 +6,16 @@ saga.init_lsp_saga({
       open = "o",
       vsplit = "s",
       split = "i",
-      quit = "q",
+      quit = "<esc>",
       scroll_down = "<C-f>",
       scroll_up = "<C-b>",
     },
     code_action_keys = {
-      quit = "q",
+      quit = "<esc>",
       exec = "<CR>",
     },
-    rename_action_keys = {
-      quit = "<C-c>",
-      exec = "<CR>",
-    },
+    rename_action_quit = "<esc>",
+    custom_kind = require("catppuccin.groups.integrations.lsp_saga").custom_kind(),
 })
 
 
@@ -40,7 +38,7 @@ keymap("n", "gd", "<cmd>Lspsaga peek_definition<CR>", { silent = true })
 keymap("n", "<leader>cd", "<cmd>Lspsaga show_line_diagnostics<CR>", { silent = true })
 
 -- Show cursor diagnostic
-keymap("n", "<leader>cd", "<cmd>Lspsaga show_cursor_diagnostics<CR>", { silent = true })
+-- keymap("n", "<leader>cd", "<cmd>Lspsaga show_cursor_diagnostics<CR>", { silent = true })
 
 -- Diagnsotic jump can use `<c-o>` to jump back
 keymap("n", "[e", "<cmd>Lspsaga diagnostic_jump_prev<CR>", { silent = true })
@@ -53,9 +51,6 @@ end, { silent = true })
 keymap("n", "]E", function()
   require("lspsaga.diagnostic").goto_next({ severity = vim.diagnostic.severity.ERROR })
 end, { silent = true })
-
--- Outline
-keymap("n", "<leader>o", "<cmd>LSoutlineToggle<CR>", { silent = true })
 
 -- Hover Doc
 keymap("n", "K", "<cmd>Lspsaga hover_doc<CR>", { silent = true })

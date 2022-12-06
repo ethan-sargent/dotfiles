@@ -18,6 +18,8 @@ opt.ts            = 2
 opt.sts           = 2
 opt.sw            = 2
 opt.expandtab     = true
+opt.smarttab      = true
+opt.shiftround    = true
 opt.signcolumn    = "yes"
 opt.autoindent    = true
 opt.smartindent   = true
@@ -30,7 +32,11 @@ opt.guitablabel   = "[%N] %t %M"
 opt.synmaxcol     = 500
 opt.mouse         = ""
 opt.gdefault      = true
-
+opt.scrolloff     = 1
+opt.sidescrolloff = 5
+opt.lazyredraw    = true
+-- opt.foldmethod    = "indent"
+-- opt.foldnestmax   = 3
 
 
 -- Terminal mode keybinds

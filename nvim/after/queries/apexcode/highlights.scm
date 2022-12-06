@@ -2,15 +2,15 @@
 ;; https://code.visualstudio.com/api/language-extensions/semantic-highlight-guide
 
 [
-  "["
-  "]"
-  "{"
-  "}"
-  "?"
-  ";"
-  "<"
-  ">"
-] @punctuation
+ "["
+ "]"
+ "{"
+ "}"
+ "?"
+ ";"
+ "<"
+ ">"
+ ] @punctuation
 
 ;; Methods
 
@@ -27,7 +27,7 @@
 
 (explicit_constructor_invocation
   arguments: (argument_list
-    (identifier) @variable ))
+               (identifier) @variable ))
 
 ;; Annotations
 
@@ -68,7 +68,7 @@
 ; (identifier) @variable
 
 ((field_access
-  object: (identifier) @type)) ;; don't know what type of thing it is
+   object: (identifier) @type)) ;; don't know what type of thing it is
 
 (generic_type
   (type_identifier) @type)
@@ -78,10 +78,10 @@
   field: (identifier) @property)
 
 ((scoped_identifier
-  scope: (identifier) @type)
+   scope: (identifier) @type)
  (#match? @type "^[A-Z]"))
 ((method_invocation
-  object: (identifier) @type)
+   object: (identifier) @type)
  (#match? @type "^[A-Z]"))
 
 
@@ -129,11 +129,11 @@
 
 (for_statement
   condition: (binary_expression
-    (identifier) @variable))
+               (identifier) @variable))
 
 (for_statement
   update: (update_expression
-    (identifier) @variable))
+            (identifier) @variable))
 
 (constructor_declaration
   name: (identifier) @class)
@@ -174,45 +174,45 @@
 
 (binary_expression
   operator: [
-    ">"
-    "<"
-    ">="
-    "<="
-    "=="
-    "==="
-    "!="
-    "!=="
-    "&&"
-    "||"
-    "+"
-    "-"
-    "*"
-    "/"
-    "&"
-    "|"
-    "^"
-    "%"
-    "<<"
-    ">>"
-    ">>>"] @operator)
+             ">"
+             "<"
+             ">="
+             "<="
+             "=="
+             "==="
+             "!="
+             "!=="
+             "&&"
+             "||"
+             "+"
+             "-"
+             "*"
+             "/"
+             "&"
+             "|"
+             "^"
+             "%"
+             "<<"
+             ">>"
+             ">>>"] @operator)
 
 (binary_expression
   (identifier) @variable)
 
 (unary_expression
   operator: [
-    "+"
-    "-"
-    "!"
-    "~"
-  ]) @operator
+             "+"
+             "-"
+             "!"
+             "~"
+             ]) @operator
 
 (map_initializer "=>" @operator)
 
 [
-  (boolean_type)
-  (void_type)
-] @type.defaultLibrary
+ (boolean_type)
+ (void_type)
+ ] @type.defaultLibrary
 
 ; Variables
 
@@ -227,7 +227,7 @@
 ;; because itendifying it when declared doesn't carry to use
 ;; leans on the convention that "screaming snake case" is a const
 ((identifier) @variable.readonly
-  (#match? @variable.readonly "^_*[A-Z][A-Z\\d_]+$"))
+              (#match? @variable.readonly "^_*[A-Z][A-Z\\d_]+$"))
 
 
 (this) @variable.defaultLibrary
@@ -235,61 +235,61 @@
 ; Literals
 
 [
-  (int)
-] @number
+ (int)
+ ] @number
 
 [
-  (string_literal)
-] @string
+ (string_literal)
+ ] @string
 
 [
-  (line_comment)
-  (block_comment)
-] @comment
+ (line_comment)
+ (block_comment)
+ ] @comment
 
 ;; ;; Keywords
 
 [
-  "abstract"
-  "break"
-  "catch"
-  "class"
-  "continue"
-  "default"
-  "do"
-  "else"
-  "enum"
-  "extends"
-  "final"
-  "finally"
-  "for"
-  "get"
-  "global"
-  "if"
-  "implements"
-  "instanceof"
-  "interface"
-  "new"
-  "on"
-  "private"
-  "protected"
-  "public"
-  "return"
-  "set"
-  "static"
-  "switch"
-  "testMethod"
-  "throw"
-  "transient"
-  "try"
-  "trigger"
-  "virtual"
-  "when"
-  "while"
-  "with_sharing"
-  "without_sharing"
-  "inherited_sharing"
-] @keyword
+ "abstract"
+ "break"
+ "catch"
+ "class"
+ "continue"
+ "default"
+ "do"
+ "else"
+ "enum"
+ "extends"
+ "final"
+ "finally"
+ "for"
+ "get"
+ "global"
+ "if"
+ "implements"
+ "instanceof"
+ "interface"
+ "new"
+ "on"
+ "private"
+ "protected"
+ "public"
+ "return"
+ "set"
+ "static"
+ "switch"
+ "testMethod"
+ "throw"
+ "transient"
+ "try"
+ "trigger"
+ "virtual"
+ "when"
+ "while"
+ "with_sharing"
+ "without_sharing"
+ "inherited_sharing"
+ ] @keyword
 
 (assignment_expression
   left: (identifier) @variable)
@@ -341,34 +341,37 @@
 (storage_identifier) @type
 (function_name) @function
 (date_literal) @variable.readonly.defaultLibrary
-  
+
 
 [
-  ","
-  "."
-  ":"
-  "?"
-  "("
-  ")"
-] @punctuation
+ ","
+ "."
+ ":"
+ "?"
+ "("
+ ")"
+ ] @punctuation
 
 [
-  "AND"
-  "OR"
-  "NOT"
-  "="
-  "!="
-  "LIKE"
-  "NOT_IN"
-  "INCLUDES"
-  "EXCLUDES"
+ "AND"
+ "OR"
+ "NOT"
+ "LIKE"
+ "NOT_IN"
+ "INCLUDES"
+ "EXCLUDES"
+ ] @keyword
+(set_comparison_operator "IN" @keyword)
+
+[
+ "="
+ "!="
 ] @operator
 (value_comparison_operator "<" @operator)
 "<=" @operator
 (value_comparison_operator ">" @operator)
 ">=" @operator
- @operator
-(set_comparison_operator "IN" @operator)
+@operator
 
 (int) @number
 (decimal) @number
@@ -378,70 +381,70 @@
 (date_time) @variable.readonly
 
 [
-  "TRUE"
-  "FALSE"
-  (null_literal)
-] @variable.readonly.defaultLibrary
+ "TRUE"
+ "FALSE"
+ (null_literal)
+ ] @variable.readonly.defaultLibrary
 
 [
-  "ABOVE"
-  "ABOVE_OR_BELOW"
-  "ALL_ROWS"
-  "ALL"
-  "AS"
-  "ASC"
-  "AT"
-  "BELOW"
-  "CUSTOM"
-  "DATA_CATEGORY"
-  "DESC"
-  "ELSE"
-  "END"
-  "FIELDS"
-  "FOR"
-  "FROM"
-  "GROUP_BY"
-  "HAVING"
-  "LIMIT"
-  "NULLS_FIRST"
-  "NULLS_LAST"
-  "OFFSET"
-  "ORDER_BY"
-  "REFERENCE"
-  "SELECT"
-  "STANDARD"
-  "THEN"
-  "TRACKING"
-  "TYPEOF"
-  "UPDATE"
-  "USING_SCOPE"
-  "VIEW"
-  "VIEWSTAT"
-  "WITH"
-  "WHERE"
-  "WHEN"
-] @keyword
+ "ABOVE"
+ "ABOVE_OR_BELOW"
+ "ALL_ROWS"
+ "ALL"
+ "AS"
+ "ASC"
+ "AT"
+ "BELOW"
+ "CUSTOM"
+ "DATA_CATEGORY"
+ "DESC"
+ "ELSE"
+ "END"
+ "FIELDS"
+ "FOR"
+ "FROM"
+ "GROUP_BY"
+ "HAVING"
+ "LIMIT"
+ "NULLS_FIRST"
+ "NULLS_LAST"
+ "OFFSET"
+ "ORDER_BY"
+ "REFERENCE"
+ "SELECT"
+ "STANDARD"
+ "THEN"
+ "TRACKING"
+ "TYPEOF"
+ "UPDATE"
+ "USING_SCOPE"
+ "VIEW"
+ "VIEWSTAT"
+ "WITH"
+ "WHERE"
+ "WHEN"
+ ] @keyword
 
 ; Using Scope
 [
-  "delegated"
-  "everything"
-  "mine"
-  "mine_and_my_groups"
-  "my_territory"
-  "my_team_territory"
-  "team"
-] @enumMember
+ "delegated"
+ "everything"
+ "mine"
+ "mine_and_my_groups"
+ "my_territory"
+ "my_team_territory"
+ "team"
+ ] @enumMember
 
 ; With
 [
-  "maxDescriptorPerRecord"
-  "RecordVisibilityContext"
-  "Security_Enforced"
-  "supportsDomains"
-  "supportsDelegates"
-  "System_Mode"
-  "User_Mode"
-  "UserId"
-] @enumMember
+ "maxDescriptorPerRecord"
+ "RecordVisibilityContext"
+ "Security_Enforced"
+ "supportsDomains"
+ "supportsDelegates"
+ "System_Mode"
+ "User_Mode"
+ "UserId"
+ ] @enumMember
 

@@ -25,6 +25,15 @@ return require('packer').startup({ function(use)
         require('config.alpha')
     end
   }
+  use {
+    "nvim-neorg/neorg",
+    config = function()
+        require('config.neorg')
+    end,
+    requires = "nvim-lua/plenary.nvim",
+    -- ft = "norg",
+    run = ":Neorg sync-parsers",
+  }
   -- utilities
   use {
     'tpope/vim-vinegar',
@@ -54,6 +63,7 @@ return require('packer').startup({ function(use)
     run = function() require('nvim-treesitter.install').update({ with_sync = true }) end,
     config = function() require('config.treesitter') end
   }
+  use {'nvim-treesitter/playground'}
   use { 'NoahTheDuke/vim-just',
     requires = 'nvim-treesitter',
   }
@@ -66,9 +76,7 @@ return require('packer').startup({ function(use)
   use { "kylechui/nvim-surround",
     tag = "*",
     config = function()
-      require("nvim-surround").setup({
-        -- Configuration here, or leave empty to use defaults
-      })
+      require("config.nvim-surround")
     end
   }
   use {
@@ -151,7 +159,7 @@ return require('packer').startup({ function(use)
     config = function() require("config.trouble") end
   }
   use {
-    "kkharji/lspsaga.nvim",
+    "glepnir/lspsaga.nvim",
     branch = "main",
     config = function()
       require("config.lsp-saga")

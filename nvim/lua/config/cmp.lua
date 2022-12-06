@@ -60,13 +60,7 @@ cmp.setup {
       local strings = vim.split(kind.kind, "%s", { trimempty = true })
       kind.abbr = kind.abbr
       kind.kind = strings[1]
-      local type = entry:get_completion_item().detail
-      if type == nil then
-         type = '';
-      else
-        type = ' (' .. type .. ')'
-      end
-      kind.menu = "   " .. strings[2] .. type
+      kind.menu = "   " .. strings[2]
       return kind
     end
   }
@@ -78,6 +72,12 @@ cmp.setup.filetype('gitcommit', {
     { name = 'cmp_git' }, -- You can specify the `cmp_git` source if you were installed it.
   }, {
     -- { name = 'buffer' },
+  })
+})
+cmp.setup.filetype('norg', {
+  sources = cmp.config.sources({
+    { name = "neorg"},
+    { name = "buffer"},
   })
 })
 
