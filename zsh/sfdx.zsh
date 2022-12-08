@@ -23,14 +23,6 @@ local dx_saveincref() {
   echo $head_commit > .sfdx/.lastincref
 }
 
-local dxautoinc() {
-  local head_commit=$(git rev-parse HEAD) 
-  echo $head_commit > .sfdx/.lastincref
-  local branch_forkpoint=$(git merge-base --fork-point HEAD acfr-qfr/rolling)
-
-  sfdx sgd:source:delta --to "HEAD" --from "$1" --output "$incdir" --generate-delta
-}
-
 # commit ID
 dxincbuild() {
   local incdir="${2:-deploy}"
