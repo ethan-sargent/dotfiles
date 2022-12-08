@@ -40,4 +40,11 @@ export SHELL_SESSIONS_DISABLE=1
 export VOLTA_HOME="$HOME/.volta"
 export PATH="$VOLTA_HOME/bin:$PATH"
 
+
+fpath=(
+  $ZDOTDIR/functions
+  $fpath
+);
+
 source "$ZDOTDIR/sfdx.zsh"
+

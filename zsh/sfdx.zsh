@@ -2,14 +2,17 @@ alias sfdx-fzf-refresh="sfdx commands --json | jq '. | unique' > $XDG_CACHE_HOME
 
 alias dxenv="jq \".defaultusername\" .sfdx/sfdx-config.json"
 
-dxd() { 
-  if $(jq ".orgs | has(\"$1\")" ~/.sfdx/alias.json -e); then
-    echo $(jq ".defaultusername = \"$1\""  .sfdx/sfdx-config.json) > .sfdx/sfdx-config.json;
-  else
-    echo "Alias $1 not found. Aliases:" 
-    jq '.orgs | keys' ~/.sfdx/alias.json
-  fi
-}
+# dxd() { 
+#   if $(jq ".orgs | has(\"$1\")" ~/.sfdx/alias.json -e); then
+#     echo $(jq ".defaultusername = \"$1\""  .sfdx/sfdx-config.json) > .sfdx/sfdx-config.json;
+#   else
+#     echo "Alias $1 not found. Aliases:" 
+#     jq '.orgs | keys' ~/.sfdx/alias.json
+#     return 1
+#   fi
+# }
+autoload -Uz dxd
+autoload -Uz _dxd
 
 dxalias() { 
   echo $(jq .defaultusername -r .sfdx/sfdx-config.json)

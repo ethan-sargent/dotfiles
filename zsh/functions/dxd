@@ -1,0 +1,14 @@
+#!/usr/bin/env zsh
+#
+# Usage: Fast Salesforce Org Switching
+#
+dxd() {
+  if $(jq ".orgs | has(\"$1\")" ~/.sfdx/alias.json -e); then
+    echo $(jq ".defaultusername = \"$1\""  .sfdx/sfdx-config.json) > .sfdx/sfdx-config.json;
+  else
+    echo "$1 is not a known alias." 
+    return 1
+  fi
+}
+
+dxd "$@"

@@ -1,0 +1,6 @@
+#compdef dxd
+
+IFS=$'\t' read -r -A bash_array < <(jq -r '.orgs|keys|@tsv' ~/.sfdx/alias.json)
+
+_values "SFDX aliases" $bash_array
+

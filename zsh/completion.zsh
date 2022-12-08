@@ -13,6 +13,8 @@ then
 fi
 
 
+
+
 # Use modern completion system with caches
 autoload -Uz compinit 
 compinit -d "$XDG_CACHE_HOME/zsh/zcompdump-$ZSH_VERSION"
