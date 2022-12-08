@@ -28,14 +28,14 @@ local dxautoinc() {
   echo $head_commit > .sfdx/.lastincref
   local branch_forkpoint=$(git merge-base --fork-point HEAD acfr-qfr/rolling)
 
-  sfdx sfpowerkit:project:diff -d "$incdir" -r "$1" -x
+  sfdx sgd:source:delta --to "HEAD" --from "$1" --output "$incdir" --generate-delta
 }
 
 # commit ID
 dxincbuild() {
   local incdir="${2:-deploy}"
   test -d "$incdir" && rm -r "$incdir" && mkdir -p "$incdir"
-  sfdx sfpowerkit:project:diff -d "$incdir" -r "$1" -x
+  sfdx sgd:source:delta --to "HEAD" --from "$1" --output "$incdir" --generate-delta
 }
 
 # commit id, org to validate against, dir to package into (optional)
@@ -72,7 +72,7 @@ dxincautodeploy() {
   echo "Previous commit hash $last_commit - starting delta build..."
   local incdir="${2:-deploy}"
   local user="${1:-dit}"
-  sfdx sfpowerkit:project:diff -d "$incdir" -r "$last_commit" -x 
+  sfdx sgd:source:delta --to "HEAD" --from "$last_commit" --output "$incdir" --generate-delta
   sfdx force:source:deploy -p "$incdir"/force-app -u "$user"
   echo $head_commit > .sfdx/.lastincref
   echo "$head_commit saved as last incremental commit ID"

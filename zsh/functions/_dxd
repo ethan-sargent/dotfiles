@@ -2,5 +2,11 @@
 
 IFS=$'\t' read -r -A bash_array < <(jq -r '.orgs|keys|@tsv' ~/.sfdx/alias.json)
 
+for file in "$HOME"/.sfdx/*@*.json; do
+  username=$file:t
+  username=${username%.*}
+  bash_array+=("$username")
+done;
+
 _values "SFDX aliases" $bash_array
 
