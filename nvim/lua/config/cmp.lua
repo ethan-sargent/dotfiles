@@ -16,12 +16,8 @@ cmp.setup {
     end,
   },
   window = {
-    completion = {
-      col_offset = 0,
-      side_padding = 0,
-    }
-    -- completion = cmp.config.window.bordered(),
-    -- documentation = cmp.config.window.bordered(),
+    completion = cmp.config.window.bordered(),
+    documentation = cmp.config.window.bordered(),
   },
   mapping = cmp.mapping.preset.insert({
     ['<C-b>'] = cmp.mapping.scroll_docs(-4),
@@ -177,7 +173,7 @@ require 'lspconfig'.apex_ls.setup {
   apex_enable_completion_statistics = false, -- Whether to allow Apex Language Server to collect telemetry on code completion usage
   on_attach = on_attach,
   capabilities = capabilities,
-  filetypes = { "apexcode", "apex", "anonapex" }
+  filetypes = { "apexcode", "apex", "apexanon" }
 }
 
 vim.g.completion_enable_snippet = 'luasnip'

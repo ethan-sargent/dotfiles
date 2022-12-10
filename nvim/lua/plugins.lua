@@ -11,8 +11,11 @@ end
 
 local packer_bootstrap = ensure_packer()
 
---
--- plugin -- configuration
+
+local alpha_filetype = function()
+  return vim.bo.filetype == 'alpha';
+end
+
 return require('packer').startup({ function(use)
   -- packer can manage itself
   use 'wbthomason/packer.nvim'
@@ -31,7 +34,8 @@ return require('packer').startup({ function(use)
         require('config.neorg')
     end,
     requires = "nvim-lua/plenary.nvim",
-    -- ft = "norg",
+    ft = "norg",
+    cmd = 'Neorg*',
     run = ":Neorg sync-parsers",
   }
   -- utilities
@@ -43,8 +47,9 @@ return require('packer').startup({ function(use)
   use {
     'lewis6991/gitsigns.nvim',
     tag = 'release',
-    config = function() require('config.gitsigns') end
+    config = function() require('config.gitsigns') end,
   }
+
   use {
     "catppuccin/nvim",
     as = "catppuccin",
@@ -59,26 +64,39 @@ return require('packer').startup({ function(use)
     config = function() require('config.lualine') end
   }
 
-  use { 'nvim-treesitter/nvim-treesitter',
-    run = function() require('nvim-treesitter.install').update({ with_sync = true }) end,
-    config = function() require('config.treesitter') end
+  use {
+    'nvim-treesitter/playground',
+    after = 'nvim-treesitter',
+    cmd = 'TSPlaygroundToggle'
   }
-  use {'nvim-treesitter/playground'}
+
   use { 'NoahTheDuke/vim-just',
-    requires = 'nvim-treesitter',
+    after = 'nvim-treesitter',
   }
   use {
     'nvim-treesitter/nvim-treesitter-context',
-    requires = { 'nvim-treesitter/nvim-treesitter' }
+    after = 'nvim-treesitter',
+    opt = true,
   }
+
+  use { 'nvim-treesitter/nvim-treesitter',
+    run = function() require('nvim-treesitter.install').update({ with_sync = true }) end,
+    config = function()
+      vim.cmd("PackerLoad nvim-treesitter-context")
+      vim.cmd("PackerLoad vim-just")
+      require('config.treesitter')
+    end,
+  }
+
 
   -- Editing features
   use { "kylechui/nvim-surround",
     tag = "*",
     config = function()
       require("config.nvim-surround")
-    end
+    end,
   }
+
   use {
     'windwp/nvim-autopairs',
     config = function() require('config.autopairs') end,
@@ -97,7 +115,7 @@ return require('packer').startup({ function(use)
 
   use {
     'windwp/nvim-ts-autotag',
-    after = 'nvim-treesitter',
+    requires = { 'nvim-treesitter/nvim-treesitter' },
     event = 'InsertEnter',
     config = function() require('config.ts-autotags') end
   }
@@ -129,12 +147,26 @@ return require('packer').startup({ function(use)
   use {
     'nvim-telescope/telescope.nvim',
     tag = '0.1.0',
-    requires = { 'nvim-lua/plenary.nvim', 'nvim-telescope/telescope-fzf-native.nvim'  },
-    config = function() require('config.telescope') end,
+    requires = {
+      'nvim-lua/plenary.nvim',
+      'nvim-telescope/telescope-fzf-native.nvim'
+    },
+    -- after = { 'telescope-fzf-native.nvim' },
+    setup = function()
+      require("setup.telescope")
+    end,
+    config = function()
+      vim.cmd("PackerLoad telescope-fzf-native.nvim")
+      require('config.telescope')
+    end,
+    cmd = 'Telescope*',
+    keys = '<leader>f'
   }
 
-  use {'nvim-telescope/telescope-fzf-native.nvim',
+  use {
+    'nvim-telescope/telescope-fzf-native.nvim',
     run = 'cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build',
+    opt = true,
   }
 
   -- use {
@@ -158,6 +190,7 @@ return require('packer').startup({ function(use)
     "folke/trouble.nvim",
     config = function() require("config.trouble") end
   }
+
   use {
     "glepnir/lspsaga.nvim",
     branch = "main",
@@ -167,7 +200,8 @@ return require('packer').startup({ function(use)
   }
 
   -- file-type plugins
-  use { 'mechatroner/rainbow_csv',
+  use {
+    'mechatroner/rainbow_csv',
     ft = 'csv'
   }
 

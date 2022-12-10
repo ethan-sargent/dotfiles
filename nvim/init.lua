@@ -1,8 +1,9 @@
-local opt = vim.opt
-local g = vim.g
+local g = vim.g;
+local opt = vim.opt;
+
 vim.api.nvim_set_keymap("n", "<Space>", "", {});
-g.mapleader = " "
-g.maplocalleader = "\\"
+vim.g.mapleader = " "
+vim.g.maplocalleader = "\\"
 
 -- Plugins
 require('impatient')
@@ -35,9 +36,9 @@ opt.gdefault      = true
 opt.scrolloff     = 1
 opt.sidescrolloff = 5
 opt.lazyredraw    = true
+
 -- opt.foldmethod    = "indent"
 -- opt.foldnestmax   = 3
-
 
 -- Terminal mode keybinds
 vim.api.nvim_set_keymap("t", "<localleader><Esc>", "<C-\\><C-n>" , {noremap = true});

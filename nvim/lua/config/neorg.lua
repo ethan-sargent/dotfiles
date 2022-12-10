@@ -5,6 +5,7 @@ require('neorg').setup {
       config = {
         workspaces = {
           work = "~/notes/work",
+          dxatscale = "~/notes/dxatscale"
         }
       }
     },
@@ -19,6 +20,6 @@ require('neorg').setup {
         engine = 'nvim-cmp'
       }
     },
-    ['core.integrations.nvim-cmp'] = {}
+    ['core.integrations.nvim-cmp'] = {},
   }
 }
