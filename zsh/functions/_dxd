@@ -1,12 +1,14 @@
 #compdef dxd
 
-IFS=$'\t' read -r -A bash_array < <(jq -r '.orgs|keys|@tsv' ~/.sfdx/alias.json)
+IFS=$'\t' read -r -A alias_array < <(jq -r '.orgs|keys|@tsv' ~/.sfdx/alias.json)
 
+username_array=()
 for file in "$HOME"/.sfdx/*@*.json; do
   username=$file:t
   username=${username%.*}
-  bash_array+=("$username")
+  username_array+=("$username")
 done;
 
-_values "SFDX aliases" $bash_array
-
+_alternative \
+  "sfdx-alias:SFDX Aliases:($alias_array)" \
+  "sfdx-username:SFDX Usernames:($username_array)"
