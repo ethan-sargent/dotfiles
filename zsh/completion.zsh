@@ -26,15 +26,21 @@ setopt AUTO_LIST            # Automatically list choices on ambiguous completion
 zstyle ':completion:*' completer _complete _approximate _extensions
 zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}' '+r:|[._-]=* r:|=*' '+l:|=*'
 
+# group completions under their description
+zstyle ':completion:*' group-name ''
+
 # partial completion suggestions
 zstyle ':completion:*' list-suffixes 
 zstyle ':completion:*' expand prefix suffix 
 zstyle ':completion:*' use-cache on
 zstyle ':completion:*' cache-path "$XDG_CACHE_HOME/zsh"
 zstyle ':completion:*' complete-options true
+zstyle ":completion:*:default" list-colors "${(s.:.)LS_COLORS}"
+
+zstyle ':completion:*:*:-command-:*:*' group-order alias builtins functions commands
 
 zstyle ':completion:*:*:*:*:corrections' format '%F{yellow}!- %d (errors: %e) -!%f'
-zstyle ':completion:*:*:*:*:descriptions' format '%F{blue}-- %D %d --%f'
+zstyle ':completion:*:*:*:*:descriptions' format '%F{cyan}-- %D %d --%f'
 zstyle ':completion:*:*:*:*:messages' format ' %F{purple} -- %d --%f'
 zstyle ':completion:*:*:*:*:warnings' format ' %F{red}-- no matches found --%f'
 
