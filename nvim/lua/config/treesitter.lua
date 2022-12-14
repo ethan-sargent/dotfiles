@@ -1,5 +1,5 @@
 local parser_config = require "nvim-treesitter.parsers".get_parser_configs()
-parser_config.apexcode = {
+parser_config.apex = {
   install_info = {
     url = "~/Projects/tree-sitter-sfapex/apex", -- local path or git repo
     files = {"src/parser.c"},

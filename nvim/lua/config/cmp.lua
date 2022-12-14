@@ -133,7 +133,7 @@ local capabilities = require('cmp_nvim_lsp').default_capabilities(vim.lsp.protoc
 
 local lsp_flags = {
   -- This is the default in Nvim 0.7+
-  debounce_text_changes = 150,
+  debounce_text_changes = 100,
 }
 require('lspconfig').pyright.setup {
   on_attach = function(client, bufnr)
@@ -198,6 +198,9 @@ require 'lspconfig'.sumneko_lua.setup {
         -- Make the server aware of Neovim runtime files
         library = vim.api.nvim_get_runtime_file("", true),
         checkThirdParty = false
+      },
+      semantic = {
+        enable = false  --[[ disable semantic highlights  ]]
       },
       -- Do not send telemetry data containing a randomized but unique identifier
       telemetry = {

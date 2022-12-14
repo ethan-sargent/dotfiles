@@ -41,7 +41,10 @@ return require('packer').startup({ function(use)
   -- utilities
   use {
     'tpope/vim-vinegar',
-    'tpope/vim-fugitive'
+    'tpope/vim-fugitive',
+    'tpope/vim-rhubarb',
+    'tpope/vim-surround',
+    'tpope/vim-repeat'
   }
 
   use {
@@ -90,12 +93,12 @@ return require('packer').startup({ function(use)
 
 
   -- Editing features
-  use { "kylechui/nvim-surround",
-    tag = "*",
-    config = function()
-      require("config.nvim-surround")
-    end,
-  }
+  -- use { "kylechui/nvim-surround",
+  --   tag = "*",
+  --   config = function()
+  --     require("config.nvim-surround")
+  --   end,
+  -- }
 
   use {
     'windwp/nvim-autopairs',
