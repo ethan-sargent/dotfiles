@@ -47,13 +47,10 @@ source "$ZDOTDIR/aliases.zsh"
 
 eval "$(zoxide init zsh)"
 
-# Volta - Version Manager 
-export VOLTA_HOME="$HOME/.volta"
-export PATH="$VOLTA_HOME/bin:$PATH"
-
 # To customize prompt, run `p10k configure` or edit ~/.config/zsh/.p10k.zsh.
 # Moved default installation directory to ensure inclusion in repo
 source "$ZDOTDIR"/plugins/powerlevel10k/powerlevel10k.zsh-theme
 [ -f "$ZDOTDIR"/.p10k.zsh ] && source "$ZDOTDIR"/.p10k.zsh
+
 # end profiling
 # zprof > ~/.zstartuplog

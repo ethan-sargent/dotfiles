@@ -37,8 +37,6 @@ zstyle ':completion:*' cache-path "$XDG_CACHE_HOME/zsh"
 zstyle ':completion:*' complete-options true
 zstyle ":completion:*:default" list-colors "${(s.:.)LS_COLORS}"
 
-zstyle ':completion:*:*:-command-:*:*' group-order alias builtins functions commands
-
 zstyle ':completion:*:*:*:*:corrections' format '%F{yellow}!- %d (errors: %e) -!%f'
 zstyle ':completion:*:*:*:*:descriptions' format '%F{cyan}-- %D %d --%f'
 zstyle ':completion:*:*:*:*:messages' format ' %F{purple} -- %d --%f'
