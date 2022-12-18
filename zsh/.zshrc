@@ -54,3 +54,6 @@ source "$ZDOTDIR"/plugins/powerlevel10k/powerlevel10k.zsh-theme
 
 # end profiling
 # zprof > ~/.zstartuplog
+
+# bun completions
+[ -s "/usr/local/Cellar/bun/0.3.0/share/zsh/site-functions/_bun" ] && source "/usr/local/Cellar/bun/0.3.0/share/zsh/site-functions/_bun"

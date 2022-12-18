@@ -2,8 +2,8 @@ local g = vim.g;
 local opt = vim.opt;
 
 vim.api.nvim_set_keymap("n", "<Space>", "", {});
-vim.g.mapleader = " "
-vim.g.maplocalleader = "\\"
+g.mapleader = " "
+g.maplocalleader = "\\"
 
 -- Plugins
 require('impatient')
@@ -36,6 +36,7 @@ opt.gdefault      = true
 opt.scrolloff     = 1
 opt.sidescrolloff = 5
 opt.lazyredraw    = true
+opt.cursorline    = true
 
 -- opt.foldmethod    = "indent"
 -- opt.foldnestmax   = 3

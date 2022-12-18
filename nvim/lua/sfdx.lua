@@ -7,18 +7,19 @@ vim.api.nvim_create_autocmd({"BufRead", "BufNewFile"}, {
   group = "sfdx",
   pattern = {
     "*.cls",
+    "*.apex",
     "*.trigger"
   },
   command = "set filetype=apexcode",
 });
 
-vim.api.nvim_create_autocmd({"BufRead", "BufNewFile"}, {
-  group = "sfdx",
-  pattern = {
-    "*.apex",
-  },
-  command = "set filetype=apexanon",
-});
+-- vim.api.nvim_create_autocmd({"BufRead", "BufNewFile"}, {
+--   group = "sfdx",
+--   pattern = {
+--     "*.apex",
+--   },
+--   command = "set filetype=apexanon",
+-- });
 
 vim.api.nvim_create_autocmd({"BufRead", "BufNewFile"}, {
   group = "sfdx",
