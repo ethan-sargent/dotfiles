@@ -1,17 +1,11 @@
 [user]
 	email = ethan.sargent@icloud.com
 	name = Ethan Sargent
-	signingkey = ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIM/j496VTC2ZmP4RrzNaWTX7EpMMuI4Uq4CSJJ4HhqaK
-[gpg]
-	format = ssh
-[gpg "ssh"]
-	program = /Applications/1Password.app/Contents/MacOS/op-ssh-sign
 [commit]
 	gpgsign = false
 [core]
 	excludesfile = "$XDG_CONFIG_HOME/git/.gitignore_global"
 	ignorecase = false
-
 [alias]
 	cm = commit -m
 	co = checkout
