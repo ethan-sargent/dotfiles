@@ -6,6 +6,7 @@
 [core]
 	excludesfile = "$XDG_CONFIG_HOME/git/.gitignore_global"
 	ignorecase = false
+	autocrlf = input
 [alias]
 	cm = commit -m
 	co = checkout
