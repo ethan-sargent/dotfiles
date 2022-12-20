@@ -8,46 +8,38 @@
  (switch_block)
  (field_declaration)
  (argument_list)
- (annotation_argument_list)
  (local_variable_declaration)
+ (annotation_argument_list)
  (assignment_expression)
+ (parenthesized_expression)
  (formal_parameters)
+ (ternary_expression)
  (query_expression)
- (soql_query_body)
+ ; (soql_query)
  (subquery)
  (accessor_list)
- ] @indent
+] @indent
 
 
 (soql_query_body 
   (_) @indent)
 
-(subquery
-   (soql_query_body) @dedent)
-
 [
  ")"
- "{"
  "}"
- "["
  "]"
- ] @branch
+] @branch
 
 [
  "}"
  "]"
  ")"
- ] @indent_end
+] @indent_end
 
 (line_comment) @ignore
 
 [
  (ERROR)
  (block_comment)
- ] @auto
-; (block_comment) @ignore
+] @auto
 
-
-
-; ((array_initializer) @indent
-;   (#set! "scope" "all"))

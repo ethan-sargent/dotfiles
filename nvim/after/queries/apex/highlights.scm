@@ -1,17 +1,6 @@
 ;; attempting to match concepts represented here:
 ;; https://code.visualstudio.com/api/language-extensions/semantic-highlight-guide
 
-[
- "["
- "]"
- "{"
- "}"
- "?"
- ";"
- "<"
- ">"
- ] @punctuation
-
 ;; Methods
 
 (method_declaration
@@ -28,7 +17,6 @@
 (argument_list
   (identifier) @variable)
 
-(super) @function.defaultLibrary
 
 (explicit_constructor_invocation
   arguments: (argument_list
@@ -38,10 +26,7 @@
 
 (annotation) @decorator
 
-; "@" @operator
-
-(annotation_key_value
-  (identifier) @variable)
+(annotation_key_value) @attribute
 
 
 ;; Types
@@ -66,29 +51,21 @@
 
 ( expression_statement (_ (identifier)) @variable)
 
-(type_arguments "<" @punctuation)
-(type_arguments ">" @punctuation)
 
 ; (identifier) @variable
 
 ((field_access
-   object: (identifier) @variable)) ;; don't know what type of thing it is
-
-(generic_type
-  (type_identifier) @type)
-(type_arguments (type_identifier) @type)
-
-(field_access
-  field: (identifier) @property)
-
+  object: (identifier) @type)
+ (#match? @type "^[A-Z]"))
 ((scoped_identifier
    scope: (identifier) @type)
  (#match? @type "^[A-Z]"))
-
 ((method_invocation
    object: (identifier) @type)
  (#match? @type "^[A-Z]"))
 
+(field_access
+  field: (identifier) @property)
 
 (type_identifier) @type
 
@@ -206,12 +183,7 @@
   (identifier) @variable)
 
 (unary_expression
-  operator: [
-             "+"
-             "-"
-             "!"
-             "~"
-             ]) @operator
+  operator: ["+" "-" "!" "~"] @operator)
 
 (map_initializer "=>" @operator)
 
@@ -223,25 +195,58 @@
 ; Variables
 
 (field_declaration
-  (modifiers (modifier ["final" "static"])(modifier ["final" "static"]))
+  (modifiers (modifier "final"))
   (variable_declarator
     name: (identifier) @constant))
 
 (variable_declarator
   (identifier) @variable)
 
-;; because itendifying it when declared doesn't carry to use
-;; leans on the convention that "screaming snake case" is a const
-((identifier) @constant
-              (#match? @constant "^_*[A-Z][A-Z\\d_]+$"))
+((_ object: (identifier) @type)
+  (#match? @type "^[A-Z]"))
 
+; Only when used as the value for an assignment, or in a variable declaration
+((_ right: 
+    (identifier) @constant)
+ (#match? @constant "^_*[A-Z][A-Z\\d_]+$"))
 
-(this) @variable.defaultLibrary
+(variable_declarator 
+  (identifier) @constant
+  (#match? @constant "^_*[A-Z][A-Z\\d_]+$"))
+
+(this) @variable.builtin
+(super) @function.builtin
+
+[
+  ";"
+  "."
+  ","
+  (optional_chain)
+] @punctuation.delimiter
+
+[
+  "("
+  ")"
+  "["
+  "]"
+  "{"
+  "}"
+]  @punctuation.bracket
+
+(type_arguments "<" @punctuation.bracket)
+(type_arguments ">" @punctuation.bracket)
+
+[
+ ":"
+] @punctuation
+
+(ternary_expression ["?" ":"] @operator)
 
 ; Literals
 
 [
  (int)
+ (decimal_floating_point_literal)
  ] @number
 
 [
@@ -348,16 +353,6 @@
 (function_name) @function
 (date_literal) @variable.readonly.defaultLibrary
 
-
-[
- ","
- "."
- ":"
- "?"
- "("
- ")"
- ] @punctuation
-
 [
  "AND"
  "OR"
@@ -367,17 +362,19 @@
  "INCLUDES"
  "EXCLUDES"
  ] @keyword
+
 (set_comparison_operator "IN" @keyword)
 
 [
  "="
  "!="
  ] @operator
+
 (value_comparison_operator "<" @operator)
-"<=" @operator
 (value_comparison_operator ">" @operator)
+
+"<=" @operator
 ">=" @operator
-@operator
 
 (int) @number
 (decimal) @number
@@ -390,8 +387,7 @@
  "TRUE"
  "FALSE"
  (null_literal)
- ] @variable.readonly.defaultLibrary
-
+ ] @constant.builtin
 [
  "ABOVE"
  "ABOVE_OR_BELOW"
