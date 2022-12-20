@@ -70,7 +70,6 @@ return require('packer').startup({ function(use)
   use {
     'nvim-treesitter/playground',
     after = 'nvim-treesitter',
-    cmd = 'TSPlaygroundToggle'
   }
 
   use { 'NoahTheDuke/vim-just',
@@ -130,19 +129,23 @@ return require('packer').startup({ function(use)
     end
   }
 
-  use { 'hrsh7th/nvim-cmp',
+  use { 'neovim/nvim-lspconfig',
     requires = {
+      -- LSP
+      'williamboman/mason.nvim',
+      'williamboman/mason-lspconfig.nvim',
+
+      -- Autocompletion
+      'hrsh7th/nvim-cmp',
       'hrsh7th/cmp-buffer',
       'hrsh7th/cmp-nvim-lsp', -- cannot lazyload because of this plugin
-      'hrsh7th/cmp-buffer',
       'hrsh7th/cmp-path',
       'hrsh7th/cmp-cmdline',
       'onsails/lspkind.nvim',
-      'L3MON4D3/LuaSnip',
       'saadparwaiz1/cmp_luasnip',
-      'williamboman/mason.nvim',
-      'williamboman/mason-lspconfig.nvim',
-      'neovim/nvim-lspconfig',
+      -- Snippets
+      'L3MON4D3/LuaSnip',
+      'rafamadriz/friendly-snippets',
     },
     config = function() require('config.cmp') end,
   }
@@ -171,12 +174,6 @@ return require('packer').startup({ function(use)
     run = 'cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build',
     opt = true,
   }
-
-  -- use {
-  --   'nvim-telescope/telescope-fzy-native.nvim',
-  --   keys = '<leader>f',
-  --   cmd = { 'Telescope', 'Telescope find_files' },
-  -- }
 
   use {
     disable = true,

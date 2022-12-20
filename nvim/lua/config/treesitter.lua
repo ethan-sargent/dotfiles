@@ -40,6 +40,7 @@ require('nvim-treesitter.configs').setup {
     additional_vim_regex_highlighting = false,
   },
   indent = {
+    disable = { "javascript", "typescript", "ecma", "jsx", "tsx" }, -- necessary due to open treesitter indentation bug with JSDoc/TSDoc
     enable = true,
   },
   incremental_selection = {

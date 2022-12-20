@@ -44,8 +44,8 @@ cmp.setup {
     { name = 'nvim_lsp' },
     { name = 'luasnip' },
   }, {
-    -- { name = 'buffer' }, -- removing buffer suggestions
-  }),
+      -- { name = 'buffer' }, -- removing buffer suggestions
+    }),
   formatting = {
     fields = { "abbr", "menu", "kind" },
     format = function (entry, vim_item)
@@ -65,10 +65,10 @@ cmp.setup {
 -- Set configuration for specific filetype.
 cmp.setup.filetype('gitcommit', {
   sources = cmp.config.sources({
-    { name = 'cmp_git' }, -- You can specify the `cmp_git` source if you were installed it.
+    -- { name = 'cmp_git' }, -- You can specify the `cmp_git` source if you were installed it.
   }, {
-    -- { name = 'buffer' },
-  })
+      -- { name = 'buffer' },
+    })
 })
 cmp.setup.filetype('norg', {
   sources = cmp.config.sources({
@@ -91,8 +91,8 @@ cmp.setup.cmdline(':', {
   sources = cmp.config.sources({
     { name = 'path' }
   }, {
-    { name = 'cmdline' }
-  })
+      { name = 'cmdline' }
+    })
 })
 
 
@@ -127,19 +127,17 @@ local on_attach = function(client, bufnr)
   vim.keymap.set('n', '<leader>D', vim.lsp.buf.type_definition, bufopts)
   -- vim.keymap.set('n', '<leader>rn', vim.lsp.buf.rename, bufopts)
   -- vim.keymap.set('n', '<leader>ca', vim.lsp.buf.code_action, bufopts)
-  vim.keymap.set('n', '<leader>F', function() vim.lsp.buf.format { async = true } end, bufopts)
+  vim.keymap.set('n', '<leader>F', function()
+    vim.lsp.buf.format { async = true }
+  end, bufopts)
 end
 local capabilities = require('cmp_nvim_lsp').default_capabilities(vim.lsp.protocol.make_client_capabilities())
 
 local lsp_flags = {
-  -- This is the default in Nvim 0.7+
   debounce_text_changes = 100,
 }
 require('lspconfig').pyright.setup {
-  on_attach = function(client, bufnr)
-    on_attach(client, bufnr)
-    client.server_capabilities.completionProvider = false
-  end,
+  on_attach = on_attach,
   capabilities = capabilities,
   flags = lsp_flags
 }

@@ -16,13 +16,18 @@
 
 (method_declaration
   name: (identifier) @method)
-  
+
+(method_declaration
+  type: (type_identifier) @type)
+
 (type_identifier) @type
 
 (method_invocation
   name: (identifier) @method)
+
 (argument_list
   (identifier) @variable)
+
 (super) @function.defaultLibrary
 
 (explicit_constructor_invocation
@@ -56,8 +61,8 @@
   (type_list
     (type_identifier) @interface ))
 
-; (local_variable_declaration
-  ; (type_identifier) @type 
+(local_variable_declaration
+  (type_identifier) @type )
 
 ( expression_statement (_ (identifier)) @variable)
 
@@ -67,11 +72,11 @@
 ; (identifier) @variable
 
 ((field_access
-   object: (identifier) @type)) ;; don't know what type of thing it is
+   object: (identifier) @variable)) ;; don't know what type of thing it is
 
-; (type_identifier) @type)
-
-; (type_arguments (type_identifier) @type)
+(generic_type
+  (type_identifier) @type)
+(type_arguments (type_identifier) @type)
 
 (field_access
   field: (identifier) @property)
@@ -79,47 +84,62 @@
 ((scoped_identifier
    scope: (identifier) @type)
  (#match? @type "^[A-Z]"))
+
 ((method_invocation
    object: (identifier) @type)
  (#match? @type "^[A-Z]"))
 
 
-(identifier) @variable
+(type_identifier) @type
+
+(field_declaration
+  type: (type_identifier) @type)
 
 (method_declaration
   (formal_parameters
     (formal_parameter
       name: (identifier) @parameter)))
 
-; (formal_parameter
-;   (identifier) @variable)
+(formal_parameter
+  type: (type_identifier) @type)
 
-; (enhanced_for_statement
-;   name: (identifier) @variable )
+(enhanced_for_statement
+  type: (type_identifier) @type
+  name: (identifier) @variable )
 
-; (enhanced_for_statement
-;   value: (identifier) @variable)
+(enhanced_for_statement
+  value: (identifier) @variable)
 
-; (enhanced_for_statement
-;   name: (identifier) @variable)
+(enhanced_for_statement
+  name: (identifier) @variable)
 
-; (catch_formal_parameter
-;   name: (identifier) @variable)
+(object_creation_expression
+  type: (type_identifier) @type)
 
-; (return_statement
-;   (identifier) @variable)
+(array_creation_expression
+  type: (type_identifier) @type)
 
-; (local_variable_declaration
-;   (variable_declarator
-;     name: (identifier) @variable ))
+(array_type
+  element: (type_identifier) @type)
 
-; (for_statement
-;   condition: (binary_expression
-;                (identifier) @variable))
+(catch_formal_parameter
+  (type_identifier) @type
+  name: (identifier) @variable)
 
-; (for_statement
-;   update: (update_expression
-;             (identifier) @variable))
+(return_statement
+  (identifier) @variable)
+
+(local_variable_declaration
+  (variable_declarator
+    name: (identifier) @variable ))
+
+(for_statement
+  condition: (binary_expression
+               (identifier) @variable))
+
+(for_statement
+  update: (update_expression
+            (identifier) @variable))
 
 (constructor_declaration
   name: (identifier) @class)
@@ -134,16 +154,19 @@
 (update_expression ["++" "--"] @operator)
 
 (instanceof_expression
-  left: (identifier) @variable)
+  left: (identifier) @variable
+  right: (type_identifier) @type )
 
-; (cast_expression
-;   value: (identifier) @variable)
+(cast_expression
+  type: (type_identifier) @type
+  value: (identifier) @variable)
 
-; (switch_expression
-;   condition: (identifier) @variable)
+(switch_expression
+  condition: (identifier) @variable)
 
-; (switch_label
-;   (identifier) @variable )
+(switch_label
+  (type_identifier) @type
+  (identifier) @variable )
 
 (switch_rule
   (switch_label
@@ -179,8 +202,8 @@
              ">>"
              ">>>"] @operator)
 
-; (binary_expression
-;   (identifier) @variable)
+(binary_expression
+  (identifier) @variable)
 
 (unary_expression
   operator: [
@@ -202,15 +225,15 @@
 (field_declaration
   (modifiers (modifier ["final" "static"])(modifier ["final" "static"]))
   (variable_declarator
-    name: (identifier) @variable.readonly))
+    name: (identifier) @constant))
 
 (variable_declarator
-  (identifier) @property)
+  (identifier) @variable)
 
 ;; because itendifying it when declared doesn't carry to use
 ;; leans on the convention that "screaming snake case" is a const
-((identifier) @variable.readonly
-              (#match? @variable.readonly "^_*[A-Z][A-Z\\d_]+$"))
+((identifier) @constant
+              (#match? @constant "^_*[A-Z][A-Z\\d_]+$"))
 
 
 (this) @variable.defaultLibrary
@@ -274,17 +297,17 @@
  "inherited_sharing"
  ] @keyword
 
-; (assignment_expression
-;   left: (identifier) @variable)
+(assignment_expression
+  left: (identifier) @variable)
 
-(type_identifier) @type ;; not respecting precedence...
+; (type_identifier) @type ;; not respecting precedence...
 ;; I don't love this but couldn't break them up right now
 ;; can't figure out how to let that be special without conflicting
 ;; in the grammar
 "System.runAs" @method.defaultLibrary
 
-; (scoped_type_identifier
-;   (type_identifier) @type)
+(scoped_type_identifier
+  (type_identifier) @type)
 
 ; SOQL Highlights
 (field_identifier
@@ -349,7 +372,7 @@
 [
  "="
  "!="
-] @operator
+ ] @operator
 (value_comparison_operator "<" @operator)
 "<=" @operator
 (value_comparison_operator ">" @operator)
