@@ -1,5 +1,3 @@
-local builtin = require('telescope.builtin')
-
 require('telescope').setup {
   defaults = {
     vimgrep_arguments = {
@@ -14,7 +12,7 @@ require('telescope').setup {
     },
   },
   extensions = {
-    fzy = {
+   fzf = {
       fuzzy = true,
       override_generic_sorter = true,
       override_file_sorter = true,
@@ -31,5 +29,3 @@ require('telescope').setup {
 -- load_extension, somewhere after setup function:
 require('telescope').load_extension('fzf')
 
--- This will load fzy_native and have it override the default file sorter
--- require('telescope').load_extension('fzy_native')

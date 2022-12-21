@@ -66,7 +66,8 @@ require("lazy").setup( {
   {
     'nvim-lualine/lualine.nvim',
     dependencies = { 'kyazdani42/nvim-web-devicons' },
-    config = function() require('config.lualine') end
+    config = function() require('config.lualine') end,
+    event = "VeryLazy",
   },
 
   {
@@ -105,7 +106,7 @@ require("lazy").setup( {
       'JoosepAlviste/nvim-ts-context-commentstring'
     },
     config = function() require('config.comment') end,
-    keys = 'g'
+    lazy = true
   },
 
   {
@@ -120,6 +121,7 @@ require("lazy").setup( {
     config = function()
       require("config.toggleterm")
     end,
+    init = function() require("setup.toggleterm") end,
     cmd = "ToggleTerm"
   },
   {
@@ -153,7 +155,6 @@ require("lazy").setup( {
     dependencies = {
       "hrsh7th/cmp-nvim-lsp",
       "hrsh7th/cmp-buffer",
-      "hrsh7th/cmp-cmdline",
       "dmitmel/cmp-cmdline-history",
       "hrsh7th/cmp-path",
       "saadparwaiz1/cmp_luasnip",
@@ -162,6 +163,14 @@ require("lazy").setup( {
     config = function()
       require("config.cmp")
     end
+  },
+  {
+    "hrsh7th/cmp-cmdline",
+    dependencies = {
+      "hrsh7th/nvim-cmp"
+    },
+    event = 'CmdlineEnter'
+
   },
   {
     'nvim-telescope/telescope.nvim',
