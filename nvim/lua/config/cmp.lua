@@ -1,7 +1,3 @@
--- loads mason + mason lspconfig first to autolink mason installed lsp servers to cmp
-require('config.mason')
--- install vs code snippets into luasnip
-require("luasnip.loaders.from_vscode").lazy_load()
 -- Set up nvim-cmp.cmp
 local lspkind = require('lspkind');
 

@@ -1,35 +1,3 @@
-
-vim.api.nvim_create_augroup("sfdx", {
-  clear = true
-});
-
-vim.api.nvim_create_autocmd({"BufRead", "BufNewFile"}, {
-  group = "sfdx",
-  pattern = {
-    "*.cls",
-    "*.apex",
-    "*.trigger"
-  },
-  command = "set filetype=apexcode",
-});
-
--- vim.api.nvim_create_autocmd({"BufRead", "BufNewFile"}, {
---   group = "sfdx",
---   pattern = {
---     "*.apex",
---   },
---   command = "set filetype=apexanon",
--- });
-
-vim.api.nvim_create_autocmd({"BufRead", "BufNewFile"}, {
-  group = "sfdx",
-  pattern = {
-    "*.soql",
-  },
-  command = "set filetype=soql",
-});
-
-
 function GetVisualSelection(preserve_newlines)
   local s_start = vim.fn.getpos("'<")
   local s_end = vim.fn.getpos("'>")
@@ -63,7 +31,9 @@ function SwcCompile()
    vim.cmd('!npx swc "%" -o "%:r.js"');
 end
 
-vim.api.nvim_set_keymap("n", "<leader>swc", "<cmd>:lua SwcCompile()<CR>", {noremap = true})
+vim.api.nvim_create_user_command("SwcCompile", SwcCompile, {});
+
+vim.api.nvim_set_keymap("n", "<leader>swc", "<cmd>SwcCompile<CR>", {noremap = true})
 
 vim.api.nvim_set_keymap("n", "<leader>sd", ":w  <bar> !sfdx force:source:deploy --sourcepath \"%\"<Enter>", {noremap = true});
 vim.api.nvim_set_keymap("n", "<leader>sr", ":!sfdx force:source:retrieve --sourcepath \"%\"<Enter>", {noremap = true});

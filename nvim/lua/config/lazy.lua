@@ -34,16 +34,25 @@ require("lazy").setup( {
   -- utilities
   {
     'tpope/vim-vinegar',
-    'tpope/vim-fugitive',
     'tpope/vim-rhubarb',
-    'tpope/vim-surround',
-    'tpope/vim-repeat'
   },
-
+  {
+    'tpope/vim-fugitive',
+    cmd = "G"
+  },
+  {
+    'tpope/vim-repeat',
+    keys = '.'
+  },
+  {
+    'tpope/vim-surround',
+    event = 'BufReadPre'
+  },
   {
     'lewis6991/gitsigns.nvim',
     tag = 'release',
     config = function() require('config.gitsigns') end,
+    event = 'BufReadPost'
   },
 
   {
@@ -71,6 +80,7 @@ require("lazy").setup( {
     config = function()
       require('config.treesitter')
     end,
+    event = "BufReadPost",
   },
 
 
@@ -109,30 +119,50 @@ require("lazy").setup( {
     tag = '2.3.0',
     config = function()
       require("config.toggleterm")
-    end
+    end,
+    cmd = "ToggleTerm"
   },
-
-  { 'neovim/nvim-lspconfig',
+  {
+    'neovim/nvim-lspconfig',
     dependencies = {
-      -- LSP
       'williamboman/mason.nvim',
       'williamboman/mason-lspconfig.nvim',
-
-      -- Autocompletion
-      'hrsh7th/nvim-cmp',
-      'hrsh7th/cmp-buffer',
-      'hrsh7th/cmp-nvim-lsp', -- cannot lazyload beca of this plugin
-      'hrsh7th/cmp-path',
-      'hrsh7th/cmp-cmdline',
-      'onsails/lspkind.nvim',
-      'saadparwaiz1/cmp_luasnip',
-      -- Snippets
-      'L3MON4D3/LuaSnip',
-      'rafamadriz/friendly-snippets',
     },
-    config = function() require('config.cmp') end,
+    config = function()
+      require('config.mason')
+    end,
+    event = "BufReadPre",
   },
-
+  {
+    "L3MON4D3/LuaSnip",
+    dependencies = {
+      "rafamadriz/friendly-snippets",
+      config = function()
+        require("luasnip.loaders.from_vscode").lazy_load()
+      end,
+    },
+    config = function()
+      require("config.luasnip")
+    end,
+    lazy = true,
+    event = "InsertEnter"
+  },
+  {
+    "hrsh7th/nvim-cmp",
+    event = "InsertEnter",
+    dependencies = {
+      "hrsh7th/cmp-nvim-lsp",
+      "hrsh7th/cmp-buffer",
+      "hrsh7th/cmp-cmdline",
+      "dmitmel/cmp-cmdline-history",
+      "hrsh7th/cmp-path",
+      "saadparwaiz1/cmp_luasnip",
+      'onsails/lspkind.nvim',
+    },
+    config = function()
+      require("config.cmp")
+    end
+  },
   {
     'nvim-telescope/telescope.nvim',
     tag = '0.1.0',
@@ -178,6 +208,8 @@ require("lazy").setup( {
     config = function()
       require("config.lsp-saga")
     end,
+    lazy = true,
+    event = "BufReadPost"
   },
 
   -- file-type plugins
@@ -185,6 +217,24 @@ require("lazy").setup( {
     'mechatroner/rainbow_csv',
     ft = 'csv'
   },
-})
--- Automatically set up your -- configuration after cloning packer.nvim
--- Put this at the end after all plugins
+},
+  {
+    defaults = { lazy = false },
+    -- dev = { patterns = jit.os:find("Windows") and {} or { "folke" } },
+    -- install = { colorscheme = { "tokyonight", "habamax" } },
+    -- checker = { enabled = true },
+    performance = {
+      rtp = {
+        disabled_plugins = {
+          "gzip",
+          "matchit",
+          "matchparen",
+          -- "netrwPlugin",
+          "tarPlugin",
+          "tohtml",
+          "tutor",
+          "zipPlugin",
+        },
+      },
+    },
+  })
