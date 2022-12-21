@@ -32,11 +32,10 @@ require('lualine').setup {
     lualine_b = {
       'filename',
       { 'branch',
-        icon = ' '
+        icon = ''
       },
       {
         sfdx_current_org,
-        -- separator = {right = ''}
         }
       },
       lualine_c = {
@@ -46,15 +45,11 @@ require('lualine').setup {
       lualine_y = {
         {
           'filetype',
-          -- separator = { left = ''},
-          left_padding = 0
         },
         'progress'
       },
       lualine_z = {
         { 'location',
-          -- separator = { right = '' },
-        left_padding = 0
       },
     },
   },

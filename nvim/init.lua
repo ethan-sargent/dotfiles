@@ -6,8 +6,8 @@ g.mapleader = " "
 g.maplocalleader = "\\"
 
 -- Plugins
-require('impatient')
-require('plugins')
+-- require('impatient')
+require('config.lazy')
 require('sfdx')
 
 opt.completeopt   = "menu,menuone,noselect"

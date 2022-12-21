@@ -1,7 +1,7 @@
 vim.cmd.colorscheme "catppuccin"
 
 require("catppuccin").setup {
-  flavour = "macchiato",
+  flavour = "mocha",
   integrations = {
     cmp = true,
     gitsigns = true,
