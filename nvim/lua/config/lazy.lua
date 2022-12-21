@@ -61,24 +61,12 @@ require("lazy").setup( {
   },
 
   {
-    'nvim-treesitter/playground',
-    after = 'nvim-treesitter',
-  },
-
-  { 'NoahTheDuke/vim-just',
-    after = 'nvim-treesitter',
-  },
-  {
-    'nvim-treesitter/nvim-treesitter-context',
-    after = 'nvim-treesitter',
-    lazy = true,
-  },
-
-  { 'nvim-treesitter/nvim-treesitter',
+    'nvim-treesitter/nvim-treesitter',
     build = function() require('nvim-treesitter.install').update({ with_sync = true }) end,
     dependencies = {
       'nvim-treesitter/nvim-treesitter-context',
-      'NoahTheDuke/vim-just'
+      'NoahTheDuke/vim-just',
+      'nvim-treesitter/playground'
     },
     config = function()
       require('config.treesitter')
@@ -152,12 +140,10 @@ require("lazy").setup( {
       'nvim-lua/plenary.nvim',
       'nvim-telescope/telescope-fzf-native.nvim'
     },
-    -- after = { 'telescope-fzf-native.nvim' },
-    setup = function()
+    init = function()
       require("setup.telescope")
     end,
     config = function()
-      vim.cmd("PackerLoad telescope-fzf-native.nvim")
       require('config.telescope')
     end,
     cmd = 'Telescope',
