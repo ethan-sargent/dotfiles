@@ -30,7 +30,6 @@ end
 function SwcCompile()
    vim.cmd('!npx swc "%" -o "%:r.js"');
 end
-
 vim.api.nvim_create_user_command("SwcCompile", SwcCompile, {});
 
 vim.api.nvim_set_keymap("n", "<leader>swc", "<cmd>SwcCompile<CR>", {noremap = true})

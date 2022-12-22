@@ -55,19 +55,19 @@ require("lazy").setup( {
     event = 'BufReadPost'
   },
 
-  {
-    "catppuccin/nvim",
-    name = "catppuccin",
-    config = function()
-      require('config.catppuccin')
-    end
-  },
+  -- {
+  --   "catppuccin/nvim",
+  --   name = "catppuccin",
+  --   config = function()
+  --     require('config.catppuccin')
+  --   end
+  -- },
 
   {
     'nvim-lualine/lualine.nvim',
     dependencies = { 'kyazdani42/nvim-web-devicons' },
     config = function() require('config.lualine') end,
-    event = "VeryLazy",
+    -- event = "VeryLazy",
   },
 
   {
@@ -106,7 +106,8 @@ require("lazy").setup( {
       'JoosepAlviste/nvim-ts-context-commentstring'
     },
     config = function() require('config.comment') end,
-    lazy = true
+    -- lazy = true
+    event = "BufReadPre"
   },
 
   {
@@ -219,6 +220,14 @@ require("lazy").setup( {
     end,
     lazy = true,
     event = "BufReadPost"
+  },
+  {
+    "loctvl842/monokai-pro.nvim",
+    config = function ()
+      require("config.monokai-pro")
+    end,
+    lazy = true,
+    event = "VeryLazy"
   },
 
   -- file-type plugins

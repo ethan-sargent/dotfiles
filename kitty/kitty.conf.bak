@@ -254,7 +254,7 @@ map ctrl+b>d     debug_config
 
 
 # BEGIN_KITTY_THEME
-# Catppuccin-Mocha
+# Doom Vibrant
 include current-theme.conf
 # END_KITTY_THEME
 
