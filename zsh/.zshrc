@@ -20,11 +20,8 @@ HISTFILE="$XDG_CACHE_HOME"/zsh/.zsh_history
 # Set locale explicitly
 export LC_ALL=en_US.UTF-8
 
-# setup vim bindings
-source "$ZDOTDIR"/bindings.zsh
-
 # setup completion system
-source "$ZDOTDIR"/completion.zsh
+source "$ZDOTDIR/completion.zsh"
  
 # ensure setup SFDX FZF Keybinds extension
 # https://github.com/surajp/fzf-sfdx
@@ -47,6 +44,9 @@ source "$ZDOTDIR/aliases.zsh"
 
 eval "$(zoxide init zsh)"
 
+# setup vim bindings
+source "$ZDOTDIR/bindings.zsh"
+
 # To customize prompt, run `p10k configure` or edit ~/.config/zsh/.p10k.zsh.
 # Moved default installation directory to ensure inclusion in repo
 source "$ZDOTDIR"/plugins/powerlevel10k/powerlevel10k.zsh-theme
@@ -55,5 +55,3 @@ source "$ZDOTDIR"/plugins/powerlevel10k/powerlevel10k.zsh-theme
 # end profiling
 # zprof > ~/.zstartuplog
 
-# bun completions
-[ -s "/usr/local/Cellar/bun/0.3.0/share/zsh/site-functions/_bun" ] && source "/usr/local/Cellar/bun/0.3.0/share/zsh/site-functions/_bun"

@@ -74,3 +74,5 @@ bindkey -M visual S add-surround
 autoload -Uz edit-command-line
 zle -N edit-command-line
 bindkey -M vicmd v edit-command-line
+
+source "$ZDOTDIR/plugins/fzf-git.sh"
