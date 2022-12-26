@@ -5,5 +5,4 @@ require('Comment').setup({
 
 local ft = require('Comment.ft')
 
-ft.set('apexcode', {'//%s', '/*%s*/'})
-ft.set('apexanon', {'//%s', '/*%s*/'})
+ft.set('apex', {'//%s', '/*%s*/'})

@@ -13,18 +13,20 @@ end
 vim.opt.runtimepath:prepend(lazypath)
 
 require("lazy").setup( {
-  -- Performance
-  -- { 'lewis6991/impatient.nvim' },
+  {
+    require("config.plugins.colors")
+  },
   {
     'goolord/alpha-nvim',
+
     config = function ()
-      require('config.alpha')
+      require('config.plugins.alpha')
     end
   },
   {
     "nvim-neorg/neorg",
     config = function()
-      require('config.neorg')
+      require('config.plugins.neorg')
     end,
     dependencies = "nvim-lua/plenary.nvim",
     ft = "norg",
@@ -51,35 +53,28 @@ require("lazy").setup( {
   {
     'lewis6991/gitsigns.nvim',
     tag = 'release',
-    config = function() require('config.gitsigns') end,
+    config = function() require('config.plugins.gitsigns') end,
     event = 'BufReadPost'
   },
-
-  -- {
-  --   "catppuccin/nvim",
-  --   name = "catppuccin",
-  --   config = function()
-  --     require('config.catppuccin')
-  --   end
-  -- },
-
   {
     'nvim-lualine/lualine.nvim',
     dependencies = { 'kyazdani42/nvim-web-devicons' },
-    config = function() require('config.lualine') end,
+    config = function() require('config.plugins.lualine') end,
     -- event = "VeryLazy",
   },
-
+  {
+      'NoahTheDuke/vim-just',
+      ft = "just"
+  },
   {
     'nvim-treesitter/nvim-treesitter',
     build = function() require('nvim-treesitter.install').update({ with_sync = true }) end,
     dependencies = {
       'nvim-treesitter/nvim-treesitter-context',
-      'NoahTheDuke/vim-just',
       'nvim-treesitter/playground'
     },
     config = function()
-      require('config.treesitter')
+      require('config.plugins.treesitter')
     end,
     event = "BufReadPost",
   },
@@ -89,13 +84,13 @@ require("lazy").setup( {
   --  { "kylechui/nvim-surround",
   --   tag = "*",
   --   config = function()
-  --     require("config.nvim-surround")
+  --     require("config.plugins.nvim-surround")
   --   end,
   -- },
 
   {
     'windwp/nvim-autopairs',
-    config = function() require('config.autopairs') end,
+    config = function() require('config.plugins.autopairs') end,
     event = "InsertEnter",
     lazy = true
   },
@@ -105,7 +100,7 @@ require("lazy").setup( {
     dependencies = {
       'JoosepAlviste/nvim-ts-context-commentstring'
     },
-    config = function() require('config.comment') end,
+    config = function() require('config.plugins.comment') end,
     -- lazy = true
     event = "BufReadPre"
   },
@@ -114,13 +109,13 @@ require("lazy").setup( {
     'windwp/nvim-ts-autotag',
     dependencies = { 'nvim-treesitter/nvim-treesitter' },
     event = 'InsertEnter',
-    config = function() require('config.ts-autotags') end
+    config = function() require('config.plugins.ts-autotags') end
   },
 
   { "akinsho/toggleterm.nvim",
     tag = '2.3.0',
     config = function()
-      require("config.toggleterm")
+      require("config.plugins.toggleterm")
     end,
     init = function() require("setup.toggleterm") end,
     cmd = "ToggleTerm"
@@ -132,7 +127,7 @@ require("lazy").setup( {
       'williamboman/mason-lspconfig.nvim',
     },
     config = function()
-      require('config.mason')
+      require('config.plugins.mason')
     end,
     event = "BufReadPre",
   },
@@ -145,7 +140,7 @@ require("lazy").setup( {
       end,
     },
     config = function()
-      require("config.luasnip")
+      require("config.plugins.luasnip")
     end,
     lazy = true,
     event = "InsertEnter"
@@ -156,13 +151,14 @@ require("lazy").setup( {
     dependencies = {
       "hrsh7th/cmp-nvim-lsp",
       "hrsh7th/cmp-buffer",
+      "hrsh7th/cmp-cmdline",
       "dmitmel/cmp-cmdline-history",
       "hrsh7th/cmp-path",
       "saadparwaiz1/cmp_luasnip",
       'onsails/lspkind.nvim',
     },
     config = function()
-      require("config.cmp")
+      require("config.plugins.cmp")
     end
   },
   {
@@ -184,7 +180,7 @@ require("lazy").setup( {
       require("setup.telescope")
     end,
     config = function()
-      require('config.telescope')
+      require('config.plugins.telescope')
     end,
     cmd = 'Telescope',
     keys = '<leader>f'
@@ -199,7 +195,7 @@ require("lazy").setup( {
   --{
   --  disable = true,
   --  'folke/tokyonight.nvim',
-  --  config = function() require('config.tokyonight') end
+  --  config = function() require('config.plugins.tokyonight') end
   --},
 
   {
@@ -209,26 +205,26 @@ require("lazy").setup( {
   --{
   --  disable = true,
   --  "folke/trouble.nvim",
-  --  config = function() require("config.trouble") end
+  --  config = function() require("config.plugins.trouble") end
   --},
 
   {
     "glepnir/lspsaga.nvim",
     branch = "main",
     config = function()
-      require("config.lsp-saga")
+      require("config.plugins.lsp-saga")
     end,
     lazy = true,
     event = "BufReadPost"
   },
-  {
-    "loctvl842/monokai-pro.nvim",
-    config = function ()
-      require("config.monokai-pro")
-    end,
-    lazy = true,
-    event = "VeryLazy"
-  },
+  -- {
+  --   "loctvl842/monokai-pro.nvim",
+  --   config = function ()
+  --     require("config.plugins.monokai-pro")
+  --   end,
+  --   lazy = true,
+  --   event = "VeryLazy"
+  -- },
 
   -- file-type plugins
   {

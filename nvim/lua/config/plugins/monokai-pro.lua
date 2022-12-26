@@ -1,7 +1,8 @@
+vim.cmd.colorscheme = "monokai-pro"
 require("monokai-pro").setup({
 	transparent_background = true,
 	italic_comments = true,
-	filter = "spectrum", -- classic | octagon | pro | machine | ristretto | spectrum
+	filter = "pro", -- classic | octagon | pro | machine | ristretto | spectrum
 	diagnostic = {
 		background = false,
 	},

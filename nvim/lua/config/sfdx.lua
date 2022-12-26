@@ -32,6 +32,14 @@ function SwcCompile()
 end
 vim.api.nvim_create_user_command("SwcCompile", SwcCompile, {});
 
+local function SFDXCreateApexClass(commandTable)
+  local classname = commandTable.fargs[1]
+  local template = commandTable.fargs[2] or 'DefaultApexClass'
+  local outputdir = commandTable.fargs[3] or 'force-app/main/default/classes'
+  vim.cmd(string.format('!sfdx force:apex:class:create --classname %s --template %s --outputdir "%s"', classname, template, outputdir))
+end
+vim.api.nvim_create_user_command("SFDXCreateApexClass", SFDXCreateApexClass, {});
+
 vim.api.nvim_set_keymap("n", "<leader>swc", "<cmd>SwcCompile<CR>", {noremap = true})
 
 vim.api.nvim_set_keymap("n", "<leader>sd", ":w  <bar> !sfdx force:source:deploy --sourcepath \"%\"<Enter>", {noremap = true});
