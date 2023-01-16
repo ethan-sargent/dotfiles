@@ -17,7 +17,7 @@ end
 
 require('lualine').setup {
   options = {
-    theme = 'rose-pine',
+    theme = 'dracula-nvim',
     component_separators = '⏽',
     section_separators = { left = '', right = '' },
     globalstatus = false,
