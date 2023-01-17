@@ -71,6 +71,7 @@ cmp.setup.filetype('norg', {
     { name = "neorg"},
     { name = "buffer"},
   })
+  
 })
 
 

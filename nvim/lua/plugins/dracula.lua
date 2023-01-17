@@ -5,7 +5,7 @@ local _M = {
 _M.config = function ()
   local dracula = require("dracula")
   local colors = dracula.colors()
-  local prompt = colors.menu
+  local prompt = "#44475a"
   local preview = colors.menu
   local results = colors.menu
 
@@ -55,7 +55,7 @@ _M.config = function ()
     TelescopePreviewNormal = { bg = preview },
     TelescopePreviewTitle = { bg = colors.pink, fg = preview },
     TelescopePromptBorder = { bg = prompt, fg = prompt },
-    TelescopePromptNormal = { bg = "#44475a"},
+    TelescopePromptNormal = { bg = prompt},
     TelescopePromptPrefix = { bg = prompt },
     TelescopePromptTitle = { bg = colors.red, fg = prompt },
     TelescopeResultsBorder = { bg = results, fg = results },

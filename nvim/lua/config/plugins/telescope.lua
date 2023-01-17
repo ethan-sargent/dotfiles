@@ -1,5 +1,6 @@
 require('telescope').setup {
   defaults = {
+    border = true,
     vimgrep_arguments = {
       "rg",
       "--color=never",
@@ -8,7 +9,7 @@ require('telescope').setup {
       "--line-number",
       "--column",
       "--smart-case",
-      "--trim" -- add this value
+      "--trim" -- removes leading ./
     },
   },
   extensions = {
@@ -23,7 +24,7 @@ require('telescope').setup {
     find_files = {
       find_command = { "fd", "--type", "f", "--strip-cwd-prefix" }
     },
-  }
+  },
 }
 -- To get fzf loaded and working with telescope, you need to call
 -- load_extension, somewhere after setup function:
