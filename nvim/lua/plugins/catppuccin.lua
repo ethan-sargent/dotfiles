@@ -1,6 +1,8 @@
 local _M = {
   "catppuccin/nvim",
   name = "catppuccin",
+  enabled = true,
+  priority = 1000
 }
 
 _M.config = function()

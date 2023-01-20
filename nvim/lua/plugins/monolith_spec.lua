@@ -1,8 +1,5 @@
 local _M = {
   {
-    require("plugins.colors")
-  },
-  {
     "nvim-neorg/neorg",
     config = function()
       require('config.plugins.neorg')
@@ -171,11 +168,12 @@ local _M = {
     lazy = true,
   },
 
-  --{
-  --  disable = true,
-  --  'folke/tokyonight.nvim',
-  --  config = function() require('config.plugins.tokyonight') end
-  --},
+  {
+    'folke/tokyonight.nvim',
+    config = function() require('config.plugins.tokyonight') end,
+    priority = 1000,
+    enabled = false
+  },
 
   {
     "kyazdani42/nvim-web-devicons"

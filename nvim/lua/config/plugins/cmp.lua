@@ -5,6 +5,9 @@ local cmp = require 'cmp'
 
 cmp.setup {
   enabled = true,
+  view = {
+    entries = {name = 'custom', selection_order = 'near_cursor' }
+  },
   snippet = {
     -- REQUIRED - you must specify a snippet engine
     expand = function(args)
@@ -12,8 +15,13 @@ cmp.setup {
     end,
   },
   window = {
-    completion = cmp.config.window.bordered(),
-    documentation = cmp.config.window.bordered(),
+    completion = cmp.config.window.bordered({
+      -- border = {"", "", "", " ", "", "", "", " " },
+      col_offset = -1
+    }),
+    documentation = cmp.config.window.bordered({
+      -- border = {"", "", "", " ", "", "", "", " " }
+    }),
   },
   mapping = cmp.mapping.preset.insert({
     ['<C-b>'] = cmp.mapping.scroll_docs(-4),
@@ -49,10 +57,12 @@ cmp.setup {
         mode = 'symbol_text',
         maxwidth = 50,
       })(entry, vim_item);
-      local strings = vim.split(kind.kind, "%s", { trimempty = true })
-      kind.abbr = kind.abbr
-      kind.kind = strings[1]
-      kind.menu = "   " .. strings[2]
+      
+      -- 
+      -- local strings = vim.split(kind.kind, "%s", { trimempty = true })
+      -- kind.abbr = kind.abbr
+      -- kind.kind = strings[1]
+      -- kind.menu = "   " .. strings[2]
       return kind
     end
   }
@@ -211,9 +221,5 @@ require 'lspconfig'.sumneko_lua.setup {
 require 'lspconfig'.gopls.setup {
   on_attach = on_attach,
   flags = lsp_flags,
-  capabilities = capabilities
-}
-require 'lspconfig'.eslint.setup {
-  on_attach = on_attach,
   capabilities = capabilities
 }

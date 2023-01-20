@@ -16,7 +16,7 @@ require("lazy").setup("plugins",
   {
     defaults = { lazy = false },
     -- dev = { patterns = jit.os:find("Windows") and {} or { "folke" } },
-    -- install = { colorscheme = { "tokyonight", "habamax" } },
+    install = { colorscheme = { "rose-pine", "habamax" } },
     -- checker = { enabled = true },
     performance = {
       rtp = {
