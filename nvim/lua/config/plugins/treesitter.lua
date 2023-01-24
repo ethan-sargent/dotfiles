@@ -40,7 +40,7 @@ require('nvim-treesitter.configs').setup {
     additional_vim_regex_highlighting = false,
   },
   indent = {
-    disable = { "javascript", "typescript", "ecma", "jsx", "tsx" }, -- necessary due to open treesitter indentation bug with JSDoc/TSDoc
+    disable = { "javascript", "ecma", "jsx", "tsx" }, -- necessary due to open treesitter indentation bug with JSDoc/TSDoc
     enable = true,
   },
   incremental_selection = {
@@ -55,96 +55,122 @@ require('nvim-treesitter.configs').setup {
   context_commentstring = {
     enable = true,
     enable_autocmd = false,
+  },
+  endwise =  {
+    enable = true
+  },
+  playground = {
+    enable = true,
+    disable = {},
+    updatetime = 25, -- Debounced time for highlighting nodes in the playground from source code
+    persist_queries = true, -- Whether the query persists across vim sessions
+    keybindings = {
+      toggle_query_editor = "o",
+      toggle_hl_groups = "i",
+      toggle_injected_languages = "t",
+      toggle_anonymous_nodes = "a",
+      toggle_language_display = "I",
+      focus_language = "f",
+      unfocus_language = "F",
+      update = "R",
+      goto_node = "<cr>",
+      show_help = "?",
+    },
+    query_linter = {
+      enable = true,
+      use_virtual_text = true,
+      lint_events = { "BufWrite", "CursorHold" },
+    },
   }
 }
 
 require'treesitter-context'.setup{
-    enable = true, -- disabled currently, due to highlight issue when context panel is showing.
-    max_lines = 0, -- How many lines the window should span. Values <= 0 mean no limit.
-    trim_scope = 'outer', -- Which context lines to discard if `max_lines` is exceeded. Choices: 'inner', 'outer'
-    min_window_height = 0, -- Minimum editor window height to enable context. Values <= 0 mean no limit.
-    patterns = { -- Match patterns for TS nodes. These get wrapped to match at word boundaries.
-        -- For all filetypes
-        -- Note that setting an entry here replaces all other patterns for this entry.
-        -- By setting the 'default' entry below, you can control which nodes you want to
-        -- appear in the context window.
-        default = {
-            'class',
-            'function',
-            'method',
-            'for',
-            'while',
-            'if',
-            'switch',
-            'case',
-            'interface',
-            'struct',
-            'enum',
-        },
-        -- Patterns for specific filetypes
-        -- If a pattern is missing, *open a PR* so everyone can benefit.
-        tex = {
-            'chapter',
-            'section',
-            'subsection',
-            'subsubsection',
-        },
-        haskell = {
-            'adt'
-        },
-        rust = {
-            'impl_item',
-
-        },
-        terraform = {
-            'block',
-            'object_elem',
-            'attribute',
-        },
-        scala = {
-            'object_definition',
-        },
-        vhdl = {
-            'process_statement',
-            'architecture_body',
-            'entity_declaration',
-        },
-        markdown = {
-            'section',
-        },
-        elixir = {
-            'anonymous_function',
-            'arguments',
-            'block',
-            'do_block',
-            'list',
-            'map',
-            'tuple',
-            'quoted_content',
-        },
-        json = {
-            'pair',
-        },
-        typescript = {
-            'export_statement',
-        },
-        yaml = {
-            'block_mapping_pair',
-        },
+  enable = true,
+  max_lines = 0, -- How many lines the window should span. Values <= 0 mean no limit.
+  trim_scope = 'outer', -- Which context lines to discard if `max_lines` is exceeded. Choices: 'inner', 'outer'
+  min_window_height = 0, -- Minimum editor window height to enable context. Values <= 0 mean no limit.
+  patterns = { -- Match patterns for TS nodes. These get wrapped to match at word boundaries.
+    -- For all filetypes
+    -- Note that setting an entry here replaces all other patterns for this entry.
+    -- By setting the 'default' entry below, you can control which nodes you want to
+    -- appear in the context window.
+    default = {
+      'class',
+      'function',
+      'method',
+      'for',
+      'while',
+      'if',
+      'switch',
+      'case',
+      'interface',
+      'struct',
+      'enum',
     },
-    exact_patterns = {
-        -- Example for a specific filetype with Lua patterns
-        -- Treat patterns.rust as a Lua pattern (i.e "^impl_item$" will
-        -- exactly match "impl_item" only)
-        -- rust = true,
+    -- Patterns for specific filetypes
+    -- If a pattern is missing, *open a PR* so everyone can benefit.
+    tex = {
+      'chapter',
+      'section',
+      'subsection',
+      'subsubsection',
     },
+    haskell = {
+      'adt'
+    },
+    rust = {
+      'impl_item',
 
-    -- [!] The options below are exposed but shouldn't require your attention,
-    --     you can safely ignore them.
+    },
+    terraform = {
+      'block',
+      'object_elem',
+      'attribute',
+    },
+    scala = {
+      'object_definition',
+    },
+    vhdl = {
+      'process_statement',
+      'architecture_body',
+      'entity_declaration',
+    },
+    markdown = {
+      'section',
+    },
+    elixir = {
+      'anonymous_function',
+      'arguments',
+      'block',
+      'do_block',
+      'list',
+      'map',
+      'tuple',
+      'quoted_content',
+    },
+    json = {
+      'pair',
+    },
+    typescript = {
+      'export_statement',
+    },
+    yaml = {
+      'block_mapping_pair',
+    },
+  },
+  exact_patterns = {
+    -- Example for a specific filetype with Lua patterns
+    -- Treat patterns.rust as a Lua pattern (i.e "^impl_item$" will
+    -- exactly match "impl_item" only)
+    -- rust = true,
+  },
 
-    zindex = 20, -- The Z-index of the context window
-    mode = 'cursor',  -- Line used to calculate context. Choices: 'cursor', 'topline'
-    -- Separator between context and content. Should be a single character string, like '-'.
-    -- When separator is set, the context will only show up when there are at least 2 lines above cursorline.
-    separator = nil,
+  -- [!] The options below are exposed but shouldn't require your attention,
+  --     you can safely ignore them.
+
+  zindex = 20, -- The Z-index of the context window
+  mode = 'cursor',  -- Line used to calculate context. Choices: 'cursor', 'topline'
+  -- Separator between context and content. Should be a single character string, like '-'.
+  -- When separator is set, the context will only show up when there are at least 2 lines above cursorline.
+  separator = nil,
 }

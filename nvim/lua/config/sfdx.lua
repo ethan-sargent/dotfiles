@@ -1,4 +1,4 @@
-function GetVisualSelection(preserve_newlines)
+local function GetVisualSelection(preserve_newlines)
   local s_start = vim.fn.getpos("'<")
   local s_end = vim.fn.getpos("'>")
   local n_lines = math.abs(s_end[2] - s_start[2]) + 1
@@ -22,12 +22,13 @@ function GetVisualSelection(preserve_newlines)
 
 end
 
-function SfdxVisualQuery()
+local function SfdxVisualQuery()
   vim.cmd(string.format('!sfdx force:data:soql:query -q "%s"', GetVisualSelection(false)));
 end
+vim.api.nvim_create_user_command("SOQLQuerySelected", SfdxVisualQuery, {});
 
 
-function SwcCompile()
+local function SwcCompile()
    vim.cmd('!npx swc "%" -o "%:r.js"');
 end
 vim.api.nvim_create_user_command("SwcCompile", SwcCompile, {});
@@ -46,7 +47,7 @@ vim.api.nvim_set_keymap("n", "<leader>sd", ":w  <bar> !sfdx force:source:deploy 
 vim.api.nvim_set_keymap("n", "<leader>sr", ":!sfdx force:source:retrieve --sourcepath \"%\"<Enter>", {noremap = true});
 
 vim.api.nvim_set_keymap("n", "<leader>sq", ":!sfdx force:data:soql:query  --soqlqueryfile \"%\" <Enter>", {noremap = true});
-vim.api.nvim_set_keymap("v", "<leader>sq", "<cmd>:lua SfdxVisualQuery()<CR>", {})
+vim.api.nvim_set_keymap("v", "<leader>sq", "<cmd>:SOQLQuerySelected()<CR>", {})
 
 vim.api.nvim_set_keymap("n", "<leader>sae", ":!sfdx force:apex:execute --apexcodefile \"%\" <Enter>", {noremap = true});
 vim.api.nvim_set_keymap("n", "<leader>st", ":!sfdx force:apex:test:run --tests \"%:t:r\" --synchronous<Enter>", {noremap = true});

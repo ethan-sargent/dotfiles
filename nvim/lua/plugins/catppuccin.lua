@@ -1,7 +1,7 @@
 local _M = {
   "catppuccin/nvim",
   name = "catppuccin",
-  enabled = true,
+  enabled = false,
   priority = 1000
 }
 

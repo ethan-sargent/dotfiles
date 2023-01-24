@@ -2,7 +2,8 @@ local _M = {
     'rose-pine/neovim',
     name = 'rose-pine',
     priority = 999,
-    enabled = false
+    enabled = false,
+    -- cond = false,
 }
 
 _M.config = function ()

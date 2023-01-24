@@ -15,11 +15,11 @@ telescope.setup {
     },
     entry_prefix = "  ",
     selection_strategy = "reset",
-    sorting_strategy = "ascending",
+    sorting_strategy = "descending",
     layout_strategy = "horizontal",
     layout_config = {
       horizontal = {
-        prompt_position = "top",
+        prompt_position = "bottom",
         preview_width = 0.55,
         results_width = 0.8,
       },

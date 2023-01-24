@@ -12,15 +12,21 @@ local _M = {
   -- utilities
   {
     'tpope/vim-vinegar',
-    'tpope/vim-rhubarb',
   },
   {
     'tpope/vim-fugitive',
-    cmd = "G"
+    cmd = "G",
+    dependencies = {
+      'tpope/vim-rhubarb'
+    }
   },
   {
     'tpope/vim-repeat',
     keys = '.'
+  },
+  {
+    'tpope/vim-rhubarb',
+    lazy = true
   },
   {
     'tpope/vim-surround',
@@ -47,7 +53,8 @@ local _M = {
     build = function() require('nvim-treesitter.install').update({ with_sync = true }) end,
     dependencies = {
       'nvim-treesitter/nvim-treesitter-context',
-      'nvim-treesitter/playground'
+      'nvim-treesitter/playground',
+      'RRethy/nvim-treesitter-endwise'
     },
     config = function()
       require('config.plugins.treesitter')

@@ -2,20 +2,22 @@ local keymap = vim.keymap.set
 local saga = require("lspsaga")
 
 saga.setup({
-    finder_action_keys = {
-      open = "o",
-      vsplit = "s",
-      split = "i",
-      quit = "<esc>",
-      scroll_down = "<C-f>",
-      scroll_up = "<C-b>",
-    },
-    code_action_keys = {
-      quit = "<esc>",
-      exec = "<CR>",
-    },
-    rename_action_quit = "<esc>",
-    -- custom_kind = require("catppuccin.groups.integrations.lsp_saga").custom_kind(),
+  finder_action_keys = {
+    open = "o",
+    vsplit = "s",
+    split = "i",
+    quit = "<esc>",
+    scroll_down = "<C-f>",
+    scroll_up = "<C-b>",
+  },
+  code_action_keys = {
+    quit = "<esc>",
+    exec = "<CR>",
+  },
+  rename_action_quit = "<esc>",
+  --[[ ui = {
+    -- kind  = require("catppuccin.groups.integrations.lsp_saga").custom_kind(),
+  } ]]
 })
 
 
@@ -53,4 +55,4 @@ keymap("n", "]E", function()
 end, { silent = true })
 
 -- Hover Doc
-keymap("n", "K", "<cmd>Lspsaga hover_doc<CR>", { silent = true })
+-- keymap("n", "K", "<cmd>Lspsaga hover_doc<CR>", { silent = true })
