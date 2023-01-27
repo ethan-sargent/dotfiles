@@ -61,16 +61,6 @@ local _M = {
     end,
     event = "BufReadPost",
   },
-
-
-  -- Editing features
-  --  { "kylechui/nvim-surround",
-  --   tag = "*",
-  --   config = function()
-  --     require("config.plugins.nvim-surround")
-  --   end,
-  -- },
-
   {
     'windwp/nvim-autopairs',
     config = function() require('config.plugins.autopairs') end,
@@ -95,14 +85,6 @@ local _M = {
     config = function() require('config.plugins.ts-autotags') end
   },
 
-  { "akinsho/toggleterm.nvim",
-    tag = '2.3.0',
-    config = function()
-      require("config.plugins.toggleterm")
-    end,
-    init = function() require("setup.toggleterm") end,
-    cmd = "ToggleTerm"
-  },
   {
     'neovim/nvim-lspconfig',
     dependencies = {
@@ -153,23 +135,6 @@ local _M = {
 
   },
   {
-    'nvim-telescope/telescope.nvim',
-    tag = '0.1.0',
-    dependencies = {
-      'nvim-lua/plenary.nvim',
-      'nvim-telescope/telescope-fzf-native.nvim'
-    },
-    init = function()
-      require("setup.telescope")
-    end,
-    config = function()
-      require('config.plugins.telescope')
-    end,
-    cmd = 'Telescope',
-    keys = '<leader>f'
-  },
-
-  {
     'nvim-telescope/telescope-fzf-native.nvim',
     build = 'cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build',
     lazy = true,
@@ -181,13 +146,7 @@ local _M = {
     priority = 1000,
     enabled = false
   },
-
   {
-    "kyazdani42/nvim-web-devicons"
-  },
-
-  {
-    -- disable = true,
     "folke/trouble.nvim",
     config = function() require("config.plugins.trouble") end,
     event = "BufReadPost"
@@ -202,15 +161,6 @@ local _M = {
     lazy = true,
     event = "BufReadPost"
   },
-  -- {
-  --   "loctvl842/monokai-pro.nvim",
-  --   config = function ()
-  --     require("config.plugins.monokai-pro")
-  --   end,
-  --   lazy = true,
-  --   event = "VeryLazy"
-  -- },
-
   -- file-type plugins
   {
     'mechatroner/rainbow_csv',
