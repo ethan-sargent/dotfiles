@@ -2,19 +2,23 @@ local keymap = vim.keymap.set
 local saga = require("lspsaga")
 
 saga.setup({
-  finder_action_keys = {
-    open = "o",
+  finder_action = {
+    open = { "o", "<CR>" },
     vsplit = "s",
     split = "i",
-    quit = "<esc>",
+    quit = { 'q', "<esc>" },
     scroll_down = "<C-f>",
     scroll_up = "<C-b>",
   },
-  code_action_keys = {
-    quit = "<esc>",
-    exec = "<CR>",
+  code_action = {
+    keys = {
+      quit = "<esc>",
+      exec = "<CR>",
+    }
   },
-  rename_action_quit = "<esc>",
+  rename = {
+    quit = "<esc>"
+  }
   --[[ ui = {
     -- kind  = require("catppuccin.groups.integrations.lsp_saga").custom_kind(),
   } ]]
