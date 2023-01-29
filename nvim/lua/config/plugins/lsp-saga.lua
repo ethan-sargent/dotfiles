@@ -1,6 +1,8 @@
 local keymap = vim.keymap.set
 local saga = require("lspsaga")
 
+local named_colors = require("nord.named_colors");
+local colors = require('nord.colors');
 saga.setup({
   finder_action = {
     open = { "o", "<CR>" },
@@ -18,10 +20,41 @@ saga.setup({
   },
   rename = {
     quit = "<esc>"
-  }
-  --[[ ui = {
+  },
+  hover_doc = {
+    quit = { "q", "<esc>" }
+  },
+  ui = {
+     -- currently only round theme
+    theme = 'round',
+    -- this option only work in neovim 0.9
+    title = true,
+    -- border type can be single,double,rounded,solid,shadow.
+    border = 'rounded',
+    winblend = 10,
+    expand = '',
+    collapse = '',
+    preview = ' ',
+    code_action = '💡',
+    diagnostic = '🐞',
+    incoming = ' ',
+    outgoing = ' ',
     -- kind  = require("catppuccin.groups.integrations.lsp_saga").custom_kind(),
-  } ]]
+    colors = {
+      normal_bg = named_colors.black,
+      title_bg = named_colors.white,
+      red = named_colors.red,
+      magenta = colors.nord5_gui,
+      orange = named_colors.orange,
+      yellow = named_colors.yellow,
+      green = named_colors.green,
+      cyan = named_colors.off_blue,
+      blue = named_colors.blue,
+      purple = named_colors.purple,
+      white = named_colors.white,
+      black = named_colors.black,
+    }
+  },
 })
 
 
@@ -59,4 +92,4 @@ keymap("n", "]E", function()
 end, { silent = true })
 
 -- Hover Doc
--- keymap("n", "K", "<cmd>Lspsaga hover_doc<CR>", { silent = true })
+keymap("n", "K", "<cmd>Lspsaga hover_doc<CR>", { silent = true })
