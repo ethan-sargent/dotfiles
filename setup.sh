@@ -24,7 +24,7 @@ else
 fi
 
 printf "linking configuration now\n"
-dirs=(zsh nvim tmux fzf git kitty tig bat)
+dirs=(zsh nvim tmux fzf git kitty tig bat wezterm alacritty)
 for dir in $dirs; do
   if [[ -d "$XDG_CONFIG_HOME/$dir" && ! -L "$XDG_CONFIG_HOME/$dir" ]]; then
     mv "$XDG_CONFIG_HOME/$dir" "$XDG_CONFIG_HOME/$dir".BAK

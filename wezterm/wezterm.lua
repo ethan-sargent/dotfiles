@@ -1,9 +1,9 @@
 local wezterm = require('wezterm');
 -- The filled in variant of the < symbol
-local SOLID_LEFT_ARROW = ''
+local ROUNDED_LEFT_CIRCLE = ''
 
 -- The filled in variant of the > symbol
-local SOLID_RIGHT_ARROW = ''
+local ROUNDED_RIGHT_CIRCLE = ''
 wezterm.on(
   'format-tab-title',
   function(tab, tabs, panes, config, hover, max_width)
@@ -28,22 +28,22 @@ wezterm.on(
     return {
       { Background = { Color = edge_background } },
       { Foreground = { Color = edge_foreground } },
-      { Text = SOLID_LEFT_ARROW },
+      { Text = ROUNDED_LEFT_CIRCLE },
       { Background = { Color = background } },
       { Foreground = { Color = foreground } },
       { Text = title },
       { Background = { Color = edge_background } },
       { Foreground = { Color = edge_foreground } },
-      { Text = SOLID_RIGHT_ARROW },
+      { Text = ROUNDED_RIGHT_CIRCLE },
     }
   end
 )
 return {
   color_scheme = "Nord (base16)",
 
-  font_size = 15,
+  font_size = 16,
   font = wezterm.font_with_fallback({
-    -- 'Iosevka',
+    'Menlo',
     'Iosevka SS04'
   }),
 
@@ -58,10 +58,10 @@ return {
   window_frame = {
     -- Roboto Bold is the default; this font is bundled
     -- with wezterm.
-    font = wezterm.font { family = 'Iosevka SS04', weight = 'Bold' },
+    font = wezterm.font { family = 'Menlo', weight = 'Bold' },
 
     -- The size of the font in the tab bar. Default to 10.0 on Windows but 12.0 on other systems
-    font_size = 12.0,
+    font_size = 14.0,
 
     -- The overall background color of the tab bar when the window is focused
     active_titlebar_bg = '#2E3440',
