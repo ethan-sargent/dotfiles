@@ -8,6 +8,7 @@ local _M = {
     ft = "norg",
     cmd = 'Neorg',
     build = ":Neorg sync-parsers",
+    enabled = false,
   },
   -- utilities
   {

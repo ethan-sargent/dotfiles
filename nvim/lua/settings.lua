@@ -1,7 +1,6 @@
 local opt = vim.opt;
 
 opt.autowrite = true -- enable auto write
-opt.clipboard = "unnamedplus" -- sync with system clipboard
 opt.cmdheight = 1
 opt.completeopt   = "menu,menuone,noselect"
 opt.rnu           = true

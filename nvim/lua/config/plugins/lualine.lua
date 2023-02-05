@@ -30,6 +30,7 @@ require('lualine').setup {
       },
     },
     lualine_b = {
+      'filename',
       { 'branch',
         icon = ''
       },

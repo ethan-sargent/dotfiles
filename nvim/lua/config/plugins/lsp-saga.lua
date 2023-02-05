@@ -32,13 +32,6 @@ saga.setup({
     -- border type can be single,double,rounded,solid,shadow.
     border = 'rounded',
     winblend = 10,
-    expand = '',
-    collapse = '',
-    preview = ' ',
-    code_action = '💡',
-    diagnostic = '🐞',
-    incoming = ' ',
-    outgoing = ' ',
     -- kind  = require("catppuccin.groups.integrations.lsp_saga").custom_kind(),
     colors = {
       normal_bg = named_colors.black,
@@ -85,10 +78,10 @@ keymap("n", "]e", "<cmd>Lspsaga diagnostic_jump_next<CR>", { silent = true })
 
 -- Only jump to error
 keymap("n", "[E", function()
-  require("lspsaga.diagnostic").goto_prev({ severity = vim.diagnostic.severity.ERROR })
+  require("lspsaga.diagnostic"):goto_prev({ severity = vim.diagnostic.severity.ERROR })
 end, { silent = true })
 keymap("n", "]E", function()
-  require("lspsaga.diagnostic").goto_next({ severity = vim.diagnostic.severity.ERROR })
+  require("lspsaga.diagnostic"):goto_next({ severity = vim.diagnostic.severity.ERROR })
 end, { silent = true })
 
 -- Hover Doc

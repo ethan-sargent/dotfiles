@@ -3,7 +3,8 @@ local _M = {
   dependencies = {
     'kyazdani42/nvim-web-devicons'
   },
-  event = 'VeryLazy'
+  event = 'VeryLazy',
+  enabled = false
 };
 
 _M.config = function()
