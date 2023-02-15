@@ -1,15 +1,4 @@
 local _M = {
-  {
-    "nvim-neorg/neorg",
-    config = function()
-      require('config.plugins.neorg')
-    end,
-    dependencies = "nvim-lua/plenary.nvim",
-    ft = "norg",
-    cmd = 'Neorg',
-    build = ":Neorg sync-parsers",
-    enabled = false,
-  },
   -- utilities
   {
     'tpope/vim-vinegar',
@@ -41,7 +30,7 @@ local _M = {
   },
   {
     'nvim-lualine/lualine.nvim',
-    dependencies = { 'kyazdani42/nvim-web-devicons' },
+    dependencies = { 'nvim-tree/nvim-web-devicons' },
     config = function() require('config.plugins.lualine') end,
     event = "VeryLazy",
   },
@@ -83,7 +72,7 @@ local _M = {
     'windwp/nvim-ts-autotag',
     dependencies = { 'nvim-treesitter/nvim-treesitter' },
     event = 'InsertEnter',
-    config = function() require('config.plugins.ts-autotags') end
+    config = function() require('config.plugins.ts-autotags') end,
   },
 
   {
@@ -99,17 +88,17 @@ local _M = {
   },
   {
     "L3MON4D3/LuaSnip",
-    dependencies = {
+    --[[ dependencies = {
       "rafamadriz/friendly-snippets",
       config = function()
         require("luasnip.loaders.from_vscode").lazy_load()
       end,
-    },
+    }, ]]
     config = function()
       require("config.plugins.luasnip")
     end,
     lazy = true,
-    event = "InsertEnter"
+    build = "make install_jsregexp"
   },
   {
     "hrsh7th/nvim-cmp",
@@ -121,19 +110,12 @@ local _M = {
       "dmitmel/cmp-cmdline-history",
       "hrsh7th/cmp-path",
       "saadparwaiz1/cmp_luasnip",
-      'onsails/lspkind.nvim',
+      "onsails/lspkind.nvim",
+      "hrsh7th/cmp-cmdline",
     },
     config = function()
       require("config.plugins.cmp")
-    end
-  },
-  {
-    "hrsh7th/cmp-cmdline",
-    dependencies = {
-      "hrsh7th/nvim-cmp"
-    },
-    event = 'CmdlineEnter'
-
+    end,
   },
   {
     'nvim-telescope/telescope-fzf-native.nvim',

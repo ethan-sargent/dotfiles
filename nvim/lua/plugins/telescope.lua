@@ -15,19 +15,23 @@ local _M = {
     keys = '<leader>f'
 }
 
-_M.init = function ()
-  local project_files = function()
-    local opts = {} -- define here if you want to define something
-    vim.fn.system('git rev-parse --is-inside-work-tree')
-    if vim.v.shell_error == 0 then
-      require"telescope.builtin".git_files(opts)
-    else
-      require"telescope.builtin".find_files(opts)
-    end
+_M.project_files = function()
+  local opts = {
+    hidden = true
+  } -- define here if you want to define something
+  vim.fn.system('git rev-parse --is-inside-work-tree')
+  if vim.v.shell_error == 0 then
+    require"telescope.builtin".git_files(opts)
+  else
+    require"telescope.builtin".find_files(opts)
   end
+end
+
+_M.init = function ()
 
   local opts = { noremap = true, silent = true };
-  vim.keymap.set('n', '<leader>ff', project_files, opts)
+  vim.keymap.set('n', '<leader>ff', _M.project_files, opts)
+  vim.keymap.set('n', '<leader>F',  function() require("telescope.builtin").find_files({hidden = true}) end, opts)
   vim.keymap.set('n', '<leader>fg', function() require("telescope.builtin").live_grep() end, opts)
   vim.keymap.set('n', '<leader>fb', function() require("telescope.builtin").buffers() end, opts)
   vim.keymap.set('n', '<leader>fh', function() require("telescope.builtin").help_tags() end, opts)
@@ -91,15 +95,13 @@ _M.config = function ()
     },
     pickers = {
       find_files = {
-        find_command = { "fd", "--type", "f", "--strip-cwd-prefix" }
+        find_command = { "fd", "--hidden", "--type", "f", "--strip-cwd-prefix" }
       },
     },
   }
   -- To get fzf loaded and working with telescope, you need to call
   -- load_extension, somewhere after setup function:
   require('telescope').load_extension('fzf')
-
-
 end
 
 return _M;

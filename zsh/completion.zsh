@@ -25,7 +25,7 @@ _comp_options+=(globdots) # With hidden files
 setopt MENU_COMPLETE        # Automatically highlight first element of completion menu
 setopt AUTO_LIST            # Automatically list choices on ambiguous completion.
 
-zstyle ':completion:*' completer _complete _approximate _extensions
+zstyle ':completion:*' completer _complete _approximate _extensions _prefix
 zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}' '+r:|[._-]=* r:|=*' '+l:|=*'
 
 # group completions under their description
@@ -40,24 +40,28 @@ zstyle ':completion:*' complete-options true
 zstyle ":completion:*:default" list-colors "${(s.:.)LS_COLORS}"
 
 zstyle ':completion:*:*:*:*:corrections' format '%F{yellow}!- %d (errors: %e) -!%f'
-# zstyle ':completion:*:*:*:*:descriptions' format '%F{cyan}-- %D %d --%f'
-zstyle ':completion:*:*:*:*:messages' format ' %F{purple} -- %d --%f'
+zstyle ':completion:*:*:*:*:descriptions' format '%F{cyan}-- %D %d --%f'
+zstyle ':completion:*:*:*:*:messages' format ' %F{purple}-- %d --%f'
 zstyle ':completion:*:*:*:*:warnings' format ' %F{red}-- no matches found --%f'
 
 zstyle ':completion:*:*:cd:*' tag-order local-directories directory-stack path-directories
 zstyle ':completion:*' menu select
 
-# Replace completion menu with fzf if installed
 
-# FZF Tab recommended configuration
+# FZF Tab
 # disable sort when completing `git checkout`
-zstyle ':completion:*:git-checkout:*' sort false
+# zstyle ':completion:*:git-checkout:*' sort false
+
 # set descriptions format to enable group support
-zstyle ':completion:*:descriptions' format '[%d]'
+# zstyle ':completion:*:descriptions' format '[%d]'
+
 # preview directory's content with exa when completing cd
-zstyle ':fzf-tab:complete:cd:*' fzf-preview 'exa -1 --color=always $realpath'
+# zstyle ':fzf-tab:complete:cd:*' fzf-preview 'exa -1 --color=always $realpath'
+
 # switch group using `,` and `.`
-zstyle ':fzf-tab:*' switch-group ',' '.'
-(($+commands[fzf])) && {
-  source "$ZDOTDIR/plugins/fzf-tab/fzf-tab.plugin.zsh"
-} 
+# zstyle ':fzf-tab:*' switch-group ',' '.'
+
+# Replace completion menu with fzf if installed
+# (($+commands[fzf])) && {
+#   source "$ZDOTDIR/plugins/fzf-tab/fzf-tab.plugin.zsh"
+# } 

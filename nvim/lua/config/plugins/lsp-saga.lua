@@ -1,8 +1,8 @@
 local keymap = vim.keymap.set
 local saga = require("lspsaga")
 
-local named_colors = require("nord.named_colors");
-local colors = require('nord.colors');
+-- local named_colors = require("nord.named_colors");
+-- local colors = require('nord.colors');
 saga.setup({
   finder_action = {
     open = { "o", "<CR>" },
@@ -33,20 +33,20 @@ saga.setup({
     border = 'rounded',
     winblend = 10,
     -- kind  = require("catppuccin.groups.integrations.lsp_saga").custom_kind(),
-    colors = {
-      normal_bg = named_colors.black,
-      title_bg = named_colors.white,
-      red = named_colors.red,
-      magenta = colors.nord5_gui,
-      orange = named_colors.orange,
-      yellow = named_colors.yellow,
-      green = named_colors.green,
-      cyan = named_colors.off_blue,
-      blue = named_colors.blue,
-      purple = named_colors.purple,
-      white = named_colors.white,
-      black = named_colors.black,
-    }
+    -- colors = {
+    --   normal_bg = named_colors.black,
+    --   title_bg = named_colors.white,
+    --   red = named_colors.red,
+    --   magenta = colors.nord5_gui,
+    --   orange = named_colors.orange,
+    --   yellow = named_colors.yellow,
+    --   green = named_colors.green,
+    --   cyan = named_colors.off_blue,
+    --   blue = named_colors.blue,
+    --   purple = named_colors.purple,
+    --   white = named_colors.white,
+    --   black = named_colors.black,
+    -- }
   },
 })
 

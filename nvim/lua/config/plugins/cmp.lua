@@ -57,7 +57,7 @@ cmp.setup {
         mode = 'symbol_text',
         maxwidth = 50,
       })(entry, vim_item);
-      
+
       -- 
       -- local strings = vim.split(kind.kind, "%s", { trimempty = true })
       -- kind.abbr = kind.abbr
@@ -69,22 +69,6 @@ cmp.setup {
 }
 
 -- Set configuration for specific filetype.
-cmp.setup.filetype('gitcommit', {
-  sources = cmp.config.sources({
-    -- { name = 'cmp_git' }, -- You can specify the `cmp_git` source if you were installed it.
-  }, {
-      -- { name = 'buffer' },
-    })
-})
-cmp.setup.filetype('norg', {
-  sources = cmp.config.sources({
-    { name = "neorg"},
-    { name = "buffer"},
-  })
-  
-})
-
-
 cmp.setup.cmdline('/', {
   mapping = cmp.mapping.preset.cmdline(),
   sources = {
@@ -168,16 +152,6 @@ require('lspconfig').rust_analyzer.setup {
     ["rust-analyzer"] = {}
   }
 }
--- require('lspconfig').apex_ls.setup {
---     cmd = { '/path/to/native/image/apex-jorje-lsp',
---     '-Ddebug.internal.errors=true',
---     '-Ddebug.semantic.errors=false',
---     '-Ddebug.completion.statistics=false',
---     '-Dlwc.typegeneration.disabled=true',
---     'apex.jorje.lsp.ApexLanguageServerLauncher' },
---     on_attach = on_attach,
---     capabilities = capabilities,
--- }
 require 'lspconfig'.apex_ls.setup {
   apex_jar_path = '/Users/ethan.sargent/languageservers/apex/apex-jorje-lsp.jar',
   apex_enable_semantic_errors = false, -- Whether to allow Apex Language Server to surface semantic errors
@@ -194,7 +168,7 @@ require('lspconfig').clangd.setup {
   flags = lsp_flags,
   capabilities = capabilities
 }
-require 'lspconfig'.sumneko_lua.setup {
+require 'lspconfig'.lua_ls.setup {
   settings = {
     Lua = {
       runtime = {
@@ -230,9 +204,3 @@ require 'lspconfig'.gopls.setup {
   capabilities = capabilities
 }
 
--- Insert `(` after selecting function or method item
-local cmp_autopairs = require('nvim-autopairs.completion.cmp')
-cmp.event:on(
-  'confirm_done',
-  cmp_autopairs.on_confirm_done()
-)

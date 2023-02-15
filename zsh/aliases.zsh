@@ -9,6 +9,7 @@
 (($+commands[bat]))   && { alias cat="bat"  } 
 (($+commands[just]))  && { alias j="just"   } 
 (($+commands[git]))   && { alias g="git"    } 
+(($+commands[lazygit]))   && { alias lg="lazygit"    } 
 
 # checkout branch and pull latest changes
 azco() {

@@ -46,7 +46,7 @@ vim.api.nvim_set_keymap("n", "<leader>swc", "<cmd>SwcCompile<CR>", {noremap = tr
 vim.api.nvim_set_keymap("n", "<leader>sd", ":w  <bar> !sfdx force:source:deploy --sourcepath \"%\"<Enter>", {noremap = true});
 vim.api.nvim_set_keymap("n", "<leader>sr", ":!sfdx force:source:retrieve --sourcepath \"%\"<Enter>", {noremap = true});
 
-vim.api.nvim_set_keymap("n", "<leader>sq", ":!sfdx force:data:soql:query  --soqlqueryfile \"%\" <Enter>", {noremap = true});
+vim.api.nvim_set_keymap("n", "<leader>sq", ":!sfdx force:data:soql:query  --file \"%\" <Enter>", {noremap = true});
 vim.api.nvim_set_keymap("v", "<leader>sq", "<cmd>:SOQLQuerySelected()<CR>", {})
 
 vim.api.nvim_set_keymap("n", "<leader>sae", ":!sfdx force:apex:execute --apexcodefile \"%\" <Enter>", {noremap = true});

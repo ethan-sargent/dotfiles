@@ -7,7 +7,6 @@ local _M = {
 
 _M.config = function()
 
-  vim.cmd.colorscheme "catppuccin"
 
   require("catppuccin").setup {
     flavour = "mocha",
@@ -37,5 +36,6 @@ _M.config = function()
       },
     },
   }
+  vim.cmd.colorscheme "catppuccin"
 end
 return _M;
