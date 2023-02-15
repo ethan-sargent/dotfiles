@@ -124,21 +124,11 @@ schemes:
 
 
 colors: *tokyo-night
+
 cursor:
   style:
     shape: Block
     blinking: On
 
 shell:
-  program: 'C:\Windows\system32\wsl.exe'
-
-env:
-  TERM: xterm-256color
-#  args:
-#    - --login
-
-# Startup directory
-#
-# Directory the shell is started in. If this is unset, or `None`, the working
-# directory of the parent process will be used.
-working_directory: '\\wsl$\Ubuntu\home\ethandev'
+  program: 'C:\Windows\system32\wsl.exe ~'
