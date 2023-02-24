@@ -39,6 +39,7 @@ zstyle ':completion:*' cache-path "$XDG_CACHE_HOME/zsh"
 zstyle ':completion:*' complete-options true
 zstyle ":completion:*:default" list-colors "${(s.:.)LS_COLORS}"
 
+zstyle ':completion:*:descriptions' format '[%d]'
 zstyle ':completion:*:*:*:*:corrections' format '%F{yellow}!- %d (errors: %e) -!%f'
 zstyle ':completion:*:*:*:*:descriptions' format '%F{cyan}-- %D %d --%f'
 zstyle ':completion:*:*:*:*:messages' format ' %F{purple}-- %d --%f'
@@ -50,18 +51,11 @@ zstyle ':completion:*' menu select
 
 # FZF Tab
 # disable sort when completing `git checkout`
-# zstyle ':completion:*:git-checkout:*' sort false
-
-# set descriptions format to enable group support
-# zstyle ':completion:*:descriptions' format '[%d]'
-
-# preview directory's content with exa when completing cd
-# zstyle ':fzf-tab:complete:cd:*' fzf-preview 'exa -1 --color=always $realpath'
-
-# switch group using `,` and `.`
-# zstyle ':fzf-tab:*' switch-group ',' '.'
+zstyle ':completion:*:git-checkout:*' sort false
+zstyle ':fzf-tab:complete:cd:*' fzf-preview 'exa -1 --color=always $realpath'
+zstyle ':fzf-tab:*' switch-group ',' '.'
 
 # Replace completion menu with fzf if installed
-# (($+commands[fzf])) && {
-#   source "$ZDOTDIR/plugins/fzf-tab/fzf-tab.plugin.zsh"
-# } 
+(($+commands[fzf])) && {
+  source "$ZDOTDIR/plugins/fzf-tab/fzf-tab.plugin.zsh"
+} 

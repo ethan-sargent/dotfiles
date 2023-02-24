@@ -23,6 +23,10 @@ else
   export HOMEBREW_PREFIX=/usr/local
 fi
 
+if [[ -d "/Applications/Visual Studio Code.app" ]]; then
+  export PATH="/Applications/Visual Studio Code.app/Contents/Resources/app/bin":$PATH;
+fi
+
 # add bison into start of path if exists
 brew --prefix bison &> /dev/null
 if [ $? -eq 0 ]; then  
@@ -47,4 +51,4 @@ fpath=(
 );
 
 source "$ZDOTDIR/sfdx.zsh"
-
+export SFDX_AUTOUPDATE_DISABLE=true
