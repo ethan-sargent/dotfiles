@@ -11,6 +11,7 @@
 	cm = commit -m
 	co = checkout
 	cam = commit -am
+	unstage = restore --staged
 	st = status -uno
 	pr = "!f() { exec az repos pr \"$@\"; }; f"
 	repo = "!f() { exec az repos \"$@\"; }; f"
