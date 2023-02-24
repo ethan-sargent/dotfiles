@@ -1,0 +1,13 @@
+{
+  "name": "luasnip-vscode-snippets",
+  "description": "VSCode style snippets",
+  "contributes": {
+    "snippets": [
+      {
+        "language": "apex",
+        "path": "./snippets/apex/apex.json"
+      }
+    ]
+  }
+}
+

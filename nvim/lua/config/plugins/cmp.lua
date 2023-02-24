@@ -1,7 +1,10 @@
 -- Set up nvim-cmp.cmp
 local lspkind = require('lspkind');
+require("mason").setup()
+require("mason-lspconfig").setup()
+local cmp = require('cmp')
+local luasnip = require('luasnip');
 
-local cmp = require 'cmp'
 
 cmp.setup {
   enabled = true,
@@ -11,17 +14,14 @@ cmp.setup {
   snippet = {
     -- REQUIRED - you must specify a snippet engine
     expand = function(args)
-      require('luasnip').lsp_expand(args.body) -- For `luasnip` users.
+      luasnip.lsp_expand(args.body) -- For `luasnip` users.
     end,
   },
   window = {
     completion = cmp.config.window.bordered({
-      -- border = {"", "", "", " ", "", "", "", " " },
       col_offset = -1
     }),
-    documentation = cmp.config.window.bordered({
-      -- border = {"", "", "", " ", "", "", "", " " }
-    }),
+    documentation = cmp.config.window.bordered(),
   },
   mapping = cmp.mapping.preset.insert({
     ['<C-b>'] = cmp.mapping.scroll_docs(-4),
@@ -32,6 +32,8 @@ cmp.setup {
     ['<Tab>'] = function(fallback)
       if cmp.visible() then
         cmp.select_next_item()
+      elseif luasnip.expand_or_jumpable() then
+        luasnip.jump(1)
       else
         fallback()
       end
@@ -39,6 +41,8 @@ cmp.setup {
     ['<S-Tab>'] = function(fallback)
       if cmp.visible() then
         cmp.select_prev_item()
+      elseif luasnip.jumpable(-1) then
+        luasnip.jump(-1)
       else
         fallback()
       end
@@ -115,14 +119,16 @@ local on_attach = function(client, bufnr)
   vim.keymap.set('n', '<leader>wl', function()
     print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
   end, bufopts)
-  vim.keymap.set('n', '<leader>D', vim.lsp.buf.type_definition, bufopts)
-  -- vim.keymap.set('n', '<leader>rn', vim.lsp.buf.rename, bufopts)
+  vim.keymap.set('n', '<leader>gD', vim.lsp.buf.type_definition, bufopts)
+  vim.keymap.set('n', '<leader>rn', vim.lsp.buf.rename, bufopts)
   -- vim.keymap.set('n', '<leader>ca', vim.lsp.buf.code_action, bufopts)
   vim.keymap.set('n', '<leader>F', function()
     vim.lsp.buf.format { async = true }
   end, bufopts)
 end
 local capabilities = require('cmp_nvim_lsp').default_capabilities(vim.lsp.protocol.make_client_capabilities())
+vim.g.completion_enable_snippet = 'luasnip'
+capabilities.textDocument.completion.completionItem.snippetSupport = true
 
 -- rounded border on hover document
 vim.lsp.handlers['textDocument/hover'] = vim.lsp.with(
@@ -131,43 +137,27 @@ vim.lsp.handlers['textDocument/hover'] = vim.lsp.with(
 )
 
 local lsp_flags = {
-  debounce_text_changes = 100,
-}
-require('lspconfig').pyright.setup {
-  on_attach = on_attach,
-  capabilities = capabilities,
-  flags = lsp_flags
-}
-require('lspconfig').tsserver.setup {
-  on_attach = on_attach,
-  flags = lsp_flags,
-  capabilities = capabilities,
+  debounce_text_changes = 150,
 }
 require('lspconfig').rust_analyzer.setup {
   on_attach = on_attach,
   flags = lsp_flags,
   capabilities = capabilities,
-  -- Server-specific settings...
   settings = {
-    ["rust-analyzer"] = {}
+    ["rust-analyzer"] = {
+
+    }
   }
 }
 require 'lspconfig'.apex_ls.setup {
-  apex_jar_path = '/Users/ethan.sargent/languageservers/apex/apex-jorje-lsp.jar',
-  apex_enable_semantic_errors = false, -- Whether to allow Apex Language Server to surface semantic errors
-  apex_enable_completion_statistics = false, -- Whether to allow Apex Language Server to collect telemetry on code completion usage
+  apex_jar_path = '~/.local/share/nvim/mason/packages/apex-language-server/apex-jorje-lsp.jar',
+  apex_enable_semantic_errors = false,
+  apex_enable_completion_statistics = false,
   on_attach = on_attach,
   capabilities = capabilities,
   filetypes = { "apexcode", "apex", "apexanon" }
 }
 
-vim.g.completion_enable_snippet = 'luasnip'
-capabilities.textDocument.completion.completionItem.snippetSupport = true
-require('lspconfig').clangd.setup {
-  on_attach = on_attach,
-  flags = lsp_flags,
-  capabilities = capabilities
-}
 require 'lspconfig'.lua_ls.setup {
   settings = {
     Lua = {
@@ -198,9 +188,16 @@ require 'lspconfig'.lua_ls.setup {
   capabilities = capabilities
 }
 
-require 'lspconfig'.gopls.setup {
-  on_attach = on_attach,
-  flags = lsp_flags,
-  capabilities = capabilities
+-- default handlers for language servers installed by Mason that don't have explicit handlers
+require("mason-lspconfig").setup_handlers {
+  -- The first entry (without a key) will be the default handler
+  -- and will be called for each installed server that doesn't have
+  -- a dedicated handler.
+  function (server_name) -- default handler (optional)
+    require("lspconfig")[server_name].setup {
+      capabilities = capabilities,
+      flags = lsp_flags,
+      on_attach = on_attach
+    }
+  end,
 }
-

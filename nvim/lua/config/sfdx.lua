@@ -1,3 +1,4 @@
+
 local function GetVisualSelection(preserve_newlines)
   local s_start = vim.fn.getpos("'<")
   local s_end = vim.fn.getpos("'>")

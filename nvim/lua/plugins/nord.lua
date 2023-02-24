@@ -1,6 +1,7 @@
 local _M = {
   'shaunsingh/nord.nvim',
-  priority = 999
+  priority = 999,
+  enabled = true,
 }
 
 _M.config = function()

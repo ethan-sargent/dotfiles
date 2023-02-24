@@ -1,5 +1,6 @@
 local _M = {
   'NvChad/nvim-colorizer.lua',
+   ft = { "css", "html", "javascript", "typescript", "javascriptreact", "typescriptreact" }
 }
 
 _M.config = function ()

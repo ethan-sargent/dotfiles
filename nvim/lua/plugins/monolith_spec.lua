@@ -5,22 +5,18 @@ local _M = {
   },
   {
     'tpope/vim-fugitive',
-    cmd = "G",
     dependencies = {
       'tpope/vim-rhubarb'
-    }
+    },
+    event = 'VeryLazy'
   },
   {
     'tpope/vim-repeat',
     keys = '.'
   },
   {
-    'tpope/vim-rhubarb',
-    lazy = true
-  },
-  {
     'tpope/vim-surround',
-    event = 'BufReadPre'
+    event = 'BufRead'
   },
   {
     'lewis6991/gitsigns.nvim',
@@ -88,12 +84,11 @@ local _M = {
   },
   {
     "L3MON4D3/LuaSnip",
-    --[[ dependencies = {
+    dependencies = {
       "rafamadriz/friendly-snippets",
       config = function()
-        require("luasnip.loaders.from_vscode").lazy_load()
       end,
-    }, ]]
+    },
     config = function()
       require("config.plugins.luasnip")
     end,
@@ -110,12 +105,19 @@ local _M = {
       "dmitmel/cmp-cmdline-history",
       "hrsh7th/cmp-path",
       "saadparwaiz1/cmp_luasnip",
-      "onsails/lspkind.nvim",
-      "hrsh7th/cmp-cmdline",
+      'onsails/lspkind.nvim',
     },
     config = function()
       require("config.plugins.cmp")
-    end,
+    end
+  },
+  {
+    "hrsh7th/cmp-cmdline",
+    dependencies = {
+      "hrsh7th/nvim-cmp"
+    },
+    event = 'CmdlineEnter'
+
   },
   {
     'nvim-telescope/telescope-fzf-native.nvim',

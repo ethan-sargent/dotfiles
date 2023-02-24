@@ -2,7 +2,7 @@ local luasnip = require("luasnip")
 
 luasnip.config.setup({
   history = true,
-  enable_autosnippets = true,
+  enable_autosnippets = false,
   -- Update more often, :h events for more info.
   -- updateevents = "TextChanged,TextChangedI",
 })
@@ -16,3 +16,7 @@ inoremap <silent> <S-Tab> <cmd>lua require'luasnip'.jump(-1)<Cr>
 snoremap <silent> <Tab> <cmd>lua require('luasnip').jump(1)<Cr>
 snoremap <silent> <S-Tab> <cmd>lua require('luasnip').jump(-1)<Cr>
 ]])
+require("luasnip.loaders.from_vscode").lazy_load({
+  path = 'snippets',
+  exclude = { "global", "all"}
+})
