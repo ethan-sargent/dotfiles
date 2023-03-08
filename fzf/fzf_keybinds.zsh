@@ -123,7 +123,7 @@ __fzf_sfdx_flags(){
 fzf-sfdx(){
   local fullcmd="$LBUFFER"
   local cmd="$(echo $fullcmd | awk '{print $1}')"
-  local subcmd="$(echo $fullcmd | awk '{print $2}')"
+  local subcmd="$(echo $fullcmd | awk -F- '{ trimmed = $0; sub(/\-.*/, "", trimmed); gsub(/sfdx /, "", trimmed); gsub(/^[ \t]+|[ \t]+$/,"", trimmed); gsub(/ /, "\ ", trimmed); print trimmed}')"
   local match="$(cat $XDG_CACHE_HOME/fzf/sfdxcommands.json | jq -r '.[] | select(.id=="'$subcmd'")')"
   if [[ "$cmd" = "sfdx" && "$match" != "" ]]
   then
@@ -136,7 +136,7 @@ fzf-sfdx(){
   then
     local querystr=""
     if [[ "$subcmd" != "" ]]; then
-     querystr="--query $subcmd" 
+     querystr="--query \"$subcmd\""
     fi
     local selected="$(cat $XDG_CACHE_HOME/fzf/sfdxcommands.json | jq -r '.[].id' | $(__fzfcmd) +m --bind=ctrl-z:ignore,alt-j:preview-down,alt-k:preview-up --preview='cat $XDG_CACHE_HOME/fzf/sfdxcommands.json | jq -r ".[] | select (.id==\""{}"\") | [\"\nDescription:\n \"+.description,\"\nUsage:\n \"+select(has(\"usage\")).usage, \"\nExamples:\n \"+(select(has(\"examples\")).examples|join(\"\n\"))][]"' --preview-window='right:wrap' $querystr)"
     if [[ "$selected" != "" ]]; then
