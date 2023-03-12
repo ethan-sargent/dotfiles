@@ -3,7 +3,10 @@
 # sfdx autocomplete setup
 # macos only atm
 if [[ -f "$HOME/Library/Caches/sfdx/autocomplete/zsh_setup" ]]; then
-  source  "$HOME/Library/Caches/sfdx/autocomplete/zsh_setup" 
+  fpath=(
+  /Users/ethan.sargent/Library/Caches/sfdx/autocomplete/functions/zsh
+  $fpath
+  );
 fi
 
 

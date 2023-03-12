@@ -9,22 +9,23 @@ _set_defaultusername() {
 
 dxd() {
   # username_found=false
-  for file in "$HOME"/.sfdx/*@*.json; do
-    username=$file:t
-    username=${username%.*}
-    if [[ $1 == $username ]]; then
-      _set_defaultusername $1;
-      return 0;
-    fi
-  done;
+  # for file in "$HOME"/.sfdx/*@*.json; do
+  #   username=$file:t
+  #   username=${username%.*}
+  #   if [[ $1 == $username ]]; then
+  #     _set_defaultusername $1;
+  #     return 0;
+  #   fi
+  # done;
 
-  if $(jq ".orgs | has(\"$1\")" ~/.sfdx/alias.json -e); then    
-    _set_defaultusername $1
-    return 0
-  else
-    >&2 echo "$1 is not a known alias or username.";
-    return 1;
-  fi
+  # if $(jq ".orgs | has(\"$1\")" ~/.sfdx/alias.json -e); then    
+  #   _set_defaultusername $1
+  #   return 0
+  # else
+  #   >&2 echo "$1 is not a known alias or username.";
+  #   return 1;
+  # fi
+  sfkit auth set -o $1
 }
 
 dxd "$@"

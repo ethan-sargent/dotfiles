@@ -41,8 +41,10 @@ export SHELL_SESSIONS_DISABLE=1
 # Volta - Version Manager for packages eg node
 # unfortunately not XDG compliant yet - unsure where this should go
 
-export VOLTA_HOME="$HOME/.volta"
-export PATH="$VOLTA_HOME/bin:$PATH"
+# export VOLTA_HOME="$HOME/.volta"
+# export PATH="$VOLTA_HOME/bin:$PATH"
+eval "$(/usr/local/bin/rtx activate zsh)"
+export PATH="$HOME/.cache/.bun/bin:$PATH"
 
 
 fpath=(
