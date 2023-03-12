@@ -32,3 +32,10 @@ vim.keymap.set("n", "<leader>d", "\"_d")
 vim.keymap.set("v", "<leader>d", "\"_d")
 
 vim.keymap.set("v", "s", "<nop>")
+
+
+local function dataFormat()
+  local filetype = vim.bo.filetype
+  vim.cmd(string.format([[%%!yq -p %s -o %s -P]], filetype, filetype))
+end
+vim.keymap.set("n", "<leader>yq", dataFormat);
