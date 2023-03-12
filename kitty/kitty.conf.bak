@@ -3,7 +3,6 @@
 # https://sw.kovidgoyal.net/kitty/conf/
 
 # To get a full list of supported fonts use the `kitty +list-fonts` command.
-
 font_size       16.0
 
 font_family       Menlo
@@ -269,4 +268,4 @@ map f3 kitten hints --program '*'
 # map double ctrl+a to ctrl+a (home)
 map ctrl+a>ctrl+a send_text all \x01
 
-
+macos_option_as_alt yes
