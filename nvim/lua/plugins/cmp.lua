@@ -13,6 +13,11 @@ local _cmp = {
 		"williamboman/mason-lspconfig.nvim",
 	},
 }
+local has_words_before = function()
+  unpack = unpack or table.unpack
+  local line, col = unpack(vim.api.nvim_win_get_cursor(0))
+  return col ~= 0 and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match("%s") == nil
+end
 
 _cmp.config = function()
 	-- Set up nvim-cmp.cmp
@@ -24,6 +29,7 @@ _cmp.config = function()
 
 	cmp.setup({
 		enabled = true,
+    preselect = cmp.PreselectMode.None,
 		view = {
 			entries = { name = "custom", selection_order = "near_cursor" },
 		},
@@ -48,9 +54,9 @@ _cmp.config = function()
 			["<Tab>"] = function(fallback)
 				if cmp.visible() then
 					cmp.select_next_item()
-				elseif luasnip.expand_or_jumpable() then
+				elseif luasnip.expand_or_locally_jumpable() then
 					luasnip.jump(1)
-				else
+        else
 					fallback()
 				end
 			end,
