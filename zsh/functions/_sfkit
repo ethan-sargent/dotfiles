@@ -247,3 +247,375 @@ if [ "$funcstack[1]" = "_sfkit" ]; then
 else
     compdef _sfkit sfkit
 fi
+#compdef sfkit
+
+autoload -U is-at-least
+
+_sfkit() {
+    typeset -A opt_args
+    typeset -a _arguments_options
+    local ret=1
+
+    if is-at-least 5.2; then
+        _arguments_options=(-s -S -C)
+    else
+        _arguments_options=(-s -C)
+    fi
+
+    local context curcontext="$curcontext" state line
+    _arguments "${_arguments_options[@]}" \
+'-h[Print help]' \
+'--help[Print help]' \
+'-V[Print version]' \
+'--version[Print version]' \
+":: :_sfkit_commands" \
+"*::: :->sfkit" \
+&& ret=0
+    case $state in
+    (sfkit)
+        words=($line[1] "${words[@]}")
+        (( CURRENT += 1 ))
+        curcontext="${curcontext%:*:*}:sfkit-command-$line[1]:"
+        case $line[1] in
+            (auth)
+_arguments "${_arguments_options[@]}" \
+'-h[Print help]' \
+'--help[Print help]' \
+":: :_sfkit__auth_commands" \
+"*::: :->auth" \
+&& ret=0
+
+    case $state in
+    (auth)
+        words=($line[1] "${words[@]}")
+        (( CURRENT += 1 ))
+        curcontext="${curcontext%:*:*}:sfkit-auth-command-$line[1]:"
+        case $line[1] in
+            (list)
+_arguments "${_arguments_options[@]}" \
+'-h[Print help]' \
+'--help[Print help]' \
+&& ret=0
+;;
+(set)
+_arguments "${_arguments_options[@]}" \
+'-o+[Username or alias for the current org.]: : ' \
+'-h[Print help]' \
+'--help[Print help]' \
+&& ret=0
+;;
+(help)
+_arguments "${_arguments_options[@]}" \
+":: :_sfkit__auth__help_commands" \
+"*::: :->help" \
+&& ret=0
+
+    case $state in
+    (help)
+        words=($line[1] "${words[@]}")
+        (( CURRENT += 1 ))
+        curcontext="${curcontext%:*:*}:sfkit-auth-help-command-$line[1]:"
+        case $line[1] in
+            (list)
+_arguments "${_arguments_options[@]}" \
+&& ret=0
+;;
+(set)
+_arguments "${_arguments_options[@]}" \
+&& ret=0
+;;
+(help)
+_arguments "${_arguments_options[@]}" \
+&& ret=0
+;;
+        esac
+    ;;
+esac
+;;
+        esac
+    ;;
+esac
+;;
+(completions)
+_arguments "${_arguments_options[@]}" \
+'-h[Print help]' \
+'--help[Print help]' \
+':shell:(bash elvish fish powershell zsh)' \
+&& ret=0
+;;
+(config)
+_arguments "${_arguments_options[@]}" \
+'-h[Print help]' \
+'--help[Print help]' \
+":: :_sfkit__config_commands" \
+"*::: :->config" \
+&& ret=0
+
+    case $state in
+    (config)
+        words=($line[1] "${words[@]}")
+        (( CURRENT += 1 ))
+        curcontext="${curcontext%:*:*}:sfkit-config-command-$line[1]:"
+        case $line[1] in
+            (set)
+_arguments "${_arguments_options[@]}" \
+'-l+[]:LOCATION:(global project)' \
+'--location=[]:LOCATION:(global project)' \
+'--target-org=[]:TARGET_ORG:( )' \
+'--target-dev-hub=[]:TARGET_DEV_HUB:( )' \
+'--org-api-version=[]:ORG_API_VERSION: ' \
+'--org-metadata-rest-deploy=[]:ORG_METADATA_REST_DEPLOY:(true false)' \
+'--disable-telemetry=[]:DISABLE_TELEMETRY:(true false)' \
+'--org-instance-url=[]:ORG_INSTANCE_URL:_urls' \
+'--org-max-query-limit=[]:ORG_MAX_QUERY_LIMIT:( )' \
+'--org-custom-metadata-templates=[]:ORG_CUSTOM_METADATA_TEMPLATES: ' \
+'-h[Print help]' \
+'--help[Print help]' \
+&& ret=0
+;;
+(help)
+_arguments "${_arguments_options[@]}" \
+":: :_sfkit__config__help_commands" \
+"*::: :->help" \
+&& ret=0
+
+    case $state in
+    (help)
+        words=($line[1] "${words[@]}")
+        (( CURRENT += 1 ))
+        curcontext="${curcontext%:*:*}:sfkit-config-help-command-$line[1]:"
+        case $line[1] in
+            (set)
+_arguments "${_arguments_options[@]}" \
+&& ret=0
+;;
+(help)
+_arguments "${_arguments_options[@]}" \
+&& ret=0
+;;
+        esac
+    ;;
+esac
+;;
+        esac
+    ;;
+esac
+;;
+(help)
+_arguments "${_arguments_options[@]}" \
+":: :_sfkit__help_commands" \
+"*::: :->help" \
+&& ret=0
+
+    case $state in
+    (help)
+        words=($line[1] "${words[@]}")
+        (( CURRENT += 1 ))
+        curcontext="${curcontext%:*:*}:sfkit-help-command-$line[1]:"
+        case $line[1] in
+            (auth)
+_arguments "${_arguments_options[@]}" \
+":: :_sfkit__help__auth_commands" \
+"*::: :->auth" \
+&& ret=0
+
+    case $state in
+    (auth)
+        words=($line[1] "${words[@]}")
+        (( CURRENT += 1 ))
+        curcontext="${curcontext%:*:*}:sfkit-help-auth-command-$line[1]:"
+        case $line[1] in
+            (list)
+_arguments "${_arguments_options[@]}" \
+&& ret=0
+;;
+(set)
+_arguments "${_arguments_options[@]}" \
+&& ret=0
+;;
+        esac
+    ;;
+esac
+;;
+(completions)
+_arguments "${_arguments_options[@]}" \
+&& ret=0
+;;
+(config)
+_arguments "${_arguments_options[@]}" \
+":: :_sfkit__help__config_commands" \
+"*::: :->config" \
+&& ret=0
+
+    case $state in
+    (config)
+        words=($line[1] "${words[@]}")
+        (( CURRENT += 1 ))
+        curcontext="${curcontext%:*:*}:sfkit-help-config-command-$line[1]:"
+        case $line[1] in
+            (set)
+_arguments "${_arguments_options[@]}" \
+&& ret=0
+;;
+        esac
+    ;;
+esac
+;;
+(help)
+_arguments "${_arguments_options[@]}" \
+&& ret=0
+;;
+        esac
+    ;;
+esac
+;;
+        esac
+    ;;
+esac
+}
+
+(( $+functions[_sfkit_commands] )) ||
+_sfkit_commands() {
+    local commands; commands=(
+'auth:Commands that allow you to view and update connections to salesforce orgs.' \
+'completions:Generate shell completions.' \
+'config:' \
+'help:Print this message or the help of the given subcommand(s)' \
+    )
+    _describe -t commands 'sfkit commands' commands "$@"
+}
+(( $+functions[_sfkit__auth_commands] )) ||
+_sfkit__auth_commands() {
+    local commands; commands=(
+'list:Lists available usernames and aliases' \
+'set:Change the default org for the current project.' \
+'help:Print this message or the help of the given subcommand(s)' \
+    )
+    _describe -t commands 'sfkit auth commands' commands "$@"
+}
+(( $+functions[_sfkit__help__auth_commands] )) ||
+_sfkit__help__auth_commands() {
+    local commands; commands=(
+'list:Lists available usernames and aliases' \
+'set:Change the default org for the current project.' \
+    )
+    _describe -t commands 'sfkit help auth commands' commands "$@"
+}
+(( $+functions[_sfkit__completions_commands] )) ||
+_sfkit__completions_commands() {
+    local commands; commands=()
+    _describe -t commands 'sfkit completions commands' commands "$@"
+}
+(( $+functions[_sfkit__help__completions_commands] )) ||
+_sfkit__help__completions_commands() {
+    local commands; commands=()
+    _describe -t commands 'sfkit help completions commands' commands "$@"
+}
+(( $+functions[_sfkit__config_commands] )) ||
+_sfkit__config_commands() {
+    local commands; commands=(
+'set:Update runtime configuration values for the CLI' \
+'help:Print this message or the help of the given subcommand(s)' \
+    )
+    _describe -t commands 'sfkit config commands' commands "$@"
+}
+(( $+functions[_sfkit__help__config_commands] )) ||
+_sfkit__help__config_commands() {
+    local commands; commands=(
+'set:Update runtime configuration values for the CLI' \
+    )
+    _describe -t commands 'sfkit help config commands' commands "$@"
+}
+(( $+functions[_sfkit__auth__help_commands] )) ||
+_sfkit__auth__help_commands() {
+    local commands; commands=(
+'list:Lists available usernames and aliases' \
+'set:Change the default org for the current project.' \
+'help:Print this message or the help of the given subcommand(s)' \
+    )
+    _describe -t commands 'sfkit auth help commands' commands "$@"
+}
+(( $+functions[_sfkit__auth__help__help_commands] )) ||
+_sfkit__auth__help__help_commands() {
+    local commands; commands=()
+    _describe -t commands 'sfkit auth help help commands' commands "$@"
+}
+(( $+functions[_sfkit__config__help_commands] )) ||
+_sfkit__config__help_commands() {
+    local commands; commands=(
+'set:Update runtime configuration values for the CLI' \
+'help:Print this message or the help of the given subcommand(s)' \
+    )
+    _describe -t commands 'sfkit config help commands' commands "$@"
+}
+(( $+functions[_sfkit__config__help__help_commands] )) ||
+_sfkit__config__help__help_commands() {
+    local commands; commands=()
+    _describe -t commands 'sfkit config help help commands' commands "$@"
+}
+(( $+functions[_sfkit__help_commands] )) ||
+_sfkit__help_commands() {
+    local commands; commands=(
+'auth:Commands that allow you to view and update connections to salesforce orgs.' \
+'completions:Generate shell completions.' \
+'config:' \
+'help:Print this message or the help of the given subcommand(s)' \
+    )
+    _describe -t commands 'sfkit help commands' commands "$@"
+}
+(( $+functions[_sfkit__help__help_commands] )) ||
+_sfkit__help__help_commands() {
+    local commands; commands=()
+    _describe -t commands 'sfkit help help commands' commands "$@"
+}
+(( $+functions[_sfkit__auth__help__list_commands] )) ||
+_sfkit__auth__help__list_commands() {
+    local commands; commands=()
+    _describe -t commands 'sfkit auth help list commands' commands "$@"
+}
+(( $+functions[_sfkit__auth__list_commands] )) ||
+_sfkit__auth__list_commands() {
+    local commands; commands=()
+    _describe -t commands 'sfkit auth list commands' commands "$@"
+}
+(( $+functions[_sfkit__help__auth__list_commands] )) ||
+_sfkit__help__auth__list_commands() {
+    local commands; commands=()
+    _describe -t commands 'sfkit help auth list commands' commands "$@"
+}
+(( $+functions[_sfkit__auth__help__set_commands] )) ||
+_sfkit__auth__help__set_commands() {
+    local commands; commands=()
+    _describe -t commands 'sfkit auth help set commands' commands "$@"
+}
+(( $+functions[_sfkit__auth__set_commands] )) ||
+_sfkit__auth__set_commands() {
+    local commands; commands=()
+    _describe -t commands 'sfkit auth set commands' commands "$@"
+}
+(( $+functions[_sfkit__config__help__set_commands] )) ||
+_sfkit__config__help__set_commands() {
+    local commands; commands=()
+    _describe -t commands 'sfkit config help set commands' commands "$@"
+}
+(( $+functions[_sfkit__config__set_commands] )) ||
+_sfkit__config__set_commands() {
+    local commands; commands=()
+    _describe -t commands 'sfkit config set commands' commands "$@"
+}
+(( $+functions[_sfkit__help__auth__set_commands] )) ||
+_sfkit__help__auth__set_commands() {
+    local commands; commands=()
+    _describe -t commands 'sfkit help auth set commands' commands "$@"
+}
+(( $+functions[_sfkit__help__config__set_commands] )) ||
+_sfkit__help__config__set_commands() {
+    local commands; commands=()
+    _describe -t commands 'sfkit help config set commands' commands "$@"
+}
+
+if [ "$funcstack[1]" = "_sfkit" ]; then
+    _sfkit "$@"
+else
+    compdef _sfkit sfkit
+fi

@@ -1588,7 +1588,7 @@
   }
   function prompt_sfdxenv() {
     if [[ -f './sfdx-project.json' && -f './.sfdx/sfdx-config.json' ]]; then
-      p10k segment -f 6 -i '' -t "$(jq .defaultusername -r .sfdx/sfdx-config.json)"
+      p10k segment -f 6 -i '' -t "$(jq '."target-org"' -r .sfdx/sfdx-config.json)"
     fi
   }
 
