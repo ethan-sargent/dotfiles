@@ -4,6 +4,8 @@ window:
   dynamic_title: true
   opacity: 1.0
 
+option_as_alt: Both
+
 font:
   normal:
     family: MesloLGS NF
