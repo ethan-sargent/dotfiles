@@ -1,6 +1,6 @@
 alias sfdx-fzf-refresh="sfdx commands --json | jq '. | unique | .[].id|=(split(\":\")|join(\" \"))' > $XDG_CACHE_HOME/fzf/sfdxcommands.json"
 
-alias dxenv="jq \".defaultusername\" .sfdx/sfdx-config.json"
+alias dxenv="jq \".target-org\" .sfdx/sfdx-config.json"
 
 autoload -Uz dxd
 autoload -Uz _dxd

@@ -25,7 +25,7 @@ dxd() {
   #   >&2 echo "$1 is not a known alias or username.";
   #   return 1;
   # fi
-  sfkit auth set -o $1
+  sfkit config set --target-org=$1
 }
 
 dxd "$@"
