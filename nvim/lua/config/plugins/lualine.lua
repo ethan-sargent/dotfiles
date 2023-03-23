@@ -15,14 +15,14 @@ local function sfdx_current_org()
 		return ""
 	end
 	local parsedConfig = vim.json.decode(sfConfigFile)
-	return "" .. parsedConfig["defaultusername"]
+	return "" .. parsedConfig["target-org"]
 end
 
 require("lualine").setup({
 	options = {
 		theme = "auto",
 		component_separators = "⏽",
-		section_separators = { left = "", right = "" },
+		section_separators = { left = "", right = "" },
 		globalstatus = true,
 	},
 	sections = {

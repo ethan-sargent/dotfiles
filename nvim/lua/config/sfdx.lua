@@ -50,7 +50,7 @@ vim.api.nvim_set_keymap("n", "<leader>sr", ":!sfdx force:source:retrieve --sourc
 vim.api.nvim_set_keymap("n", "<leader>sq", ":!sfdx force:data:soql:query  --file \"%\" <Enter>", {noremap = true});
 vim.api.nvim_set_keymap("v", "<leader>sq", "<cmd>:SOQLQuerySelected()<CR>", {})
 
-vim.api.nvim_set_keymap("n", "<leader>sae", ":!sfdx force:apex:execute --apexcodefile \"%\" <Enter>", {noremap = true});
+vim.api.nvim_set_keymap("n", "<leader>sae", ":!sfdx force:apex:execute --file \"%\" <Enter>", {noremap = true});
 vim.api.nvim_set_keymap("n", "<leader>st", ":!sfdx force:apex:test:run --tests \"%:t:r\" --synchronous<Enter>", {noremap = true});
 
 vim.api.nvim_set_keymap("n", "<leader>so", ":!sfdx force:org:open<Enter>", {});

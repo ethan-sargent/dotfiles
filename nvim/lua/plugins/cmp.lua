@@ -14,9 +14,9 @@ local _cmp = {
 	},
 }
 local has_words_before = function()
-  unpack = unpack or table.unpack
-  local line, col = unpack(vim.api.nvim_win_get_cursor(0))
-  return col ~= 0 and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match("%s") == nil
+	unpack = unpack or table.unpack
+	local line, col = unpack(vim.api.nvim_win_get_cursor(0))
+	return col ~= 0 and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match("%s") == nil
 end
 
 _cmp.config = function()
@@ -26,10 +26,11 @@ _cmp.config = function()
 	require("mason-lspconfig").setup()
 	local cmp = require("cmp")
 	local luasnip = require("luasnip")
+	local lspconfig = require("lspconfig")
 
 	cmp.setup({
 		enabled = true,
-    preselect = cmp.PreselectMode.None,
+		preselect = cmp.PreselectMode.None,
 		view = {
 			entries = { name = "custom", selection_order = "near_cursor" },
 		},
@@ -56,7 +57,7 @@ _cmp.config = function()
 					cmp.select_next_item()
 				elseif luasnip.expand_or_locally_jumpable() then
 					luasnip.jump(1)
-        else
+				else
 					fallback()
 				end
 			end,
@@ -129,7 +130,7 @@ _cmp.config = function()
 		-- Mappings.
 		-- See `:help vim.lsp.*` for documentation on any of the below functions
 		local bufopts = { noremap = true, silent = true, buffer = bufnr }
-		vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, bufopts)
+		vim.keymap.set("n", "gD", vim.lsp.buf.declaration, bufopts)
 		vim.keymap.set("n", "gd", vim.lsp.buf.definition, bufopts)
 		-- vim.keymap.set('n', 'K', vim.lsp.buf.hover, bufopts)
 		vim.keymap.set("n", "gi", vim.lsp.buf.implementation, bufopts)
@@ -156,20 +157,32 @@ _cmp.config = function()
 	local lsp_flags = {
 		debounce_text_changes = 150,
 	}
-	require("lspconfig").rust_analyzer.setup({
+	lspconfig.rust_analyzer.setup({
 		on_attach = on_attach,
 		flags = lsp_flags,
 		capabilities = capabilities,
 		settings = {
-			["rust-analyzer"] = {},
+			["rust-analyzer"] = {
+				checkOnSave = {
+					allFeatures = true,
+					overrideCommand = {
+						"cargo",
+						"clippy",
+						"--workspace",
+						"--message-format=json",
+						"--all-targets",
+						"--all-features",
+					},
+				},
+			},
 		},
 	})
-	require("lspconfig").tsserver.setup({
+	lspconfig.tsserver.setup({
 		on_attach = on_attach,
 		flags = lsp_flags,
 		capabilities = capabilities,
 	})
-	require("lspconfig").apex_ls.setup({
+	lspconfig.apex_ls.setup({
 		apex_jar_path = "~/.local/share/nvim/mason/packages/apex-language-server/apex-jorje-lsp.jar",
 		apex_enable_semantic_errors = false,
 		apex_enable_completion_statistics = false,
@@ -178,7 +191,7 @@ _cmp.config = function()
 		filetypes = { "apexcode", "apex", "apexanon" },
 	})
 
-	require("lspconfig").lua_ls.setup({
+	lspconfig.lua_ls.setup({
 		settings = {
 			Lua = {
 				runtime = {
@@ -208,13 +221,26 @@ _cmp.config = function()
 		capabilities = capabilities,
 	})
 
+	lspconfig.html.setup({
+		capabilities = capabilities,
+		flags = lsp_flags,
+		on_attach = function(client, bufnr)
+			on_attach(client, bufnr)
+			client.server_capabilities.documentFormattingProvider = false
+			client.server_capabilities.documentRangeFormattingProvider = false
+		end,
+		init_options = {
+			provideFormatter = false,
+		},
+	})
+
 	-- default handlers for language servers installed by Mason that don't have explicit handlers
 	require("mason-lspconfig").setup_handlers({
 		-- The first entry (without a key) will be the default handler
 		-- and will be called for each installed server that doesn't have
 		-- a dedicated handler.
 		function(server_name) -- default handler (optional)
-			require("lspconfig")[server_name].setup({
+			lspconfig[server_name].setup({
 				capabilities = capabilities,
 				flags = lsp_flags,
 				on_attach = on_attach,
@@ -224,5 +250,4 @@ _cmp.config = function()
 end
 return {
 	_cmp,
-	cmp_buffer,
 }

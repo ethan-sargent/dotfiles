@@ -48,6 +48,9 @@ saga.setup({
     --   black = named_colors.black,
     -- }
   },
+  symbol_in_winbar = {
+    enable = false
+  },
 })
 
 
