@@ -44,14 +44,14 @@ vim.api.nvim_create_user_command("SFDXCreateApexClass", SFDXCreateApexClass, {})
 
 vim.api.nvim_set_keymap("n", "<leader>swc", "<cmd>SwcCompile<CR>", {noremap = true})
 
-vim.api.nvim_set_keymap("n", "<leader>sd", ":w  <bar> !sfdx force:source:deploy --sourcepath \"%\"<Enter>", {noremap = true});
-vim.api.nvim_set_keymap("n", "<leader>sr", ":!sfdx force:source:retrieve --sourcepath \"%\"<Enter>", {noremap = true});
+vim.api.nvim_set_keymap("n", "<leader>sd", ":w  <bar> !sfdx force source deploy --sourcepath \"%\"<Enter>", {noremap = true});
+vim.api.nvim_set_keymap("n", "<leader>sr", ":!sfdx force source retrieve --sourcepath \"%\"<Enter>", {noremap = true});
 
-vim.api.nvim_set_keymap("n", "<leader>sq", ":!sfdx force:data:soql:query  --file \"%\" <Enter>", {noremap = true});
+vim.api.nvim_set_keymap("n", "<leader>sq", ":!sfdx data query  --file \"%\" <Enter>", {noremap = true});
 vim.api.nvim_set_keymap("v", "<leader>sq", "<cmd>:SOQLQuerySelected()<CR>", {})
 
-vim.api.nvim_set_keymap("n", "<leader>sae", ":!sfdx force:apex:execute --file \"%\" <Enter>", {noremap = true});
-vim.api.nvim_set_keymap("n", "<leader>st", ":!sfdx force:apex:test:run --tests \"%:t:r\" --synchronous<Enter>", {noremap = true});
+vim.api.nvim_set_keymap("n", "<leader>sae", ":!sfdx apex run --file \"%\" <Enter>", {noremap = true});
+vim.api.nvim_set_keymap("n", "<leader>st", ":!sfdx apex run test --tests \"%:t:r\" --synchronous<Enter>", {noremap = true});
 
 vim.api.nvim_set_keymap("n", "<leader>so", ":!sfdx force:org:open<Enter>", {});
 

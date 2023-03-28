@@ -1,59 +1,54 @@
 local keymap = vim.keymap.set
 local saga = require("lspsaga")
-
 -- local named_colors = require("nord.named_colors");
 -- local colors = require('nord.colors');
 saga.setup({
-  finder_action = {
-    open = { "o", "<CR>" },
-    vsplit = "s",
-    split = "i",
-    quit = { 'q', "<esc>" },
-    scroll_down = "<C-f>",
-    scroll_up = "<C-b>",
-  },
-  code_action = {
-    keys = {
-      quit = "<esc>",
-      exec = "<CR>",
-    }
-  },
-  rename = {
-    quit = "<esc>"
-  },
-  hover_doc = {
-    quit = { "q", "<esc>" }
-  },
-  ui = {
-     -- currently only round theme
-    theme = 'round',
-    -- this option only work in neovim 0.9
-    title = true,
-    -- border type can be single,double,rounded,solid,shadow.
-    border = 'rounded',
-    winblend = 10,
-    -- kind  = require("catppuccin.groups.integrations.lsp_saga").custom_kind(),
-    -- colors = {
-    --   normal_bg = named_colors.black,
-    --   title_bg = named_colors.white,
-    --   red = named_colors.red,
-    --   magenta = colors.nord5_gui,
-    --   orange = named_colors.orange,
-    --   yellow = named_colors.yellow,
-    --   green = named_colors.green,
-    --   cyan = named_colors.off_blue,
-    --   blue = named_colors.blue,
-    --   purple = named_colors.purple,
-    --   white = named_colors.white,
-    --   black = named_colors.black,
-    -- }
-  },
-  symbol_in_winbar = {
-    enable = false
-  },
+	finder_action = {
+		open = { "o", "<CR>" },
+		vsplit = "s",
+		split = "i",
+		quit = { "q", "<esc>" },
+		scroll_down = "<C-f>",
+		scroll_up = "<C-b>",
+	},
+	code_action = {
+		keys = {
+			quit = "<esc>",
+			exec = "<CR>",
+		},
+	},
+	rename = {
+		quit = "<esc>",
+	},
+	hover_doc = {
+		quit = { "q", "<esc>" },
+	},
+	ui = {
+		-- currently only round theme
+		theme = "round",
+		-- this option only work in neovim 0.9
+		title = true,
+		-- border type can be single,double,rounded,solid,shadow.
+		border = "rounded",
+		-- colors = {
+		--   normal_bg = named_colors.black,
+		--   title_bg = named_colors.white,
+		--   red = named_colors.red,
+		--   magenta = colors.nord5_gui,
+		--   orange = named_colors.orange,
+		--   yellow = named_colors.yellow,
+		--   green = named_colors.green,
+		--   cyan = named_colors.off_blue,
+		--   blue = named_colors.blue,
+		--   purple = named_colors.purple,
+		--   white = named_colors.white,
+		--   black = named_colors.black,
+		-- }
+	},
+	symbol_in_winbar = {
+		enable = false,
+	},
 })
-
-
 
 keymap("n", "gr", "<cmd>Lspsaga lsp_finder<CR>", { silent = true })
 
@@ -81,10 +76,10 @@ keymap("n", "]e", "<cmd>Lspsaga diagnostic_jump_next<CR>", { silent = true })
 
 -- Only jump to error
 keymap("n", "[E", function()
-  require("lspsaga.diagnostic"):goto_prev({ severity = vim.diagnostic.severity.ERROR })
+	require("lspsaga.diagnostic"):goto_prev({ severity = vim.diagnostic.severity.ERROR })
 end, { silent = true })
 keymap("n", "]E", function()
-  require("lspsaga.diagnostic"):goto_next({ severity = vim.diagnostic.severity.ERROR })
+	require("lspsaga.diagnostic"):goto_next({ severity = vim.diagnostic.severity.ERROR })
 end, { silent = true })
 
 -- Hover Doc

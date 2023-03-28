@@ -55,7 +55,7 @@ _cmp.config = function()
 			["<Tab>"] = function(fallback)
 				if cmp.visible() then
 					cmp.select_next_item()
-				elseif luasnip.expand_or_locally_jumpable() then
+				elseif luasnip.expand_or_jumpable() then
 					luasnip.jump(1)
 				else
 					fallback()
@@ -144,7 +144,10 @@ _cmp.config = function()
 		vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, bufopts)
 		-- vim.keymap.set('n', '<leader>ca', vim.lsp.buf.code_action, bufopts)
 		vim.keymap.set("n", "<leader>F", function()
-			vim.lsp.buf.format({ async = true })
+			vim.lsp.buf.format({
+        async = true,
+        filter = function(lspclient) return lspclient.name ~= "tsserver" and lspclient.name ~= "html" end
+      })
 		end, bufopts)
 	end
 	local capabilities = require("cmp_nvim_lsp").default_capabilities(vim.lsp.protocol.make_client_capabilities())

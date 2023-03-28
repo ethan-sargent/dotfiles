@@ -72,8 +72,6 @@ local _M = {
     "L3MON4D3/LuaSnip",
     dependencies = {
       "rafamadriz/friendly-snippets",
-      config = function()
-      end,
     },
     -- config = function()
     --   local luasnip = require("luasnip")
@@ -99,6 +97,9 @@ local _M = {
     --     exclude = { "global", "all"}
     --   })
     -- end,
+    config = function ()
+      require('config.plugins.luasnip')
+    end,
     lazy = true,
     build = "make install_jsregexp"
   },

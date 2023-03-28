@@ -17,6 +17,8 @@ vim.keymap.set("t", "<C-w><C-j>", "<cmd>wincmd j<CR>", noremap);
 vim.keymap.set("t", "<C-w><C-l>", "<cmd>wincmd l<CR>", noremap);
 vim.keymap.set("t", "<C-w><C-h>", "<cmd>wincmd h<CR>", noremap);
 
+vim.keymap.set("n", "s", "<Nop>")
+
 -- Primeagen
 vim.keymap.set("n", "<C-d>", "<C-d>zz")
 vim.keymap.set("n", "<C-u>", "<C-u>zz")
