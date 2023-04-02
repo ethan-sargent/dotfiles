@@ -1,5 +1,33 @@
 local Job = require("plenary.job")
 
+-- Example pleneary job result:
+--{ "Deploying v56.0 metadata to ethan.sargent@health.gov.au.r3dev using the v57.0 REST API",
+--"Deploy ID: 0AfBm000002fLybKAE",
+--"",
+--"=== Deployed Source",
+--"",
+--" FULL NAME         TYPE                     PROJECT PATH                                                               ",
+--" ───────────────── ───────────────          ────────────────────────────────────────────────────────────────────────── ",
+--" omniNamespaceForm LightningComponentBundle force-app/main/default/lwc/omniNamespaceForm/omniNamespaceForm.css         ",
+--" omniNamespaceForm LightningComponentBundle force-app/main/default/lwc/omniNamespaceForm/omniNamespaceForm.html        ",
+--" omniNamespaceForm LightningComponentBundle force-app/main/default/lwc/omniNamespaceForm/omniNamespaceForm.js          ",
+--" omniNamespaceForm LightningComponentBundle force-app/main/default/lwc/omniNamespaceForm/omniNamespaceForm.js-meta.xml ",
+--"Deploy Succeeded."
+--}
+
+-- Prints complete plenary job result to message buffer.
+-- Print will be scheduled with 0ms delay as multiline echo is not async.
+local function print_results_table(results)
+	vim.defer_fn(function()
+		local _result = {}
+		for i, value in ipairs(results) do
+			table.insert(_result, { value .. "\n" })
+		end
+    -- this api isn't api-fast, causing the function to be deferred by 0ms
+		vim.api.nvim_echo(_result, false, {})
+	end, 0)
+end
+
 local function create_deploy_job()
 	return Job:new({
 		command = "sfdx",
@@ -9,11 +37,7 @@ local function create_deploy_job()
 			print("Deploying source")
 		end,
 		on_exit = function(j, return_val)
-			if return_val == 0 then
-				print("Success.")
-			else
-				print("Failed.")
-			end
+			vim.defer_fn(print_results_table(j:result()), 0)
 		end,
 		on_stdout = function(error, data, self)
 			-- print(return_val)
