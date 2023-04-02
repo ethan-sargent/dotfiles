@@ -28,49 +28,30 @@ local function print_results_table(results)
 	end, 0)
 end
 
+local function sfdx_job(_args, start_msg)
+	return Job:new({
+		command = "sfdx",
+		args = _args,
+		cwd = ".",
+		on_start = function()
+			print(start_msg)
+		end,
+		on_exit = function(j, return_code)
+      print_results_table(j:result())
+		end,
+		on_stdout = function(error, data, self)
+			print(data)
+		end,
+	})
+end
+
 local function create_deploy_job()
-	return Job:new({
-		command = "sfdx",
-		args = { "force", "source", "deploy", "--sourcepath", vim.api.nvim_buf_get_name(0) },
-		cwd = ".",
-		on_start = function()
-			print("Deploying source")
-		end,
-		on_exit = function(j, return_val)
-			vim.defer_fn(print_results_table(j:result()), 0)
-		end,
-		on_stdout = function(error, data, self)
-			-- print(return_val)
-			print(data)
-		end,
-		on_stderr = function(error, data, self)
-			-- print(return_val)
-			-- print(inspect())
-		end,
-	})
+  return sfdx_job(
+    { "force", "source", "deploy", "--sourcepath", vim.api.nvim_buf_get_name(0) },
+    "Deploying source..."
+  );
 end
-local function create_sfdx_job(args)
-	return Job:new({
-		command = "sfdx",
-		args = { "force", "source", "deploy", "--sourcepath", vim.api.nvim_buf_get_name(0) },
-		cwd = ".",
-		on_start = function()
-			print("Deploying source")
-		end,
-		on_exit = function(j, return_val)
-			-- print(return_val)
-			vim.print(j:result())
-		end,
-		on_stdout = function(error, data, self)
-			-- print(return_val)
-			print(data)
-		end,
-		on_stderr = function(error, data, self)
-			-- print(return_val)
-			-- print(inspect())
-		end,
-	})
-end
+
 vim.keymap.set("n", "<leader>sd", function()
 	create_deploy_job():start()
 end, { noremap = true })
