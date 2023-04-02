@@ -9,8 +9,11 @@ local function create_deploy_job()
 			print("Deploying source")
 		end,
 		on_exit = function(j, return_val)
-			-- print(return_val)
-      print("Done.")
+			if return_val == 0 then
+				print("Success.")
+			else
+				print("Failed.")
+			end
 		end,
 		on_stdout = function(error, data, self)
 			-- print(return_val)
@@ -51,24 +54,20 @@ end, { noremap = true })
 local function GetVisualSelection(preserve_newlines)
 	local s_start = vim.api.nvim_buf_get_mark(0, "<")
 	local s_end = vim.api.nvim_buf_get_mark(0, ">")
-	local lines = vim.api.nvim_buf_get_text(0, s_start[1], s_start[2], s_end[1], s_end[2], false)
-	if next(lines) == nil then
-		return nil
-	end
+	local lines = vim.api.nvim_buf_get_text(0, s_start[1] - 1, s_start[2], s_end[1] - 1, s_end[2], {})
 	local separator
 	if preserve_newlines then
 		separator = "\n"
 	else
 		separator = ""
 	end
-  print(table.concat(lines, separator))
 	return string.gsub(table.concat(lines, separator), "%%", [[%%]])
 end
 
 local function SfdxVisualQuery()
-	vim.cmd(string.format('!sfdx force:data:soql:query -q "%s"', GetVisualSelection(false)))
+	vim.cmd(string.format('!sfdx data query -q "%s"', GetVisualSelection(false)))
 end
-vim.api.nvim_create_user_command("SOQLQuerySelected", SfdxVisualQuery, {})
+vim.keymap.set("v", "<leader>sq", SfdxVisualQuery, {})
 
 local function SwcCompile()
 	vim.cmd('!npx swc "%" -o "%:r.js"')
@@ -92,11 +91,9 @@ vim.api.nvim_create_user_command("SFDXCreateApexClass", SFDXCreateApexClass, {})
 
 vim.api.nvim_set_keymap("n", "<leader>swc", "<cmd>SwcCompile<CR>", { noremap = true })
 
--- vim.api.nvim_set_keymap("n", "<leader>sd", ":w  <bar> !sfdx force source deploy --sourcepath \"%\"<Enter>", {noremap = true});
 vim.api.nvim_set_keymap("n", "<leader>sr", ':!sfdx force source retrieve --sourcepath "%"<Enter>', { noremap = true })
 
 vim.api.nvim_set_keymap("n", "<leader>sq", ':!sfdx data query  --file "%" <Enter>', { noremap = true })
-vim.api.nvim_set_keymap("v", "<leader>sq", "<cmd>:SOQLQuerySelected()<CR>", {})
 
 vim.api.nvim_set_keymap("n", "<leader>sae", ':!sfdx apex run --file "%" <Enter>', { noremap = true })
 vim.api.nvim_set_keymap(
