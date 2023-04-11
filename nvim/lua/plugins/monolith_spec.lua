@@ -2,7 +2,7 @@ local _M = {
 	-- utilities
 	{
 		"tpope/vim-vinegar",
-		event = "VeryLazy",
+    event = "VeryLazy"
 	},
 	{
 		"tpope/vim-fugitive",
@@ -10,13 +10,6 @@ local _M = {
 			"tpope/vim-rhubarb",
 		},
 		event = "VeryLazy",
-	},
-	{
-		-- 'tpope/vim-surround',
-		-- dependencies = {
-		--   'tpope/vim-repeat',
-		-- },
-		-- event = 'BufRead'
 	},
 	{
 		"tpope/vim-repeat",

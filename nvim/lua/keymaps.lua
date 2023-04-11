@@ -31,8 +31,6 @@ vim.keymap.set("n", "<leader>Y", "\"+Y")
 vim.keymap.set("n", "<leader>d", "\"_d")
 vim.keymap.set("v", "<leader>d", "\"_d")
 
-vim.keymap.set("v", "s", "<nop>")
-
 
 local function dataFormat()
   local filetype = vim.bo.filetype
