@@ -11,15 +11,14 @@
 (($+commands[git]))   && { alias g="git"    } 
 (($+commands[lazygit]))   && { alias lg="lazygit"    } 
 
-# checkout branch and pull latest changes
+# checkout branch from PR ID
 azco() {
   az repos pr checkout --id "$1"
-  g pull
 }
 
-azcocheck() {
-  azco "$1"
-  g log --oneline
+
+azactiveitems() {
+  az boards query --id 84fdd6d1-16e5-4ff2-9b38-abac3489b21b -o table --query '[].{ID: id, Title: fields."System.Title", State:fields."System.State", Tags:fields."System.Tags"}'
 }
 
 colormap(){

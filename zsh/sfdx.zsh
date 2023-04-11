@@ -41,9 +41,10 @@ dxinccheck(){
   echo "fork_point = $fork_point"
   local user="${2:?Target username not provided}"
   local incdir="${3:-delta}"
-  test -d "$incdir" && rm -r "$incdir" && mkdir -p "$incdir"
+  test -d "$incdir" && rm -r "$incdir"
+  mkdir -p "$incdir"
   sfdx sgd:source:delta --to "HEAD" --from "$fork_point" --output "$incdir" --generate-delta
-  sfdx force:source:deploy --checkonly -p "$incdir"/force-app -u "$user" --json
+  sfdx force:source:deploy --checkonly -p "$incdir"/force-app -u "$user"
 }
 
 # Usage: dxincautodeploy <username> <commit_ish_override=.sfdx/.lastincref> <output_directory=delta>
