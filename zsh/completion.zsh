@@ -4,7 +4,13 @@
 # macos only atm
 if [[ -f "$HOME/Library/Caches/sfdx/autocomplete/zsh_setup" ]]; then
   fpath=(
-  /Users/ethan.sargent/Library/Caches/sfdx/autocomplete/functions/zsh
+  $HOME/Library/Caches/sfdx/autocomplete/functions/zsh
+  $fpath
+  );
+fi
+if [[ -f "$XDG_CACHE_HOME/sfdx/autocomplete/zsh_setup" ]]; then
+  fpath=(
+  $HOME/.cache/sfdx/autocomplete/functions/zsh
   $fpath
   );
 fi
