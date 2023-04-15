@@ -11,6 +11,9 @@ local _cmp = {
 		"neovim/nvim-lspconfig",
 		"williamboman/mason.nvim",
 		"williamboman/mason-lspconfig.nvim",
+		"simrat39/rust-tools.nvim",
+		"mfussenegger/nvim-dap",
+		"jay-babu/mason-nvim-dap.nvim",
 	},
 }
 local has_words_before = function()
@@ -24,6 +27,9 @@ _cmp.config = function()
 	local lspkind = require("lspkind")
 	require("mason").setup()
 	require("mason-lspconfig").setup()
+	require("mason-nvim-dap").setup({
+		automatic_setup = true,
+	})
 	local cmp = require("cmp")
 	local luasnip = require("luasnip")
 	local lspconfig = require("lspconfig")
@@ -145,9 +151,11 @@ _cmp.config = function()
 		-- vim.keymap.set('n', '<leader>ca', vim.lsp.buf.code_action, bufopts)
 		vim.keymap.set("n", "<leader>F", function()
 			vim.lsp.buf.format({
-        async = true,
-        filter = function(lspclient) return lspclient.name ~= "tsserver" and lspclient.name ~= "html" end
-      })
+				async = true,
+				filter = function(lspclient)
+					return lspclient.name ~= "tsserver" and lspclient.name ~= "html"
+				end,
+			})
 		end, bufopts)
 	end
 	local capabilities = require("cmp_nvim_lsp").default_capabilities(vim.lsp.protocol.make_client_capabilities())
@@ -160,26 +168,6 @@ _cmp.config = function()
 	local lsp_flags = {
 		debounce_text_changes = 150,
 	}
-	lspconfig.rust_analyzer.setup({
-		on_attach = on_attach,
-		flags = lsp_flags,
-		capabilities = capabilities,
-		settings = {
-			["rust-analyzer"] = {
-				checkOnSave = {
-					allFeatures = true,
-					overrideCommand = {
-						"cargo",
-						"clippy",
-						"--workspace",
-						"--message-format=json",
-						"--all-targets",
-						"--all-features",
-					},
-				},
-			},
-		},
-	})
 	lspconfig.tsserver.setup({
 		on_attach = on_attach,
 		flags = lsp_flags,
