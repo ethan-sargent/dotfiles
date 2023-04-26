@@ -1,7 +1,7 @@
 local _M = {
     'rose-pine/neovim',
     name = 'rose-pine',
-    priority = 999,
+    priority = 998,
     enabled = false,
     -- cond = false,
 }

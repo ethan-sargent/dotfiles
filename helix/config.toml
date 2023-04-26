@@ -1,0 +1,9 @@
+theme = "nord"
+
+[editor.cursor-shape]
+insert = "bar"
+normal = "block"
+
+[editor]
+line-number = "relative"
+mouse = false
