@@ -251,7 +251,7 @@ map ctrl+b>d     debug_config
 
 
 # BEGIN_KITTY_THEME
-# Rosé Pine Moon
+# Catppuccin-Mocha
 include current-theme.conf
 # END_KITTY_THEME
 

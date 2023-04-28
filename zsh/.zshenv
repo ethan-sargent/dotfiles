@@ -43,9 +43,8 @@ export SHELL_SESSIONS_DISABLE=1
 
 # export VOLTA_HOME="$HOME/.volta"
 # export PATH="$VOLTA_HOME/bin:$PATH"
-eval "$(rtx activate zsh)"
+eval "$(/usr/local/bin/rtx activate zsh)"
 export PATH="$HOME/.cache/.bun/bin:$PATH"
-
 
 fpath=(
   $ZDOTDIR/functions
