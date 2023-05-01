@@ -5,10 +5,10 @@
 # To get a full list of supported fonts use the `kitty +list-fonts` command.
 font_size       16.0
 
-font_family       Menlo
-# italic_font       SF Mono Medium
-# bold_font         SF Mono Bold 
-# bold_italic_font  SF Mono Bold
+font_family       Iosevka Nerd Font Regular
+italic_font       Iosevka Nerd Font Oblique
+bold_font         Iosevka Nerd Font Bold 
+bold_italic_font  Iosevka Nerd Font Bold Oblique
 
 scrollback_lines 8000
 
@@ -251,7 +251,7 @@ map ctrl+b>d     debug_config
 
 
 # BEGIN_KITTY_THEME
-# Catppuccin-Mocha
+# Nord
 include current-theme.conf
 # END_KITTY_THEME
 
