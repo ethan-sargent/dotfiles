@@ -123,40 +123,37 @@ _cmp.config = function()
 	-- See `:help vim.diagnostic.*` for documentation on any of the below functions
 	local opts = { noremap = true, silent = true }
 	vim.keymap.set("n", "<space>e", vim.diagnostic.open_float, opts)
-	vim.keymap.set("n", "[d", vim.diagnostic.goto_prev, opts)
-	vim.keymap.set("n", "]d", vim.diagnostic.goto_next, opts)
+	vim.keymap.set("n", "[e", vim.diagnostic.goto_prev, opts)
+	vim.keymap.set("n", "]e", vim.diagnostic.goto_next, opts)
 	vim.keymap.set("n", "<space>q", vim.diagnostic.setloclist, opts)
+  local opts = { noremap = true, silent = true, }
+  -- vim.keymap.set("n", "gD", vim.lsp.buf.declaration, bufopts)
+  vim.keymap.set("n", "gd", vim.lsp.buf.definition, opts)
+  vim.keymap.set("n", "gr", vim.lsp.buf.references, opts)
+  vim.keymap.set('n', 'K', vim.lsp.buf.hover, opts)
+  vim.keymap.set("n", "gi", vim.lsp.buf.implementation, opts)
+  vim.keymap.set("n", "<C-k>", vim.lsp.buf.signature_help, opts)
+  vim.keymap.set("n", "<leader>wa", vim.lsp.buf.add_workspace_folder, opts)
+  vim.keymap.set("n", "<leader>wr", vim.lsp.buf.remove_workspace_folder, opts)
+  vim.keymap.set("n", "<leader>wl", function()
+    print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
+  end, opts)
+  vim.keymap.set("n", "<leader>gD", vim.lsp.buf.type_definition, opts)
+  vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, opts)
+  vim.keymap.set('n', '<leader>ca', vim.lsp.buf.code_action, opts)
+  vim.keymap.set("n", "<leader>F", function()
+    vim.lsp.buf.format({
+      async = true,
+      filter = function(lspclient)
+        return lspclient.name ~= "tsserver" and lspclient.name ~= "html"
+      end,
+    })
+  end, opts)
 
-	-- Use an on_attach function to only map the following keys
-	-- after the language server attaches to the current buffer
 	local on_attach = function(client, bufnr)
 		-- Enable completion triggered by <c-x><c-o>
 		vim.api.nvim_buf_set_option(bufnr, "omnifunc", "v:lua.vim.lsp.omnifunc")
 
-		-- Mappings.
-		-- See `:help vim.lsp.*` for documentation on any of the below functions
-		local bufopts = { noremap = true, silent = true, buffer = bufnr }
-		vim.keymap.set("n", "gD", vim.lsp.buf.declaration, bufopts)
-		vim.keymap.set("n", "gd", vim.lsp.buf.definition, bufopts)
-		-- vim.keymap.set('n', 'K', vim.lsp.buf.hover, bufopts)
-		vim.keymap.set("n", "gi", vim.lsp.buf.implementation, bufopts)
-		vim.keymap.set("n", "<C-k>", vim.lsp.buf.signature_help, bufopts)
-		vim.keymap.set("n", "<leader>wa", vim.lsp.buf.add_workspace_folder, bufopts)
-		vim.keymap.set("n", "<leader>wr", vim.lsp.buf.remove_workspace_folder, bufopts)
-		vim.keymap.set("n", "<leader>wl", function()
-			print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
-		end, bufopts)
-		-- vim.keymap.set("n", "<leader>gD", vim.lsp.buf.type_definition, bufopts)
-		vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, bufopts)
-		-- vim.keymap.set('n', '<leader>ca', vim.lsp.buf.code_action, bufopts)
-		vim.keymap.set("n", "<leader>F", function()
-			vim.lsp.buf.format({
-				async = true,
-				filter = function(lspclient)
-					return lspclient.name ~= "tsserver" and lspclient.name ~= "html"
-				end,
-			})
-		end, bufopts)
 	end
 	local capabilities = require("cmp_nvim_lsp").default_capabilities(vim.lsp.protocol.make_client_capabilities())
 	vim.g.completion_enable_snippet = "luasnip"
@@ -174,7 +171,7 @@ _cmp.config = function()
 		capabilities = capabilities,
 	})
 	lspconfig.apex_ls.setup({
-		apex_jar_path = "~/.local/share/nvim/mason/packages/apex-language-server/apex-jorje-lsp.jar",
+		apex_jar_path = "~/.local/share/nvim/mason/packages/apex-language-server/extension/dist/",
 		apex_enable_semantic_errors = false,
 		apex_enable_completion_statistics = false,
 		on_attach = on_attach,
@@ -217,11 +214,24 @@ _cmp.config = function()
 		flags = lsp_flags,
 		on_attach = function(client, bufnr)
 			on_attach(client, bufnr)
-			client.server_capabilities.documentFormattingProvider = false
-			client.server_capabilities.documentRangeFormattingProvider = false
 		end,
 		init_options = {
 			provideFormatter = false,
+		},
+	})
+
+	require("lspconfig").azure_pipelines_ls.setup({
+		settings = {
+			yaml = {
+				schemas = {
+					["https://raw.githubusercontent.com/microsoft/azure-pipelines-vscode/master/service-schema.json"] = {
+						"/azure-pipeline*.y*l",
+						"/*.azure*",
+						"/devops/**/*.y*l",
+						"/runbooks/**/*.y*l",
+					},
+				},
+			},
 		},
 	})
 
@@ -235,6 +245,16 @@ _cmp.config = function()
 				capabilities = capabilities,
 				flags = lsp_flags,
 				on_attach = on_attach,
+			})
+		end,
+
+		["apex_ls"] = function()
+			lspconfig.apex_ls.setup({
+				apex_enable_semantic_errors = false,
+				apex_enable_completion_statistics = false,
+				on_attach = on_attach,
+				capabilities = capabilities,
+				filetypes = { "apexcode", "apex", "apexanon" },
 			})
 		end,
 	})

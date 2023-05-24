@@ -1,6 +1,6 @@
 local _M = {
   'shaunsingh/nord.nvim',
-  priority = 999,
+  priority = 1000,
   enabled = true,
 }
 

@@ -84,3 +84,12 @@ end, { silent = true })
 
 -- Hover Doc
 keymap("n", "K", "<cmd>Lspsaga hover_doc<CR>", { silent = true })
+
+keymap("n", "<leader>F", function()
+	vim.lsp.buf.format({
+		async = true,
+		filter = function(lspclient)
+			return lspclient.name ~= "tsserver" and lspclient.name ~= "html"
+		end,
+	})
+end, { noremap = true, silent = true })

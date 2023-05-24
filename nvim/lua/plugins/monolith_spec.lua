@@ -135,6 +135,7 @@ local _M = {
 			require("config.plugins.lsp-saga")
 		end,
 		lazy = true,
+    enabled = false,
 		event = "BufReadPost",
 	},
 	-- file-type plugins
