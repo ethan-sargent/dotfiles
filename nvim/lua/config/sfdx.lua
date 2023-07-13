@@ -36,10 +36,10 @@ local function sfdx_job(_args, start_msg)
 		on_start = function()
 			print(start_msg)
 		end,
-		on_exit = function(j)
+		on_exit = function(j, _return_code)
       print_results_table(j:result())
 		end,
-		on_stdout = function(_err, data)
+		on_stdout = function(_error, data, _self)
 			print(data)
 		end,
 	})
@@ -54,7 +54,7 @@ end
 local function create_retrieve_job()
   return sfdx_job(
     { "project", "retrieve", "start", "--ignore-conflicts", "--source-dir", vim.api.nvim_buf_get_name(0) },
-    "Deploying source..."
+    "Retrieving source..."
   );
 end
 

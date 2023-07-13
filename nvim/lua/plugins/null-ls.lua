@@ -13,17 +13,17 @@ _M.config = function()
       null_ls.builtins.formatting.prettierd.with({
         extra_filetypes = { "apex", "apexcode", "apexanon", "xml" },
       }),
-      null_ls.builtins.diagnostics.pmd.with({
-        args = {
-          "--format", "json",
-          "--dir", "force-app",
-          "--rulesets", "pmd/apex_rules.xml",
-          "--cache", ".pmdCache",
-          "--minimum-priority", "3",
-          "-t", "0"
-        },
-        filetypes = { "apex", "apexcode", "apexanon", "xml" }
-      }),
+      -- null_ls.builtins.diagnostics.pmd.with({
+      --   args = {
+      --     "--format", "json",
+      --     "--dir", "force-app",
+      --     "--rulesets", "pmd/apex_rules.xml",
+      --     "--cache", ".pmdCache",
+      --     "--minimum-priority", "3",
+      --     "-t", "0"
+      --   },
+      --   filetypes = { "apex", "apexcode", "apexanon", "xml" }
+      -- }),
     },
   })
 end
