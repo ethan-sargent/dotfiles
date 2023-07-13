@@ -1,12 +1,23 @@
 local _M = {
 	"simrat39/rust-tools.nvim",
-  lazy = true
+	lazy = true,
 }
 
 _M.config = function()
 	local rt = require("rust-tools")
 	rt.setup({
 		server = {
+			checkOnSave = {
+				allFeatures = true,
+				overrideCommand = {
+					"cargo",
+					"clippy",
+					"--workspace",
+					"--message-format=json",
+					"--all-targets",
+					"--all-features",
+				},
+			},
 			on_attach = function(_, bufnr)
 				-- Hover actions
 				vim.keymap.set("n", "<Leader>K", rt.hover_actions.hover_actions, { buffer = bufnr })
@@ -17,4 +28,4 @@ _M.config = function()
 	})
 end
 
-return _M;
+return _M

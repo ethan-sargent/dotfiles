@@ -6,6 +6,7 @@ local _M = {
 
 _M.config = function ()
   require'colorizer'.setup({
+    filetypes = { "css", "html", "javascript", "typescript", "javascriptreact", "typescriptreact" },
     css = {
       css = true, -- Enable parsing rgb(...) functions in css.
     },

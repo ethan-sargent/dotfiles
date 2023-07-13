@@ -36,10 +36,10 @@ local function sfdx_job(_args, start_msg)
 		on_start = function()
 			print(start_msg)
 		end,
-		on_exit = function(j, return_code)
+		on_exit = function(j)
       print_results_table(j:result())
 		end,
-		on_stdout = function(error, data, self)
+		on_stdout = function(_err, data)
 			print(data)
 		end,
 	})
@@ -47,13 +47,23 @@ end
 
 local function create_deploy_job()
   return sfdx_job(
-    { "force", "source", "deploy", "--sourcepath", vim.api.nvim_buf_get_name(0) },
+    { "project", "deploy", "start", "--ignore-conflicts", "--source-dir", vim.api.nvim_buf_get_name(0) },
+    "Deploying source..."
+  );
+end
+local function create_retrieve_job()
+  return sfdx_job(
+    { "project", "retrieve", "start", "--ignore-conflicts", "--source-dir", vim.api.nvim_buf_get_name(0) },
     "Deploying source..."
   );
 end
 
 vim.keymap.set("n", "<leader>sd", function()
 	create_deploy_job():start()
+end, { noremap = true })
+
+vim.keymap.set("n", "<leader>sr", function()
+	create_retrieve_job():start()
 end, { noremap = true })
 
 local function GetVisualSelection(preserve_newlines)
@@ -74,18 +84,13 @@ local function SfdxVisualQuery()
 end
 vim.keymap.set("v", "<leader>sq", SfdxVisualQuery, {})
 
-local function SwcCompile()
-	vim.cmd('!npx swc "%" -o "%:r.js"')
-end
-vim.api.nvim_create_user_command("SwcCompile", SwcCompile, {})
-
 local function SFDXCreateApexClass(commandTable)
 	local classname = commandTable.fargs[1]
 	local template = commandTable.fargs[2] or "DefaultApexClass"
 	local outputdir = commandTable.fargs[3] or "force-app/main/default/classes"
 	vim.cmd(
 		string.format(
-			'!sfdx force:apex:class:create --classname %s --template %s --outputdir "%s"',
+			'!sfdx apex generate class --name %s --template %s --output-dir "%s"',
 			classname,
 			template,
 			outputdir
@@ -94,11 +99,13 @@ local function SFDXCreateApexClass(commandTable)
 end
 vim.api.nvim_create_user_command("SFDXCreateApexClass", SFDXCreateApexClass, {})
 
+local function SwcCompile()
+	vim.cmd('!npx swc "%" -o "%:r.js"')
+end
+vim.api.nvim_create_user_command("SwcCompile", SwcCompile, {})
 vim.api.nvim_set_keymap("n", "<leader>swc", "<cmd>SwcCompile<CR>", { noremap = true })
 
-vim.api.nvim_set_keymap("n", "<leader>sr", ':!sfdx force source retrieve --sourcepath "%"<Enter>', { noremap = true })
-
-vim.api.nvim_set_keymap("n", "<leader>sq", ':!sfdx data query  --file "%" <Enter>', { noremap = true })
+vim.api.nvim_set_keymap("n", "<leader>sq", ':!sfdx data query --file "%" <Enter>', { noremap = true })
 
 vim.api.nvim_set_keymap("n", "<leader>sae", ':!sfdx apex run --file "%" <Enter>', { noremap = true })
 vim.api.nvim_set_keymap(
@@ -108,7 +115,7 @@ vim.api.nvim_set_keymap(
 	{ noremap = true }
 )
 
-vim.api.nvim_set_keymap("n", "<leader>so", ":!sfdx force:org:open<Enter>", {})
+vim.api.nvim_set_keymap("n", "<leader>so", ":!sfdx org open<Enter>", {})
 
 -- shortcut for org switching zsh alias
 vim.api.nvim_set_keymap("n", "<leader>dxd", ":!dxd ", { noremap = true })

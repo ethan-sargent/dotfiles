@@ -23,16 +23,42 @@ local has_words_before = function()
 end
 
 _cmp.config = function()
-	-- Set up nvim-cmp.cmp
+	local cmp = require("cmp")
+	local lspconfig = require("lspconfig")
+	local luasnip = require("luasnip")
+	vim.g.completion_enable_snippet = "luasnip"
+	local lsp_flags = {
+		debounce_text_changes = 150,
+	}
+  -- LSP configuration
+	local on_attach = function(client, bufnr)
+		-- Enable completion triggered by <c-x><c-o>
+		vim.api.nvim_buf_set_option(bufnr, "omnifunc", "v:lua.vim.lsp.omnifunc")
+	end
+	local capabilities = require("cmp_nvim_lsp").default_capabilities(vim.lsp.protocol.make_client_capabilities())
+	capabilities.textDocument.completion.completionItem.snippetSupport = true
+
 	local lspkind = require("lspkind")
 	require("mason").setup()
-	require("mason-lspconfig").setup()
+	local handlers = {
+		-- The first entry (without a key) will be the default handler
+		-- and will be called for each installed server that doesn't have
+		-- a dedicated handler.
+		function(server_name) -- default handler (optional)
+			lspconfig[server_name].setup({
+				capabilities = capabilities,
+				flags = lsp_flags,
+				on_attach = on_attach,
+			})
+		end,
+	}
+	require("mason-lspconfig").setup({
+    automatic_installation = true,
+    handlers = handlers
+  })
 	require("mason-nvim-dap").setup({
 		automatic_setup = true,
 	})
-	local cmp = require("cmp")
-	local luasnip = require("luasnip")
-	local lspconfig = require("lspconfig")
 
 	cmp.setup({
 		enabled = true,
@@ -126,58 +152,48 @@ _cmp.config = function()
 	vim.keymap.set("n", "[e", vim.diagnostic.goto_prev, opts)
 	vim.keymap.set("n", "]e", vim.diagnostic.goto_next, opts)
 	vim.keymap.set("n", "<space>q", vim.diagnostic.setloclist, opts)
-  local opts = { noremap = true, silent = true, }
-  -- vim.keymap.set("n", "gD", vim.lsp.buf.declaration, bufopts)
-  vim.keymap.set("n", "gd", vim.lsp.buf.definition, opts)
-  vim.keymap.set("n", "gr", vim.lsp.buf.references, opts)
-  vim.keymap.set('n', 'K', vim.lsp.buf.hover, opts)
-  vim.keymap.set("n", "gi", vim.lsp.buf.implementation, opts)
-  vim.keymap.set("n", "<C-k>", vim.lsp.buf.signature_help, opts)
-  vim.keymap.set("n", "<leader>wa", vim.lsp.buf.add_workspace_folder, opts)
-  vim.keymap.set("n", "<leader>wr", vim.lsp.buf.remove_workspace_folder, opts)
-  vim.keymap.set("n", "<leader>wl", function()
-    print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
-  end, opts)
-  vim.keymap.set("n", "<leader>gD", vim.lsp.buf.type_definition, opts)
-  vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, opts)
-  vim.keymap.set('n', '<leader>ca', vim.lsp.buf.code_action, opts)
-  vim.keymap.set("n", "<leader>F", function()
-    vim.lsp.buf.format({
-      async = true,
-      filter = function(lspclient)
-        return lspclient.name ~= "tsserver" and lspclient.name ~= "html"
-      end,
-    })
-  end, opts)
+	local opts = { noremap = true, silent = true }
+	-- vim.keymap.set("n", "gD", vim.lsp.buf.declaration, bufopts)
+	vim.keymap.set("n", "gd", vim.lsp.buf.definition, opts)
+	vim.keymap.set("n", "gr", vim.lsp.buf.references, opts)
+	vim.keymap.set("n", "K", vim.lsp.buf.hover, opts)
+	vim.keymap.set("n", "gi", vim.lsp.buf.implementation, opts)
+	vim.keymap.set("n", "<C-k>", vim.lsp.buf.signature_help, opts)
+	vim.keymap.set("n", "<leader>wa", vim.lsp.buf.add_workspace_folder, opts)
+	vim.keymap.set("n", "<leader>wr", vim.lsp.buf.remove_workspace_folder, opts)
+	vim.keymap.set("n", "<leader>wl", function()
+		print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
+	end, opts)
+	vim.keymap.set("n", "<leader>gD", vim.lsp.buf.type_definition, opts)
+	vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, opts)
+	vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, opts)
+	vim.keymap.set("n", "<leader>F", function()
+		vim.lsp.buf.format({
+			async = true,
+			filter = function(lspclient)
+				return lspclient.name ~= "tsserver" and lspclient.name ~= "html"
+			end,
+		})
+	end, opts)
 
-	local on_attach = function(client, bufnr)
-		-- Enable completion triggered by <c-x><c-o>
-		vim.api.nvim_buf_set_option(bufnr, "omnifunc", "v:lua.vim.lsp.omnifunc")
-
-	end
-	local capabilities = require("cmp_nvim_lsp").default_capabilities(vim.lsp.protocol.make_client_capabilities())
-	vim.g.completion_enable_snippet = "luasnip"
-	capabilities.textDocument.completion.completionItem.snippetSupport = true
 
 	-- rounded border on hover document
 	vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, { border = "rounded" })
 
-	local lsp_flags = {
-		debounce_text_changes = 150,
-	}
 	lspconfig.tsserver.setup({
 		on_attach = on_attach,
 		flags = lsp_flags,
 		capabilities = capabilities,
 	})
-	lspconfig.apex_ls.setup({
-		apex_jar_path = "~/.local/share/nvim/mason/packages/apex-language-server/extension/dist/",
-		apex_enable_semantic_errors = false,
-		apex_enable_completion_statistics = false,
-		on_attach = on_attach,
-		capabilities = capabilities,
-		filetypes = { "apexcode", "apex", "apexanon" },
-	})
+
+  lspconfig.apex_ls.setup({
+    apex_jar_path = vim.fn.stdpath("data").. "/mason/packages/apex-language-server/extension/dist/apex-jorje-lsp.jar",
+    apex_enable_semantic_errors = false,
+    apex_enable_completion_statistics = false,
+    on_attach = on_attach,
+    capabilities = capabilities,
+    filetypes = { "apexcode", "apex", "apexanon" },
+  })
 
 	lspconfig.lua_ls.setup({
 		settings = {
@@ -236,28 +252,28 @@ _cmp.config = function()
 	})
 
 	-- default handlers for language servers installed by Mason that don't have explicit handlers
-	require("mason-lspconfig").setup_handlers({
-		-- The first entry (without a key) will be the default handler
-		-- and will be called for each installed server that doesn't have
-		-- a dedicated handler.
-		function(server_name) -- default handler (optional)
-			lspconfig[server_name].setup({
-				capabilities = capabilities,
-				flags = lsp_flags,
-				on_attach = on_attach,
-			})
-		end,
+	-- require("mason-lspconfig").setup_handlers({
+	-- 	-- The first entry (without a key) will be the default handler
+	-- 	-- and will be called for each installed server that doesn't have
+	-- 	-- a dedicated handler.
+	-- 	function(server_name) -- default handler (optional)
+	-- 		lspconfig[server_name].setup({
+	-- 			capabilities = capabilities,
+	-- 			flags = lsp_flags,
+	-- 			on_attach = on_attach,
+	-- 		})
+	-- 	end,
 
-		["apex_ls"] = function()
-			lspconfig.apex_ls.setup({
-				apex_enable_semantic_errors = false,
-				apex_enable_completion_statistics = false,
-				on_attach = on_attach,
-				capabilities = capabilities,
-				filetypes = { "apexcode", "apex", "apexanon" },
-			})
-		end,
-	})
+	-- 	["apex_ls"] = function()
+	-- 		lspconfig.apex_ls.setup({
+	-- 			apex_enable_semantic_errors = false,
+	-- 			apex_enable_completion_statistics = false,
+	-- 			on_attach = on_attach,
+	-- 			capabilities = capabilities,
+	-- 			filetypes = { "apexcode", "apex", "apexanon" },
+	-- 		})
+	-- 	end,
+	-- })
 end
 return {
 	_cmp,
