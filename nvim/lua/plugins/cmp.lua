@@ -11,8 +11,8 @@ local _cmp = {
 		"neovim/nvim-lspconfig",
 		"williamboman/mason.nvim",
 		"williamboman/mason-lspconfig.nvim",
-		"simrat39/rust-tools.nvim",
 		"mfussenegger/nvim-dap",
+		"simrat39/rust-tools.nvim",
 		"jay-babu/mason-nvim-dap.nvim",
 	},
 }
@@ -30,7 +30,7 @@ _cmp.config = function()
 	local lsp_flags = {
 		debounce_text_changes = 150,
 	}
-  -- LSP configuration
+	-- LSP configuration
 	local on_attach = function(client, bufnr)
 		-- Enable completion triggered by <c-x><c-o>
 		vim.api.nvim_buf_set_option(bufnr, "omnifunc", "v:lua.vim.lsp.omnifunc")
@@ -51,11 +51,47 @@ _cmp.config = function()
 				on_attach = on_attach,
 			})
 		end,
+		["rust_analyzer"] = function()
+			local rt = require("rust-tools")
+			rt.setup({
+				server = {
+					settings = {
+						["rust-analyzer"] = {
+							checkOnSave = true,
+							check = {
+								features = "all",
+								command = "clippy",
+								extraArgs = {
+									"--no-deps",
+									"--",
+									"-D",
+									"clippy::perf",
+									"-D",
+									"clippy::correctness",
+									"-W",
+									"clippy::nursery",
+									"-W",
+									"clippy::pedantic",
+									"-W",
+									"clippy::style",
+								},
+							},
+						},
+					},
+				},
+				on_attach = function(_, bufnr)
+					-- Hover actions
+					vim.keymap.set("n", "<Leader>K", rt.hover_actions.hover_actions, { buffer = bufnr })
+					-- Code action groups
+					vim.keymap.set("n", "<Leader>ca", rt.code_action_group.code_action_group, { buffer = bufnr })
+				end,
+			})
+		end,
 	}
 	require("mason-lspconfig").setup({
-    automatic_installation = true,
-    handlers = handlers
-  })
+		automatic_installation = true,
+		handlers = handlers,
+	})
 	require("mason-nvim-dap").setup({
 		automatic_setup = true,
 	})
@@ -113,7 +149,7 @@ _cmp.config = function()
 			fields = { "abbr", "menu", "kind" },
 			format = function(entry, vim_item)
 				local kind = lspkind.cmp_format({
-					mode = "symbol_text",
+					mode = "text",
 					maxwidth = 50,
 				})(entry, vim_item)
 
@@ -171,11 +207,10 @@ _cmp.config = function()
 		vim.lsp.buf.format({
 			async = true,
 			filter = function(lspclient)
-				return lspclient.name ~= "tsserver" and lspclient.name ~= "html"
+				return lspclient.name ~= "tsserver" and lspclient.name ~= "html" and lspclient.name ~= "jsonls"
 			end,
 		})
 	end, opts)
-
 
 	-- rounded border on hover document
 	vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, { border = "rounded" })
@@ -186,14 +221,15 @@ _cmp.config = function()
 		capabilities = capabilities,
 	})
 
-  lspconfig.apex_ls.setup({
-    apex_jar_path = vim.fn.stdpath("data").. "/mason/packages/apex-language-server/extension/dist/apex-jorje-lsp.jar",
-    apex_enable_semantic_errors = false,
-    apex_enable_completion_statistics = false,
-    on_attach = on_attach,
-    capabilities = capabilities,
-    filetypes = { "apexcode", "apex", "apexanon" },
-  })
+	lspconfig.apex_ls.setup({
+		apex_jar_path = vim.fn.stdpath("data")
+			.. "/mason/packages/apex-language-server/extension/dist/apex-jorje-lsp.jar",
+		apex_enable_semantic_errors = false,
+		apex_enable_completion_statistics = false,
+		on_attach = on_attach,
+		capabilities = capabilities,
+		filetypes = { "apexcode", "apex", "apexanon" },
+	})
 
 	lspconfig.lua_ls.setup({
 		settings = {
@@ -275,6 +311,4 @@ _cmp.config = function()
 	-- 	end,
 	-- })
 end
-return {
-	_cmp,
-}
+return _cmp
