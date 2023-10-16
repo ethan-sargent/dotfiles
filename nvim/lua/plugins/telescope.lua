@@ -1,6 +1,6 @@
 local _M = {
     'nvim-telescope/telescope.nvim',
-    tag = '0.1.0',
+    tag = '0.1.3',
     dependencies = {
       'nvim-lua/plenary.nvim',
       'nvim-telescope/telescope-fzf-native.nvim'
@@ -12,15 +12,15 @@ local _M = {
       require('config.plugins.telescope')
     end,
     cmd = 'Telescope',
-    keys = '<leader>f'
 }
 
 _M.project_files = function()
   local opts = {
     hidden = true
   } -- define here if you want to define something
-  vim.fn.system('git rev-parse --is-inside-work-tree')
-  if vim.v.shell_error == 0 then
+  local handle = io.popen('git rev-parse --is-inside-work-tree')
+  local result = handle:read("*a");
+  if result == "true" then
     require"telescope.builtin".git_files(opts)
   else
     require"telescope.builtin".find_files(opts)

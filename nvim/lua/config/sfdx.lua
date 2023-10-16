@@ -23,7 +23,7 @@ local function print_results_table(results)
 		for i, value in ipairs(results) do
 			table.insert(_result, { value .. "\n" })
 		end
-    -- this api isn't api-fast, causing the function to be deferred by 0ms
+		-- this api isn't api-fast, causing the function to be deferred by 0ms
 		vim.api.nvim_echo(_result, false, {})
 	end, 0)
 end
@@ -37,34 +37,30 @@ local function sfdx_job(_args, start_msg)
 			print(start_msg)
 		end,
 		on_exit = function(j, _return_code)
-      print_results_table(j:result())
+      print(j:result())
+			print_results_table(j:result())
 		end,
 		on_stdout = function(_error, data, _self)
+			print(data)
+		end,
+		on_stderr = function(_error, data, _self)
 			print(data)
 		end,
 	})
 end
 
 local function create_deploy_job()
-  return sfdx_job(
-    { "project", "deploy", "start", "--ignore-conflicts", "--source-dir", vim.api.nvim_buf_get_name(0) },
-    "Deploying source..."
-  );
+	return sfdx_job(
+		{ "project", "deploy", "start", "--ignore-conflicts", "--source-dir", vim.api.nvim_buf_get_name(0) },
+		"Deploying source..."
+	)
 end
 local function create_retrieve_job()
-  return sfdx_job(
-    { "project", "retrieve", "start", "--ignore-conflicts", "--source-dir", vim.api.nvim_buf_get_name(0) },
-    "Retrieving source..."
-  );
+	return sfdx_job(
+		{ "project", "retrieve", "start", "--ignore-conflicts", "--source-dir", vim.api.nvim_buf_get_name(0) },
+		"Retrieving source..."
+	)
 end
-
-vim.keymap.set("n", "<leader>sd", function()
-	create_deploy_job():start()
-end, { noremap = true })
-
-vim.keymap.set("n", "<leader>sr", function()
-	create_retrieve_job():start()
-end, { noremap = true })
 
 local function GetVisualSelection(preserve_newlines)
 	local s_start = vim.api.nvim_buf_get_mark(0, "<")
@@ -88,14 +84,10 @@ local function SFDXCreateApexClass(commandTable)
 	local classname = commandTable.fargs[1]
 	local template = commandTable.fargs[2] or "DefaultApexClass"
 	local outputdir = commandTable.fargs[3] or "force-app/main/default/classes"
-	vim.cmd(
-		string.format(
-			'!sfdx apex generate class --name %s --template %s --output-dir "%s"',
-			classname,
-			template,
-			outputdir
-		)
-	)
+	sfdx_job(
+		{ "apex", "generate", "class", "--name", classname, "--template", template, "--output-dir", outputdir },
+		"Creating new apex class..."
+	):start()
 end
 vim.api.nvim_create_user_command("SFDXCreateApexClass", SFDXCreateApexClass, {})
 
@@ -105,9 +97,22 @@ end
 vim.api.nvim_create_user_command("SwcCompile", SwcCompile, {})
 vim.api.nvim_set_keymap("n", "<leader>swc", "<cmd>SwcCompile<CR>", { noremap = true })
 
+vim.keymap.set("n", "<leader>sd", function()
+	create_deploy_job():start()
+end, { noremap = true })
+
+vim.keymap.set("n", "<leader>sr", function()
+	create_retrieve_job():start()
+end, { noremap = true })
+
+vim.keymap.set("n", "<leader>sae", function()
+	sfdx_job(
+        { "apex", "run", "--file", vim.api.nvim_buf_get_name(0) },
+        "Executing anonymous Apex..."
+  ):start()
+end, { noremap = true })
 vim.api.nvim_set_keymap("n", "<leader>sq", ':!sfdx data query --file "%" <Enter>', { noremap = true })
 
-vim.api.nvim_set_keymap("n", "<leader>sae", ':!sfdx apex run --file "%" <Enter>', { noremap = true })
 vim.api.nvim_set_keymap(
 	"n",
 	"<leader>st",

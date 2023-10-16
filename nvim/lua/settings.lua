@@ -25,7 +25,6 @@ opt.ignorecase    = true
 opt.smartcase     = true
 opt.termguicolors = true
 opt.wrap          = false
-opt.guitablabel   = "[%N] %t %M"
 opt.synmaxcol     = 500
 opt.mouse         = ""
 opt.gdefault      = true

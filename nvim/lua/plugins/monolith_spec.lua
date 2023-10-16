@@ -2,14 +2,14 @@ local _M = {
 	-- utilities
 	{
 		"tpope/vim-vinegar",
-    event = "VeryLazy"
+    -- event = "VeryLazy"
 	},
 	{
 		"tpope/vim-fugitive",
 		dependencies = {
 			"tpope/vim-rhubarb",
 		},
-		event = "VeryLazy",
+		-- event = "VeryLazy",
 	},
 	{
 		"tpope/vim-repeat",
@@ -21,7 +21,7 @@ local _M = {
 		config = function()
 			require("config.plugins.gitsigns")
 		end,
-		event = "BufReadPost",
+		event = "BufRead",
 	},
 	{
 		"nvim-lualine/lualine.nvim",
@@ -117,7 +117,7 @@ local _M = {
 	{
 		"nvim-telescope/telescope-fzf-native.nvim",
 		build = "cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build",
-		lazy = true,
+		-- lazy = true,
 	},
 
 	{
