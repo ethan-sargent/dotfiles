@@ -18,8 +18,9 @@ _M.project_files = function()
   local opts = {
     hidden = true
   } -- define here if you want to define something
-  local handle = io.popen('git rev-parse --is-inside-work-tree')
-  local result = handle:read("*a");
+  local handle = io.popen('git rev-parse --is-inside-work-tree ') 
+  local result = handle:read("*l");
+  handle:close();
   if result == "true" then
     require"telescope.builtin".git_files(opts)
   else
