@@ -1,14 +1,13 @@
 local _M = {
-  'TimUntersberger/neogit',
+  "NeogitOrg/neogit",
   dependencies = {
-    'nvim-lua/plenary.nvim'
+    "nvim-lua/plenary.nvim",         -- required
+    "sindrets/diffview.nvim",        -- optional - Diff integration
+    "nvim-telescope/telescope.nvim", -- optional
   },
-  event = "VeryLazy",
-  enabled = false
+  config = true,
+  event = "VeryLazy"
 }
 
-_M.config = function ()
-  require('neogit').setup({})
-end
 
 return _M;

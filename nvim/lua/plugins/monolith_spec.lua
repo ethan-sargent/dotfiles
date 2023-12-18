@@ -4,13 +4,13 @@ local _M = {
 		"tpope/vim-vinegar",
     -- event = "VeryLazy"
 	},
-	{
-		"tpope/vim-fugitive",
-		dependencies = {
-			"tpope/vim-rhubarb",
-		},
-		-- event = "VeryLazy",
-	},
+	-- {
+	-- 	"tpope/vim-fugitive",
+	-- 	dependencies = {
+	-- 		"tpope/vim-rhubarb",
+	-- 	},
+	-- 	-- event = "VeryLazy",
+	-- },
 	{
 		"tpope/vim-repeat",
 		event = "VeryLazy",
