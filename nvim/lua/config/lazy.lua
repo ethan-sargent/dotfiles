@@ -15,20 +15,20 @@ vim.opt.runtimepath:prepend(lazypath)
 require("lazy").setup("plugins",
   {
     defaults = { lazy = false },
-    -- dev = { patterns = jit.os:find("Windows") and {} or { "folke" } },
     install = { colorscheme = { "habamax" } },
     -- checker = { enabled = true },
     performance = {
       rtp = {
+        reset = true,
         disabled_plugins = {
-          -- "gzip",
+          "gzip",
           "matchit",
           "matchparen",
           -- "netrwPlugin",
           "tarPlugin",
           "tohtml",
           "tutor",
-          -- "zipPlugin",
+          "zipPlugin",
         },
       },
     },

@@ -51,7 +51,7 @@ end
 
 local function create_deploy_job()
 	return sfdx_job(
-		{ "project", "deploy", "start", "--ignore-conflicts", "--source-dir", vim.api.nvim_buf_get_name(0) },
+		{ "force", "source", "deploy", "-p", vim.api.nvim_buf_get_name(0) },
 		"Deploying source..."
 	)
 end

@@ -2,15 +2,12 @@ local _M = {
 	-- utilities
 	{
 		"tpope/vim-vinegar",
-    -- event = "VeryLazy"
+    event = "VeryLazy"
 	},
-	-- {
-	-- 	"tpope/vim-fugitive",
-	-- 	dependencies = {
-	-- 		"tpope/vim-rhubarb",
-	-- 	},
-	-- 	-- event = "VeryLazy",
-	-- },
+	{
+		"tpope/vim-fugitive",
+		event = "VeryLazy",
+	},
 	{
 		"tpope/vim-repeat",
 		event = "VeryLazy",
