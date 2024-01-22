@@ -9,13 +9,16 @@ local M = {
     "RRethy/nvim-treesitter-endwise",
     "windwp/nvim-ts-autotag",
   },
-  event = "BufReadPost",
 }
 
 M.config = function()
   local parser_config = require("nvim-treesitter.parsers").get_parser_configs()
 
-  parser_config.apex = {
+  -- require('utils').override_query("apex", "highlights")
+  -- require('utils').override_query("apex", "indents")
+  -- require('utils').override_query("apex", "locals")
+  -- require('utils').override_query("apex", "tags")
+  parser_config.apex_neo = {
     install_info = {
       url = "~/Projects/tree-sitter-sfapex/apex", -- local path or git repo
       files = { "src/parser.c" },
@@ -24,8 +27,9 @@ M.config = function()
       generate_requires_npm = true,       -- if stand-alone parser without npm dependencies
       requires_generate_from_grammar = true, -- if folder contains pre-generated src/parser.c
     },
-    filetype = "apexcode",                -- if filetype does not match the parser name
+    filetype = "apex"
   }
+  vim.treesitter.language.register("apex_neo", "apexcode"); 
   -- Apex and SOQL parsers
   parser_config.soql = {
     install_info = {
@@ -39,10 +43,6 @@ M.config = function()
     filetype = "soql",                    -- if filetype does not match the parser name
   }
 
-  require('utils').override_query("apex", "highlights")
-  require('utils').override_query("apex", "indents")
-  require('utils').override_query("apex", "locals")
-  require('utils').override_query("apex", "tags")
   require('ts_context_commentstring').setup {
     enable_autocmd = false,
   }
