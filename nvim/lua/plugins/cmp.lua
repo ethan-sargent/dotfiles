@@ -193,7 +193,7 @@ _cmp.config = function()
 		vim.lsp.buf.format({
 			async = true,
 			filter = function(lspclient)
-				return lspclient.name ~= "tsserver" and lspclient.name ~= "html" and lspclient.name ~= "jsonls"
+				return lspclient.name ~= "tsserver" and lspclient.name ~= "html" and lspclient.name ~= "jsonls" and lspclient.name ~= "apex_ls"
 			end,
 		})
 	end, opts)

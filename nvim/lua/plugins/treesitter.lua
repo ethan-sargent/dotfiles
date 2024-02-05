@@ -29,7 +29,7 @@ M.config = function()
     },
     filetype = "apex"
   }
-  vim.treesitter.language.register("apex_neo", "apexcode"); 
+  vim.treesitter.language.register("apex_neo", "apexcode");
   -- Apex and SOQL parsers
   parser_config.soql = {
     install_info = {

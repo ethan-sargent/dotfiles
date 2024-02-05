@@ -53,5 +53,8 @@ source "$ZDOTDIR"/plugins/powerlevel10k/powerlevel10k.zsh-theme
 [ -f "$ZDOTDIR"/.p10k.zsh ] && source "$ZDOTDIR"/.p10k.zsh
 
 # end profiling
-# zprof > ~/.zstartuplog
 
+# bun completions
+[ -s "/Users/ethan.sargent/.local/state/bun/_bun" ] && source "/Users/ethan.sargent/.local/state/bun/_bun"
+
+# zprof > ~/.zstartuplog
