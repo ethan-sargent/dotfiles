@@ -109,46 +109,46 @@ fzf-history-widget() {
 zle     -N   fzf-history-widget
 bindkey '^R' fzf-history-widget
 
-__fzf_sfdx_flags(){
+__fzf_sf_flags(){
   local selected="$1"
   local fullcmd=""
   for i in "${@:2}"
   do fullcmd+=" ${i//\"/\\\\\\\"}" #we have to triple escape the double quotes here as it will be used within double quotes again in the command below
   done
-  local ret=`cat $XDG_CACHE_HOME/fzf/sfdxcommands.json | jq -r ".[] | select(.id==\"$selected\") | .flags | keys[]" | $(__fzfcmd) -m --bind='ctrl-z:ignore,alt-j:preview-down,alt-k:preview-up' --preview='cat $XDG_CACHE_HOME/fzf/sfdxcommands.json | jq -r ".[] | select(.id==\"'$selected'\") | .flags | to_entries[] | select (.key==\""{}"\") | [\"Command:\n'"$fullcmd"'\n\",\"Flag Description:\",.value][]"' --preview-window='right:wrap'`
+  local ret=`cat $XDG_CACHE_HOME/fzf/sfcommands.json | jq -r ".[] | select(.id==\"$selected\") | .flags | keys[]" | $(__fzfcmd) -m --bind='ctrl-z:ignore,alt-j:preview-down,alt-k:preview-up' --preview='cat $XDG_CACHE_HOME/fzf/sfcommands.json | jq -r ".[] | select(.id==\"'$selected'\") | .flags | to_entries[] | select (.key==\""{}"\") | [\"Command:\n'"$fullcmd"'\n\",\"Flag Description:\",.value][]"' --preview-window='right:wrap'`
   echo "${ret//$'\n'/ --}"
 }
 
 
-fzf-sfdx(){
+fzf-sf(){
   local fullcmd="$LBUFFER"
   local cmd="$(echo $fullcmd | awk '{print $1}')"
-  local subcmd="$(echo $fullcmd | awk -F- '{ trimmed = $0; sub(/\-.*/, "", trimmed); gsub(/sfdx /, "", trimmed); gsub(/^[ \t]+|[ \t]+$/,"", trimmed); gsub(/ /, "\ ", trimmed); print trimmed}')"
-  local match="$(cat $XDG_CACHE_HOME/fzf/sfdxcommands.json | jq -r '.[] | select(.id=="'$subcmd'")')"
-  if [[ "$cmd" = "sfdx" && "$match" != "" ]]
+  local subcmd="$(echo $fullcmd | awk -F- '{ trimmed = $0; sub(/\-.*/, "", trimmed); gsub(/sf /, "", trimmed); gsub(/^[ \t]+|[ \t]+$/,"", trimmed); gsub(/ /, "\ ", trimmed); print trimmed}')"
+  local match="$(cat $XDG_CACHE_HOME/fzf/sfcommands.json | jq -r '.[] | select(.id=="'$subcmd'")')"
+  if [[ "$cmd" = "sf" && "$match" != "" ]]
   then
-    local flag="$(__fzf_sfdx_flags $subcmd $fullcmd)"
+    local flag="$(__fzf_sf_flags $subcmd $fullcmd)"
     if [[ "$flag" != "" ]]
     then
       LBUFFER="${LBUFFER:0:$CURSOR} --$flag${LBUFFER:$CURSOR}"
     fi
-  elif [[ "$cmd" == "sfdx" || "$cmd" == "" ]]
+  elif [[ "$cmd" == "sf" || "$cmd" == "" ]]
   then
     local querystr=""
     if [[ "$subcmd" != "" ]]; then
      querystr="--query \"$subcmd\""
     fi
-    local selected="$(cat $XDG_CACHE_HOME/fzf/sfdxcommands.json | jq -r '.[].id' | $(__fzfcmd) +m --bind=ctrl-z:ignore,alt-j:preview-down,alt-k:preview-up --preview='cat $XDG_CACHE_HOME/fzf/sfdxcommands.json | jq -r ".[] | select (.id==\""{}"\") | [\"\nDescription:\n \"+.description,\"\nUsage:\n \"+select(has(\"usage\")).usage, \"\nExamples:\n \"+(select(has(\"examples\")).examples|join(\"\n\"))][]"' --preview-window='right:wrap' $querystr)"
+    local selected="$(cat $XDG_CACHE_HOME/fzf/sfcommands.json | jq -r '.[].id' | $(__fzfcmd) +m --bind=ctrl-z:ignore,alt-j:preview-down,alt-k:preview-up --preview='cat $XDG_CACHE_HOME/fzf/sfcommands.json | jq -r ".[] | select (.id==\""{}"\") | [\"\nDescription:\n \"+.description,\"\nUsage:\n \"+select(has(\"usage\")).usage, \"\nExamples:\n \"+(select(has(\"examples\")).examples|join(\"\n\"))][]"' --preview-window='right:wrap' $querystr)"
     if [[ "$selected" != "" ]]; then
-      LBUFFER="sfdx $selected"
+      LBUFFER="sf $selected"
     fi
   fi
   local ret=$?
   zle reset-prompt
   return $ret
 }
-zle -N fzf-sfdx{,}
-bindkey "^e" fzf-sfdx
+zle -N fzf-sf{,}
+bindkey "^e" fzf-sf
 
 } always {
   eval $__fzf_key_bindings_options

@@ -1,4 +1,5 @@
 alias sfdx-fzf-refresh="sfdx commands --json | jq '. | unique | .[].id|=(split(\":\")|join(\" \"))' > $XDG_CACHE_HOME/fzf/sfdxcommands.json"
+alias sfdx-fzf-refresh="sf commands --json | jq '. | unique | .[].id|=(split(\":\")|join(\" \"))' > $XDG_CACHE_HOME/fzf/sfcommands.json"
 
 alias dxenv="jq \".target-org\" .sfdx/sfdx-config.json"
 
