@@ -1,42 +1,40 @@
-; https://code.visualstudio.com/api/language-extensions/semantic-highlight-guide#semantic-token-classification
 (field_identifier
-  (identifier) @property)
+  (identifier) @variable.member)
 
 (field_identifier
   (dotted_identifier
-    (identifier) @property))
+    (identifier) @variable.member))
 
 (type_of_clause
-  (identifier) @property)
+  (identifier) @variable.member)
 
 (when_expression
   (identifier) @type)
 
 (when_expression
   (field_list
-    (identifier) @property))
+    (identifier) @variable.member))
 
 (when_expression
   (field_list
     (dotted_identifier
-      (identifier) @property )))
+      (identifier) @variable.member)))
 
 (else_expression
   (field_list
-    (identifier) @property ))
+    (identifier) @variable.member))
 
 (else_expression
   (field_list
     (dotted_identifier
-      (identifier) @property )))
+      (identifier) @variable.member)))
 
 (alias_expression
   (identifier) @label)
 
-(storage_identifier) @type
-(function_name) @function
-(date_literal) @variable.readonly.defaultLibrary
-  
+(storage_identifier) @keyword.modifier
+
+(date_literal) @string.special
 
 [
   ","
@@ -45,38 +43,53 @@
   "?"
   "("
   ")"
-] @punctuation
+] @punctuation.delimiter
 
 [
   "AND"
   "OR"
   "NOT"
-  "="
-  "!="
   "LIKE"
   "NOT_IN"
   "INCLUDES"
   "EXCLUDES"
-] @operator
-(value_comparison_operator "<" @operator)
-"<=" @operator
-(value_comparison_operator ">" @operator)
-">=" @operator
- @operator
-(set_comparison_operator "IN" @operator)
+] @keyword.operator
 
-(int) @number
-(decimal) @number
-(currency_literal) @number
+[
+  "="
+  "!="
+  "<="
+  ">="
+] @operator
+
+(value_comparison_operator
+  [
+    "<"
+    ">"
+  ] @operator)
+
+(set_comparison_operator
+  "IN" @keyword.operator)
+
+[
+  (int)
+  (decimal)
+  (currency_literal)
+] @number
+
 (string_literal) @string
-(date) @variable.readonly
-(date_time) @variable.readonly
+
+[
+  (date)
+  (date_time)
+] @string.special
 
 [
   "TRUE"
   "FALSE"
-  (null_literal)
-] @variable.readonly.defaultLibrary
+] @boolean
+
+(null_literal) @constant.builtin
 
 [
   "ABOVE"
@@ -90,7 +103,6 @@
   "CUSTOM"
   "DATA_CATEGORY"
   "DESC"
-  "ELSE"
   "END"
   "FIELDS"
   "FOR"
@@ -105,7 +117,6 @@
   "REFERENCE"
   "SELECT"
   "STANDARD"
-  "THEN"
   "TRACKING"
   "TYPEOF"
   "UPDATE"
@@ -113,9 +124,14 @@
   "VIEW"
   "VIEWSTAT"
   "WITH"
+] @keyword
+
+[
   "WHERE"
   "WHEN"
-] @keyword
+  "ELSE"
+  "THEN"
+] @keyword.conditional
 
 ; Using Scope
 [
@@ -126,7 +142,7 @@
   "my_territory"
   "my_team_territory"
   "team"
-] @enumMember
+] @keyword
 
 ; With
 [
@@ -138,6 +154,4 @@
   "System_Mode"
   "User_Mode"
   "UserId"
-] @enumMember
-
-
+] @keyword

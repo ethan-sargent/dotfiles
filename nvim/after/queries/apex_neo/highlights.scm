@@ -1,10 +1,11 @@
-;; attempting to match concepts represented here:
-;; https://code.visualstudio.com/api/language-extensions/semantic-highlight-guide
+; inherits: soql
+; attempting to match concepts represented here:
+; https://code.visualstudio.com/api/language-extensions/semantic-highlight-guide
 
-;; Methods
+; Methods
 
 (method_declaration
-  name: (identifier) @method)
+  name: (identifier) @function.method)
 
 (method_declaration
   type: (type_identifier) @type)
@@ -12,7 +13,7 @@
 (type_identifier) @type
 
 (method_invocation
-  name: (identifier) @method)
+  name: (identifier) @function.method.call)
 
 (argument_list
   (identifier) @variable)
@@ -22,14 +23,14 @@
   arguments: (argument_list
                (identifier) @variable ))
 
-;; Annotations
+; Annotations
 
 (annotation) @decorator
 
 (annotation_key_value) @attribute
 
 
-;; Types
+; Types
 
 (interface_declaration
   name: (identifier) @interface)
@@ -119,9 +120,9 @@
             (identifier) @variable))
 
 (constructor_declaration
-  name: (identifier) @class)
+  name: (identifier) @constructor)
 
-(dml_type) @function.defaultLibrary
+(dml_type) @function.builtin
 
 (bound_apex_expression
   (identifier) @variable)
@@ -190,7 +191,7 @@
 [
  (boolean_type)
  (void_type)
- ] @type.defaultLibrary
+ ] @type.builtin
 
 ; Variables
 
@@ -218,6 +219,7 @@
 (super) @function.builtin
 
 [
+  ":"
   ";"
   "."
   ","
@@ -236,10 +238,6 @@
 (type_arguments "<" @punctuation.bracket)
 (type_arguments ">" @punctuation.bracket)
 
-[
- ":"
-] @punctuation
-
 (ternary_expression ["?" ":"] @operator)
 
 ; Literals
@@ -247,206 +245,83 @@
 [
  (int)
  (decimal_floating_point_literal)
+ (currency_literal)
  ] @number
 
-[
- (string_literal)
- ] @string
+(string_literal) @string
 
 [
  (line_comment)
  (block_comment)
  ] @comment
 
-;; ;; Keywords
+; Keywords
 
 [
- "abstract"
- "break"
- "catch"
- "class"
- "continue"
- "default"
- "do"
- "else"
- "enum"
- "extends"
- "final"
- "finally"
- "for"
- "get"
- "global"
- "if"
- "implements"
- "instanceof"
- "interface"
- "new"
- "on"
- "private"
- "protected"
- "public"
- "return"
- "set"
- "static"
- "switch"
- "testMethod"
- "throw"
- "transient"
- "try"
- "trigger"
- "virtual"
- "when"
- "while"
- "with_sharing"
- "without_sharing"
- "inherited_sharing"
- ] @keyword
+  "abstract"
+  "final"
+  "private"
+  "protected"
+  "public"
+  "static"
+] @keyword.modifier
+
+[
+  "if"
+  "else"
+  "switch"
+] @keyword.conditional
+
+[
+  "for"
+  "while"
+  "do"
+  "break"
+] @keyword.repeat
+
+"return" @keyword.return
+
+[
+  "throw"
+  "finally"
+  "try"
+  "catch"
+] @keyword.exception
+
+"new" @keyword.operator
+
+[
+  "abstract"
+  "class"
+  "continue"
+  "default"
+  "enum"
+  "extends"
+  "final"
+  "get"
+  "global"
+  "implements"
+  "instanceof"
+  "interface"
+  "on"
+  "private"
+  "protected"
+  "public"
+  "set"
+  "static"
+  "testMethod"
+  "transient"
+  "trigger"
+  "virtual"
+  "when"
+  "with_sharing"
+  "without_sharing"
+  "inherited_sharing"
+] @keyword
 
 (assignment_expression
   left: (identifier) @variable)
 
-; (type_identifier) @type ;; not respecting precedence...
-;; I don't love this but couldn't break them up right now
-;; can't figure out how to let that be special without conflicting
-;; in the grammar
-"System.runAs" @method.defaultLibrary
-
 (scoped_type_identifier
   (type_identifier) @type)
-
-; SOQL Highlights
-(field_identifier
-  (identifier) @property)
-
-(field_identifier
-  (dotted_identifier
-    (identifier) @property))
-
-(type_of_clause
-  (identifier) @property)
-
-(when_expression
-  (identifier) @type)
-
-(when_expression
-  (field_list
-    (identifier) @property))
-
-(when_expression
-  (field_list
-    (dotted_identifier
-      (identifier) @property )))
-
-(else_expression
-  (field_list
-    (identifier) @property ))
-
-(else_expression
-  (field_list
-    (dotted_identifier
-      (identifier) @property )))
-
-(alias_expression
-  (identifier) @label)
-
-(storage_identifier) @type
-(function_name) @function
-(date_literal) @variable.readonly.defaultLibrary
-
-[
- "AND"
- "OR"
- "NOT"
- "LIKE"
- "NOT_IN"
- "INCLUDES"
- "EXCLUDES"
- ] @keyword
-
-(set_comparison_operator "IN" @keyword)
-
-[
- "="
- "!="
- ] @operator
-
-(value_comparison_operator "<" @operator)
-(value_comparison_operator ">" @operator)
-
-"<=" @operator
-">=" @operator
-
-(int) @number
-(decimal) @number
-(currency_literal) @number
-(string_literal) @string
-(date) @variable.readonly
-(date_time) @variable.readonly
-
-[
- "TRUE"
- "FALSE"
- (null_literal)
- ] @constant.builtin
-[
- "ABOVE"
- "ABOVE_OR_BELOW"
- "ALL_ROWS"
- "ALL"
- "AS"
- "ASC"
- "AT"
- "BELOW"
- "CUSTOM"
- "DATA_CATEGORY"
- "DESC"
- "ELSE"
- "END"
- "FIELDS"
- "FOR"
- "FROM"
- "GROUP_BY"
- "HAVING"
- "LIMIT"
- "NULLS_FIRST"
- "NULLS_LAST"
- "OFFSET"
- "ORDER_BY"
- "REFERENCE"
- "SELECT"
- "STANDARD"
- "THEN"
- "TRACKING"
- "TYPEOF"
- "UPDATE"
- "USING_SCOPE"
- "VIEW"
- "VIEWSTAT"
- "WITH"
- "WHERE"
- "WHEN"
- ] @keyword
-
-; Using Scope
-[
- "delegated"
- "everything"
- "mine"
- "mine_and_my_groups"
- "my_territory"
- "my_team_territory"
- "team"
- ] @enumMember
-
-; With
-[
- "maxDescriptorPerRecord"
- "RecordVisibilityContext"
- "Security_Enforced"
- "supportsDomains"
- "supportsDelegates"
- "System_Mode"
- "User_Mode"
- "UserId"
- ] @enumMember
 

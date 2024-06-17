@@ -35,7 +35,7 @@ require("lualine").setup({
 		},
 		lualine_b = {
 			"filename",
-			{ "branch", icon = "" },
+			{ "branch", icon = "" },
 			{
 				sfdx_current_org,
 			},

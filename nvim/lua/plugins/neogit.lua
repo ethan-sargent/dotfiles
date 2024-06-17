@@ -6,6 +6,7 @@ local _M = {
     "nvim-telescope/telescope.nvim", -- optional
   },
   config = true,
+  enabled = false,
   event = "VeryLazy"
 }
 

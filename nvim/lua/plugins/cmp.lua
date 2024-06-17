@@ -25,7 +25,6 @@ end
 _cmp.config = function()
 	local cmp = require("cmp")
 	local lspconfig = require("lspconfig")
-	local luasnip = require("luasnip")
 	vim.g.completion_enable_snippet = "luasnip"
 	local lsp_flags = {
 		debounce_text_changes = 150,
@@ -91,14 +90,14 @@ _cmp.config = function()
 		snippet = {
 			-- REQUIRED - you must specify a snippet engine
 			expand = function(args)
-				luasnip.lsp_expand(args.body) -- For `luasnip` users.
+				require('luasnip').lsp_expand(args.body) -- For `luasnip` users.
 			end,
 		},
 		window = {
-			completion = cmp.config.window.bordered({
-				col_offset = -1,
-			}),
-			documentation = cmp.config.window.bordered(),
+			-- completion = cmp.config.window.bordered({
+			-- 	col_offset = -1,
+			-- }),
+			-- documentation = cmp.config.window.bordered(),
 		},
 		mapping = cmp.mapping.preset.insert({
 			["<C-b>"] = cmp.mapping.scroll_docs(-4),
@@ -109,8 +108,8 @@ _cmp.config = function()
 			["<Tab>"] = function(fallback)
 				if cmp.visible() then
 					cmp.select_next_item()
-				elseif luasnip.expand_or_jumpable() then
-					luasnip.jump(1)
+				elseif require('luasnip').expand_or_jumpable() then
+					require('luasnip').jump(1)
 				else
 					fallback()
 				end
@@ -118,8 +117,8 @@ _cmp.config = function()
 			["<S-Tab>"] = function(fallback)
 				if cmp.visible() then
 					cmp.select_prev_item()
-				elseif luasnip.jumpable(-1) then
-					luasnip.jump(-1)
+				elseif require('luasnip').jumpable(-1) then
+					require('luasnip').jump(-1)
 				else
 					fallback()
 				end
@@ -199,7 +198,7 @@ _cmp.config = function()
 	end, opts)
 
 	-- rounded border on hover document
-	vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, { border = "rounded" })
+	-- vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, { border = "rounded" })
 
 	lspconfig.tsserver.setup({
 		on_attach = on_attach,

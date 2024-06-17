@@ -1,6 +1,6 @@
 local _M = {
     'nvim-telescope/telescope.nvim',
-    tag = '0.1.3',
+    tag = '0.1.8',
     dependencies = {
       'nvim-lua/plenary.nvim',
       'nvim-telescope/telescope-fzf-native.nvim'
@@ -85,6 +85,10 @@ _M.config = function ()
           ["<S-Tab>"] = actions.move_selection_better,
         }
       },
+      preview = {
+        hide_on_startup = true,
+        check_mime_type = true,
+      }
     },
     extensions = {
       fzf = {
@@ -96,7 +100,7 @@ _M.config = function ()
     },
     pickers = {
       find_files = {
-        find_command = { "fd", "--hidden", "--type", "f", "--strip-cwd-prefix" }
+        find_command = { "fd", "--hidden", "--type", "f", "--strip-cwd-prefix" },
       },
     },
   }

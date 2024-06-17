@@ -1,28 +1,26 @@
 require"trouble".setup {
   auto_jump = {
     "lsp_definitions", "lsp_references"
-  }
+  },
+  auto_refresh = false
 }
 
 -- Trouble Keybinds
-vim.keymap.set("n", "<leader>xx", "<cmd>TroubleToggle<cr>",
+vim.keymap.set("n", "<leader>xx", "<cmd>Trouble toggle<cr>",
   {silent = true, noremap = true}
 )
-vim.keymap.set("n", "<leader>xw", "<cmd>TroubleToggle workspace_diagnostics<cr>",
+vim.keymap.set("n", "<leader>xX", "<cmd>Trouble diagnostics toggle filter.buf=0<cr>",
   {silent = true, noremap = true}
 )
-vim.keymap.set("n", "<leader>xd", "<cmd>TroubleToggle document_diagnostics<cr>",
+vim.keymap.set("n", "<leader>xl", "<cmd>Trouble loclist toggle<cr>",
   {silent = true, noremap = true}
 )
-vim.keymap.set("n", "<leader>xl", "<cmd>TroubleToggle loclist<cr>",
+vim.keymap.set("n", "<leader>xq", "<cmd>Trouble quickfix toggle<cr>",
   {silent = true, noremap = true}
 )
-vim.keymap.set("n", "<leader>xq", "<cmd>TroubleToggle quickfix<cr>",
+vim.keymap.set("n", "gr", "<cmd>Trouble lsp_references toggle<cr>",
   {silent = true, noremap = true}
 )
-vim.keymap.set("n", "gr", "<cmd>TroubleToggle lsp_references<cr>",
-  {silent = true, noremap = true}
-)
-vim.keymap.set("n", "gd", "<cmd>TroubleToggle lsp_definitions<cr>",
+vim.keymap.set("n", "gd", "<cmd>Trouble lsp_definitions toggle<cr>",
   {silent = true, noremap = true}
 )

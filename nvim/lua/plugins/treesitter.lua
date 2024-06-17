@@ -2,10 +2,10 @@ local M = {
   "nvim-treesitter/nvim-treesitter",
   build = function()
     require("nvim-treesitter.install").update({ with_sync = true })
+    os.execute("rm -r ~/.local/share/nvim/lazy/nvim-treesitter/queries/soql") -- removes soql language highlights as overriding queries doesn't work at the moment
   end,
   dependencies = {
     "nvim-treesitter/nvim-treesitter-context",
-    "nvim-treesitter/playground",
     "RRethy/nvim-treesitter-endwise",
     "windwp/nvim-ts-autotag",
   },
@@ -24,8 +24,8 @@ M.config = function()
       files = { "src/parser.c" },
       -- optional entries:
       -- branch = "main", -- default branch in case of git repo if different from master
-      generate_requires_npm = true,       -- if stand-alone parser without npm dependencies
-      requires_generate_from_grammar = true, -- if folder contains pre-generated src/parser.c
+      generate_requires_npm = false,       -- if stand-alone parser without npm dependencies
+      requires_generate_from_grammar = false, -- if folder contains pre-generated src/parser.c
     },
     filetype = "apex"
   }
@@ -42,6 +42,7 @@ M.config = function()
     },
     filetype = "soql",                    -- if filetype does not match the parser name
   }
+
 
   require('ts_context_commentstring').setup {
     enable_autocmd = false,
@@ -72,27 +73,6 @@ M.config = function()
     },
     autotag = {
       enable = true,
-    },
-    playground = {
-      enable = true,
-      disable = {},
-      updatetime = 25,     -- Debounced time for highlighting nodes in the playground from source code
-      persist_queries = true, -- Whether the query persists across vim sessions
-      keybindings = {
-        toggle_query_editor = "o",
-        toggle_hl_groups = "i",
-        toggle_injected_languages = "t",
-        toggle_anonymous_nodes = "a",
-        toggle_language_display = "I",
-        update = "R",
-        goto_node = "<cr>",
-        show_help = "?",
-      },
-      query_linter = {
-        enable = true,
-        use_virtual_text = true,
-        lint_events = { "BufWrite", "CursorHold" },
-      },
     },
   })
 

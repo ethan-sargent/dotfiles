@@ -43,10 +43,8 @@ opt.updatetime = 200 -- save swap file and trigger CursorHold
 opt.wildmode = "longest:full,full" -- Command-line completion mode
 opt.winminwidth = 5 -- minimum window width
 
-if vim.fn.has("nvim-0.9.0") == 1 then
-  opt.splitkeep = "screen"
-  opt.shortmess = "filnxtToOFWIcC"
-end
+opt.splitkeep = "screen"
+opt.shortmess = "filnxtToOFWIcC"
 
 
 -- fix markdown indentation settings
