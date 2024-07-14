@@ -4,9 +4,9 @@
 #
 SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 
-if [[ -v $XDG_CONFIG_HOME ]]; then
+if [ -z $XDG_CONFIG_HOME ]; then
   printf "no existing XDG_CONFIG_HOME, using $HOME/.config\n"
-  XDG_CONFIG_HOME = "$HOME"/.config
+  XDG_CONFIG_HOME="$HOME"/.config
 else
   printf "XDG_CONFIG_HOME found! using $XDG_CONFIG_HOME\n"
 fi
