@@ -1,0 +1,57 @@
+" config
+set ignorecase smartcase
+set showmode
+set history=1000
+set incsearch
+set relativenumber
+set visualbell
+set showcmd
+set showmode
+set ideastatusicon=gray
+set relativenumber 
+set ideajoin
+
+" extensions
+Plug 'tpope/vim-surround'
+Plug 'vim-scripts/argtextobj.vim'
+Plug 'justinmk/vim-sneak'
+
+let mapleader = " "
+
+nnoremap Y y$
+
+nnoremap <leader>y "+y
+vnoremap <leader>y "+y
+nnoremap <leader>yy "+yy
+nnoremap <leader>p "+p
+vnoremap <leader>p "+p
+
+nnoremap <C-d> <C-d>zz
+nnoremap <C-u> <C-u>zz
+xnoremap <leader>p "_
+nnoremap <C-d> <C-d>zz
+nnoremap <leader>y "+y
+vnoremap <leader>y "+y
+nnoremap <leader>Y "+y$
+nnoremap <leader>d "_d
+vnoremap <leader>d "_d
+
+" refactoring actions
+nmap <leader>rn <Action>(RenameElement)
+nmap <leader>ca <Action>(Refactorings.QuickListPopupAction)
+
+nmap gcc <Action>(CommentByLineComment)
+nmap gbc <Action>(CommentByBlockComment)
+vmap gcc <Action>(CommentByLineComment)
+vmap gbc <Action>(CommentByBlockComment)
+
+nmap ]e <Action>(GotoNextError)
+nmap [e <Action>(GotoPreviousError)
+nmap <leader>ff <Action>(GotoFile)
+nmap gd <Action>(GotoDeclaration)
+nmap gD <Action>(GotoImplementation)
+
+" illuminated cloud
+nmap <leader>sd <Action>(IlluminatedCloud.DeployModifiedMetadata)
+nmap <leader>sr <Action>(IlluminatedCloud.Retrieve)
+nmap <leader>ss <Action>(IlluminatedCloud.ForceSave)
