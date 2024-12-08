@@ -28,12 +28,6 @@ if [[ -d "/Applications/Visual Studio Code.app" ]]; then
   export PATH="/Applications/Visual Studio Code.app/Contents/Resources/app/bin":$PATH;
 fi
 
-# add bison into start of path if exists
-brew --prefix bison &> /dev/null
-if [ $? -eq 0 ]; then  
-  export PATH="$(brew --prefix bison)/bin:$PATH"
-fi
-
 export PATH="/usr/local/sbin:$PATH"
 
 # disables zsh sessions 
@@ -44,7 +38,13 @@ export SHELL_SESSIONS_DISABLE=1
 
 # export VOLTA_HOME="$HOME/.volta"
 # export PATH="$VOLTA_HOME/bin:$PATH"
-eval "$(/usr/local/bin/rtx activate zsh)"
+
+# setup brew paths
+export PATH="${HOMEBREW_PREFIX}/opt/openssl/bin:$PATH"
+export PATH="/opt/homebrew/sbin:$PATH"
+export PATH="/opt/homebrew/bin:$PATH"
+
+eval "$(mise activate zsh)"
 export PATH="$HOME/.bun/bin/:$PATH"
 
 export BUN_INSTALL=$XDG_STATE_HOME/bun
@@ -61,3 +61,6 @@ export SF_AUTOUPDATE_DISABLE=true
 export JAVAFX_HOME="/usr/local/javafx-sdk-20.0.1"
 export PATH_TO_FX="/usr/local/javafx-sdk-20.0.1/lib"
 . "$HOME/.cargo/env"
+
+# disable punycode deprecation warnings, SF CLI dependency needs update
+export NODE_OPTIONS='--disable-warning=DEP0040' 
