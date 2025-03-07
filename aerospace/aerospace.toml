@@ -21,7 +21,6 @@ outer.right =      10
 [mode.main.binding]
 cmd-h = [] # Disable "hide application"
 cmd-alt-h = [] # Disable "hide others"
-# alt-enter = 'exec-and-forget /Applications/kitty.app/Contents/MacOS/kitty -1'
 
 alt-h = 'focus left'
 alt-j = 'focus down'
@@ -97,5 +96,15 @@ run = 'move-node-to-workspace 10'
 
 [[on-window-detected]]
 if.app-id = 'com.microsoft.Teams2'
-run = 'move-node-to-workspace 2' 
+run = 'move-node-to-workspace 2'
 
+[[on-window-detected]]
+if.app-id = "com.mitchellh.ghostty"
+run = [
+  # FIX: this is a workaround for https://github.com/nikitabobko/AeroSpace/issues/68
+  # this was also observed in:
+  # - https://github.com/ghostty-org/ghostty/issues/1840
+  # - https://github.com/ghostty-org/ghostty/issues/2006
+  "layout floating",
+  "move-node-to-workspace 1",
+]
