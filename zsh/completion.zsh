@@ -36,9 +36,9 @@ fi
 
 
 # Use modern completion system with caches
-autoload -Uz compinit 
-compinit -d "$XDG_CACHE_HOME/zsh/zcompdump-$ZSH_VERSION"
+autoload -Uz compinit && compinit -d "$XDG_CACHE_HOME/zsh/zcompdump-$ZSH_VERSION"
 _comp_options+=(globdots) # With hidden files
+autoload -U +X bashcompinit && bashcompinit
 
 setopt MENU_COMPLETE        # Automatically highlight first element of completion menu
 setopt AUTO_LIST            # Automatically list choices on ambiguous completion.
@@ -71,9 +71,9 @@ zstyle ':completion:*:descriptions' format '-- %d --'
 # FZF Tab
 # disable sort when completing `git checkout`
 zstyle ':completion:*:git-checkout:*' sort false
-# zstyle ':fzf-tab:complete:*' fzf-preview 'less $realpath'
-# zstyle ':fzf-tab:complete:git-(add|diff|restore):*' fzf-preview 'git diff $word'
-# zstyle ':fzf-tab:complete:cd:*' fzf-preview 'exa -1 --color=always $realpath'
+zstyle ':fzf-tab:complete:*' fzf-preview 'less $realpath'
+zstyle ':fzf-tab:complete:git-(add|diff|restore):*' fzf-preview 'git diff $word'
+zstyle ':fzf-tab:complete:cd:*' fzf-preview 'exa -1 --color=always $realpath'
 zstyle ':fzf-tab:*' switch-group ',' '.'
 
 # Replace completion menu with fzf if installed

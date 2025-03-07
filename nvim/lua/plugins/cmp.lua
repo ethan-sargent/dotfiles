@@ -200,7 +200,7 @@ _cmp.config = function()
 	-- rounded border on hover document
 	-- vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, { border = "rounded" })
 
-	lspconfig.tsserver.setup({
+	lspconfig.ts_ls.setup({
 		on_attach = on_attach,
 		flags = lsp_flags,
 		capabilities = capabilities,

@@ -5,7 +5,7 @@
   alias vim="nvim"
   alias v="nvim"
 } 
-(($+commands[exa]))   && { alias ls="exa"   } 
+(($+commands[eza]))   && { alias ls="eza"   } 
 (($+commands[just]))  && { alias j="just"   } 
 (($+commands[git]))   && { alias g="git"    } 
 (($+commands[lazygit]))   && { alias lg="lazygit"    } 

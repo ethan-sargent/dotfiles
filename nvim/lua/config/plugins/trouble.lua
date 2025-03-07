@@ -6,7 +6,7 @@ require"trouble".setup {
 }
 
 -- Trouble Keybinds
-vim.keymap.set("n", "<leader>xx", "<cmd>Trouble toggle<cr>",
+vim.keymap.set("n", "<leader>xx", "<cmd>Trouble diagnostics toggle<cr>",
   {silent = true, noremap = true}
 )
 vim.keymap.set("n", "<leader>xX", "<cmd>Trouble diagnostics toggle filter.buf=0<cr>",

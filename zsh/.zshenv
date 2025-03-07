@@ -57,6 +57,7 @@ fpath=(
 
 source "$ZDOTDIR/sfdx.zsh"
 export SF_AUTOUPDATE_DISABLE=true
+export SF_SKIP_NEW_VERSION_CHECK=true
 
 export JAVAFX_HOME="/usr/local/javafx-sdk-20.0.1"
 export PATH_TO_FX="/usr/local/javafx-sdk-20.0.1/lib"

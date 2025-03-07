@@ -1,6 +1,4 @@
 ; inherits: soql
-; attempting to match concepts represented here:
-; https://code.visualstudio.com/api/language-extensions/semantic-highlight-guide
 
 ; Methods
 

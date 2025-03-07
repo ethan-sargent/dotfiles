@@ -14,4 +14,8 @@
   body: (_) @context.end
 ) @context
 
+(class_declaration
+  body: (_) @context.end
+) @context
+
 (expression_statement) @context
