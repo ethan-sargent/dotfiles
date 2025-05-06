@@ -69,6 +69,7 @@ _cmp.config = function()
 					vim.keymap.set("n", "<Leader>K", rt.hover_actions.hover_actions, { buffer = bufnr })
 					-- Code action groups
 					vim.keymap.set("n", "<Leader>ca", rt.code_action_group.code_action_group, { buffer = bufnr })
+					vim.keymap.set("v", "<Leader>ca", rt.code_action_group.code_action_group, { buffer = bufnr })
 				end,
 			})
 		end,
