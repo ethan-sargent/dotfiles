@@ -25,7 +25,7 @@ M.config = function()
       -- optional entries:
       -- branch = "main", -- default branch in case of git repo if different from master
       generate_requires_npm = false,       -- if stand-alone parser without npm dependencies
-      requires_generate_from_grammar = false, -- if folder contains pre-generated src/parser.c
+      requires_generate_from_grammar = true, -- if folder contains pre-generated src/parser.c
     },
     filetype = "apex"
   }
@@ -37,7 +37,7 @@ M.config = function()
       files = { "src/parser.c" },
       -- optional entries:
       -- branch = "main", -- default branch in case of git repo if different from master
-      generate_requires_npm = true,       -- if stand-alone parser without npm dependencies
+      generate_requires_npm = false,       -- if stand-alone parser without npm dependencies
       requires_generate_from_grammar = true, -- if folder contains pre-generated src/parser.c
     },
     filetype = "soql",                    -- if filetype does not match the parser name
@@ -53,7 +53,7 @@ M.config = function()
     highlight = {
       enable = true,
       additional_vim_regex_highlighting = false,
-      disable = { "html" },
+      -- disable = { "html" },
     },
     indent = {
       disable = { "javascript", "ecma", "jsx", "tsx" }, -- necessary due to open treesitter indentation bug with JSDoc/TSDoc

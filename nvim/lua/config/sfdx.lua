@@ -33,6 +33,7 @@ local function sfdx_job(_args, start_msg)
     command = "sfdx",
     args = _args,
     cwd = ".",
+    env = { PATH = vim.env.PATH, CI = "1" },
     on_start = function()
       print(start_msg)
     end,
@@ -55,9 +56,22 @@ local function create_deploy_job()
     "Deploying source..."
   )
 end
+local function create_validate_job()
+  return sfdx_job(
+    { "project", "deploy", "start", "--dry-run", "--ignore-conflicts", "-d", vim.api.nvim_buf_get_name(0) },
+    "Deploying source (dry run)..."
+  )
+end
 local function create_retrieve_job()
   return sfdx_job(
     { "project", "retrieve", "start", "--ignore-conflicts", "--source-dir", vim.api.nvim_buf_get_name(0) },
+    "Retrieving source..."
+  )
+end
+
+local function retrieve_job_with_conflicts()
+  return sfdx_job(
+    { "project", "retrieve", "start", "--source-dir", vim.api.nvim_buf_get_name(0) },
     "Retrieving source..."
   )
 end
@@ -101,8 +115,16 @@ vim.keymap.set("n", "<leader>sd", function()
   create_deploy_job():start()
 end, { noremap = true })
 
+vim.keymap.set("n", "<leader>sv", function()
+  create_validate_job():start()
+end, { noremap = true })
+
 vim.keymap.set("n", "<leader>sr", function()
   create_retrieve_job():start()
+end, { noremap = true })
+
+vim.keymap.set("n", "<leader>sch", function()
+  retrieve_job_with_conflicts():start()
 end, { noremap = true })
 
 vim.keymap.set("n", "<leader>sae", function()

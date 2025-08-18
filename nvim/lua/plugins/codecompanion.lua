@@ -13,11 +13,8 @@ local _M = {
             name = "Ollama (Gemma 12b Default)",
             schema = {
               model = {
-                default = "hf.co/google/gemma-3-12b-it-qat-q4_0-gguf:latest"
-              },
-              num_ctx = {
-                default = 8192
-              },
+                default = "gemma3:12b-it-qat"
+              }
             }
           })
         end,
@@ -27,6 +24,9 @@ local _M = {
           adapter = "gemma_ollama",
         },
         inline = {
+          adapter = "gemma_ollama",
+        },
+        cmd = {
           adapter = "gemma_ollama",
         },
       },

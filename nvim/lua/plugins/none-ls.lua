@@ -14,6 +14,13 @@ _M.config = function()
       null_ls.builtins.formatting.prettier.with({
         extra_filetypes = { "apex", "apexcode", "apexanon", "xml" },
       }),
+      null_ls.builtins.code_actions.gitsigns.with({
+        config = {
+          filter_actions = function(title)
+            return title:lower():match("blame") == nil -- filter out blame actions
+          end,
+        },
+      }),
       null_ls.builtins.diagnostics.pmd.with({
         args = {
           "check",

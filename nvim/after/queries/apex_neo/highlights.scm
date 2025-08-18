@@ -292,7 +292,6 @@
   "abstract"
   "class"
   "continue"
-  "default"
   "enum"
   "extends"
   "final"

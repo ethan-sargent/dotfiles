@@ -120,7 +120,7 @@
   "TRACKING"
   "TYPEOF"
   "UPDATE"
-  "USING_SCOPE"
+  ; "USING_SCOPE"
   "VIEW"
   "VIEWSTAT"
   "WITH"
