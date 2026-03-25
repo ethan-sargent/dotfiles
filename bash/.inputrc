@@ -1,0 +1,26 @@
+# Readline configuration for Git Bash
+# Ported from zsh/bindings.zsh vi-mode settings
+
+# Vi editing mode
+set editing-mode vi
+
+# Show vi mode in prompt with cursor shape switching
+set show-mode-in-prompt on
+# Beam cursor for insert mode
+set vi-ins-mode-string \1\e[6 q\2
+# Block cursor for command mode
+set vi-cmd-mode-string \1\e[2 q\2
+
+# Fast mode switching (equivalent to KEYTIMEOUT=1 in zsh)
+set keyseq-timeout 50
+
+# Completion settings (mirrors zsh completion.zsh)
+set completion-ignore-case on
+set show-all-if-ambiguous on
+set colored-stats on
+set mark-symlinked-directories on
+set visible-stats on
+set colored-completion-prefix on
+
+# Do not bell on tab-completion
+set bell-style none
