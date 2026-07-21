@@ -1,0 +1,244 @@
+vim9script
+# Vim 9 Configuration — ported from nvim/lua config
+# Designed for Git Bash (mingw) remote development environment
+
+# === Leader Keys ===
+g:mapleader = " "
+g:maplocalleader = "\\"
+# Ensure space doesn't move cursor in normal mode
+nnoremap <Space> <Nop>
+
+# === Settings (from nvim/lua/settings.lua) ===
+set autowrite
+set cmdheight=1
+set completeopt=menu,menuone,noselect
+set relativenumber number
+set nohlsearch incsearch
+set tabstop=2 softtabstop=2 shiftwidth=2 shiftround expandtab smarttab
+set signcolumn=yes
+set autoindent smartindent
+set undofile
+set ignorecase smartcase
+set nowrap
+set synmaxcol=500
+set gdefault
+set scrolloff=4 sidescrolloff=8
+set lazyredraw
+set cursorline
+set mouse=a
+set pumheight=10
+set noshowmode
+set timeoutlen=300
+set undolevels=10000
+set updatetime=200
+set wildmode=longest:full,full
+set winminwidth=5
+# silent! — the C flag and splitkeep only exist on newer 9.0 patchlevels
+silent! set shortmess=filnxtToOFWIcC
+silent! set splitkeep=screen
+set backspace=indent,eol,start
+set laststatus=2
+set encoding=utf-8
+set formatoptions=jcroqlnt
+set hidden
+set noswapfile
+
+# Persistent undo directory
+var undodir = expand('~/.vim/undodir')
+if !isdirectory(undodir)
+  mkdir(undodir, 'p')
+endif
+&undodir = undodir
+
+# Fix markdown indentation
+g:markdown_recommended_style = 0
+
+# === Colorscheme ===
+set background=dark
+if has('termguicolors')
+  set termguicolors
+endif
+silent! colorscheme habamax
+
+# === netrw (file explorer, replaces neo-tree/vinegar) ===
+g:netrw_banner = 0
+g:netrw_liststyle = 3
+g:netrw_winsize = 25
+g:netrw_browse_split = 0
+
+# === Filetypes (from nvim/filetype.lua) ===
+augroup SalesforceFiletypes
+  autocmd!
+  autocmd BufRead,BufNewFile *.cls,*.apex,*.trigger setfiletype apex
+  autocmd BufRead,BufNewFile *.cmp,*.design,*.auradoc setfiletype xml
+  autocmd BufRead,BufNewFile *.soql setfiletype sql
+  autocmd BufRead,BufNewFile justfile setfiletype make
+augroup END
+
+# Apex comment string for vim-commentary
+augroup ApexComments
+  autocmd!
+  autocmd FileType apex setlocal commentstring=//\ %s
+augroup END
+
+# === Key Mappings (from nvim/lua/keymaps.lua) ===
+
+# Scroll + center screen (Primeagen)
+nnoremap <C-d> <C-d>zz
+nnoremap <C-u> <C-u>zz
+
+# Greatest remap ever — paste without overwriting register
+xnoremap <leader>p "_dP
+
+# Yank to system clipboard
+if has('clipboard')
+  nnoremap <leader>y "+y
+  vnoremap <leader>y "+y
+  nnoremap <leader>Y "+y$
+else
+  # Git for Windows vim lacks +clipboard; mintty exposes /dev/clipboard instead
+  def g:ClipYankOp(type: string)
+    if type == 'line'
+      silent normal! '[V']y
+    else
+      silent normal! `[v`]y
+    endif
+    writefile(getreg('"', 1, 1), '/dev/clipboard')
+  enddef
+  nnoremap <leader>y <ScriptCmd>&operatorfunc = 'g:ClipYankOp'<CR>g@
+  xnoremap <leader>y y<ScriptCmd>writefile(getreg('"', 1, 1), '/dev/clipboard')<CR>
+  nnoremap <leader>Y y$<ScriptCmd>writefile(getreg('"', 1, 1), '/dev/clipboard')<CR>
+endif
+
+# Delete to void register
+nnoremap <leader>d "_d
+vnoremap <leader>d "_d
+
+# Terminal mode navigation
+tnoremap <localleader><Esc> <C-\><C-n>
+tnoremap <C-w>k <C-\><C-n><C-w>k
+tnoremap <C-w>j <C-\><C-n><C-w>j
+tnoremap <C-w>l <C-\><C-n><C-w>l
+tnoremap <C-w>h <C-\><C-n><C-w>h
+tnoremap <C-w><C-k> <C-\><C-n><C-w>k
+tnoremap <C-w><C-j> <C-\><C-n><C-w>j
+tnoremap <C-w><C-l> <C-\><C-n><C-w>l
+tnoremap <C-w><C-h> <C-\><C-n><C-w>h
+
+# Quick window navigation
+nnoremap <C-h> <C-w>h
+nnoremap <C-j> <C-w>j
+nnoremap <C-k> <C-w>k
+nnoremap <C-l> <C-w>l
+
+# Open terminal split
+if has('terminal')
+  nnoremap <leader>t :below terminal<CR>
+endif
+
+# Quick buffer navigation
+nnoremap <leader>bn :bnext<CR>
+nnoremap <leader>bp :bprev<CR>
+nnoremap <leader>bd :bdelete<CR>
+
+# Quickfix navigation
+nnoremap ]q :cnext<CR>
+nnoremap [q :cprev<CR>
+
+# File explorer
+nnoremap - :Explore<CR>
+
+# === Grep (use git grep since rg is unavailable) ===
+if executable('rg')
+  &grepprg = 'rg --vimgrep'
+  &grepformat = '%f:%l:%c:%m'
+else
+  &grepprg = 'git grep -n'
+  &grepformat = '%f:%l:%m'
+endif
+
+# Grep shortcut — search word under cursor
+nnoremap <leader>/ :grep! <C-r><C-w><CR>:copen<CR>
+
+# === Statusline (replaces lualine) ===
+
+var sfdx_org_cache: string = ''
+var sfdx_org_timer: number = -1
+
+def g:RefreshSfdxOrg()
+  if !filereadable('.sfdx/sfdx-config.json')
+    sfdx_org_cache = ''
+    return
+  endif
+  try
+    var config_json = join(readfile('.sfdx/sfdx-config.json'), '')
+    var config = json_decode(config_json)
+    if type(config) == v:t_dict && has_key(config, 'target-org')
+      sfdx_org_cache = config['target-org']
+    else
+      sfdx_org_cache = ''
+    endif
+  catch
+    sfdx_org_cache = ''
+  endtry
+enddef
+
+def g:SfdxOrgStatus(): string
+  if empty(sfdx_org_cache)
+    return ''
+  endif
+  return ' ' .. sfdx_org_cache
+enddef
+
+def g:GitBranch(): string
+  if exists('*FugitiveHead')
+    var branch = FugitiveHead()
+    if !empty(branch)
+      return '  ' .. branch
+    endif
+  endif
+  return ''
+enddef
+
+def g:StatuslineMode(): string
+  var mode_map = {
+    'n': 'NORMAL',
+    'i': 'INSERT',
+    'v': 'VISUAL',
+    'V': 'V-LINE',
+    "\<C-v>": 'V-BLOCK',
+    'c': 'COMMAND',
+    'R': 'REPLACE',
+    't': 'TERMINAL',
+    's': 'SELECT',
+    'S': 'S-LINE',
+    "\<C-s>": 'S-BLOCK',
+  }
+  var current = mode()
+  # padding lives here so the :set lines need no escaped trailing spaces
+  return ' ' .. get(mode_map, current, current) .. ' '
+enddef
+
+set statusline=
+set statusline+=%#PmenuSel#
+set statusline+=%{g:StatuslineMode()}
+set statusline+=%#StatusLine#
+set statusline+=\ %f\ %m
+set statusline+=%{g:GitBranch()}
+set statusline+=%{g:SfdxOrgStatus()}
+set statusline+=%=
+set statusline+=%{&filetype}
+set statusline+=\ \ %l:%c
+set statusline+=\ \ %p%%
+
+# Refresh SFDX org on relevant events
+augroup SfdxStatusline
+  autocmd!
+  autocmd BufEnter,DirChanged * g:RefreshSfdxOrg()
+  autocmd VimEnter * g:RefreshSfdxOrg()
+augroup END
+
+# === Built-in find/path (replaces telescope for basic file finding) ===
+set path+=**
+set wildignore+=*/node_modules/*,*/.git/*,*/.sfdx/*,*/delta/*
+# :find <tab> to fuzzy-find files in project
