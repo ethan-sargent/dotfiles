@@ -26,7 +26,7 @@ if [[ -f ~/.vimrc && ! -L ~/.vimrc ]]; then
   echo "  Backing up existing ~/.vimrc to ~/.vimrc.bak"
   mv ~/.vimrc ~/.vimrc.bak
 fi
-ln -sf "$DOTFILES_DIR/vim/vimrc" ~/.vimrc
+ln -sfn "$DOTFILES_DIR/vim/vimrc" ~/.vimrc
 
 # --- Symlink vim plugin directory ---
 echo "Linking vim plugin directory..."
@@ -34,7 +34,8 @@ if [[ -d ~/.vim/plugin && ! -L ~/.vim/plugin ]]; then
   echo "  Backing up existing ~/.vim/plugin to ~/.vim/plugin.bak"
   mv ~/.vim/plugin ~/.vim/plugin.bak
 fi
-ln -sf "$DOTFILES_DIR/vim/plugin" ~/.vim/plugin
+# -n: replace an existing dir symlink instead of linking inside it
+ln -sfn "$DOTFILES_DIR/vim/plugin" ~/.vim/plugin
 
 # --- Symlink bash configs ---
 echo "Linking bash configs..."
@@ -42,10 +43,10 @@ if [[ -f ~/.inputrc && ! -L ~/.inputrc ]]; then
   echo "  Backing up existing ~/.inputrc to ~/.inputrc.bak"
   mv ~/.inputrc ~/.inputrc.bak
 fi
-ln -sf "$DOTFILES_DIR/bash/.inputrc" ~/.inputrc
+ln -sfn "$DOTFILES_DIR/bash/.inputrc" ~/.inputrc
 
-ln -sf "$DOTFILES_DIR/bash/.bashrc" "$XDG_CONFIG_HOME/bash/.bashrc"
-ln -sf "$DOTFILES_DIR/bash/sfdx.bash" "$XDG_CONFIG_HOME/bash/sfdx.bash"
+ln -sfn "$DOTFILES_DIR/bash/.bashrc" "$XDG_CONFIG_HOME/bash/.bashrc"
+ln -sfn "$DOTFILES_DIR/bash/sfdx.bash" "$XDG_CONFIG_HOME/bash/sfdx.bash"
 
 # --- Source .bashrc from ~/.bashrc ---
 BASHRC_SOURCE='source "$XDG_CONFIG_HOME/bash/.bashrc"'
@@ -91,7 +92,8 @@ install_plugin "tpope/vim-fugitive" "vim-fugitive"
 # --- Generate helptags ---
 echo ""
 echo "Generating helptags..."
-vim -u NONE -c "silent! helptags ALL" -c "qa!" 2>/dev/null || true
+# packloadall so pack/vendor/start plugin docs are on runtimepath (-u NONE skips packages)
+vim -N -es -c "packloadall | silent! helptags ALL" -c "qa!" 2>/dev/null || true
 
 # --- Done ---
 echo ""

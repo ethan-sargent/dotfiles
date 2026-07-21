@@ -3,9 +3,6 @@ vim9script
 # Ported from nvim/lua/config/sfdx.lua
 # Uses Vim 9 job_start() for async SFDX CLI execution
 
-# === Internal State ===
-var job_output: list<string> = []
-
 # === Helper: Print results after job completes ===
 def PrintResults(results: list<string>)
   # Defer display to avoid issues with async echo
@@ -19,6 +16,11 @@ enddef
 # === Core: Async SFDX Job Runner ===
 # Replaces plenary.job from the nvim config
 def SfdxJob(args: list<string>, start_msg: string)
+  if !executable('sfdx')
+    echoerr 'sfdx executable not found in PATH'
+    return
+  endif
+
   var output: list<string> = []
 
   echomsg start_msg
@@ -120,7 +122,8 @@ def g:SfdxVisualQuery()
     lines[-1] = strpart(lines[-1], 0, c2)
   endif
   var query = join(lines, ' ')
-  execute '!sfdx data query -q "' .. escape(query, '"') .. '"'
+  # escape % # ! so the :! command line doesn't expand them (SOQL LIKE '%x%')
+  execute '!sfdx data query -q "' .. escape(query, '"%#!') .. '"'
 enddef
 
 # === Open org in browser ===

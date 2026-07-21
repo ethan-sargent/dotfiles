@@ -8,7 +8,11 @@ dxd() {
     echo "Usage: dxd <org-alias>" >&2
     return 1
   fi
-  sfkit config set --target-org="$1"
+  if command -v sfkit >/dev/null 2>&1; then
+    sfkit config set --target-org="$1"
+  else
+    sf config set target-org="$1"
+  fi
 }
 
 # Show current default username from sfdx config
@@ -17,7 +21,7 @@ dxalias() {
     node -e "
       const c = require('./.sfdx/sfdx-config.json');
       console.log(c['defaultusername'] || c['target-org'] || '');
-    "
+    " 2>/dev/null || echo "Could not read .sfdx/sfdx-config.json" >&2
   else
     echo "No .sfdx/sfdx-config.json found" >&2
   fi
@@ -29,7 +33,7 @@ dxenv() {
     node -e "
       const c = require('./.sfdx/sfdx-config.json');
       console.log(c['target-org'] || '');
-    "
+    " 2>/dev/null || echo "Could not read .sfdx/sfdx-config.json" >&2
   else
     echo "No .sfdx/sfdx-config.json found" >&2
   fi

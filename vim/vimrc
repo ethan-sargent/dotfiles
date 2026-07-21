@@ -33,7 +33,9 @@ set undolevels=10000
 set updatetime=200
 set wildmode=longest:full,full
 set winminwidth=5
-set shortmess=filnxtToOFWIcC
+# silent! — the C flag and splitkeep only exist on newer 9.0 patchlevels
+silent! set shortmess=filnxtToOFWIcC
+silent! set splitkeep=screen
 set backspace=indent,eol,start
 set laststatus=2
 set encoding=utf-8
@@ -89,9 +91,24 @@ nnoremap <C-u> <C-u>zz
 xnoremap <leader>p "_dP
 
 # Yank to system clipboard
-nnoremap <leader>y "+y
-vnoremap <leader>y "+y
-nnoremap <leader>Y "+y$
+if has('clipboard')
+  nnoremap <leader>y "+y
+  vnoremap <leader>y "+y
+  nnoremap <leader>Y "+y$
+else
+  # Git for Windows vim lacks +clipboard; mintty exposes /dev/clipboard instead
+  def g:ClipYankOp(type: string)
+    if type == 'line'
+      silent normal! '[V']y
+    else
+      silent normal! `[v`]y
+    endif
+    writefile(getreg('"', 1, 1), '/dev/clipboard')
+  enddef
+  nnoremap <leader>y <ScriptCmd>&operatorfunc = 'g:ClipYankOp'<CR>g@
+  xnoremap <leader>y y<ScriptCmd>writefile(getreg('"', 1, 1), '/dev/clipboard')<CR>
+  nnoremap <leader>Y y$<ScriptCmd>writefile(getreg('"', 1, 1), '/dev/clipboard')<CR>
+endif
 
 # Delete to void register
 nnoremap <leader>d "_d
@@ -115,7 +132,9 @@ nnoremap <C-k> <C-w>k
 nnoremap <C-l> <C-w>l
 
 # Open terminal split
-nnoremap <leader>t :below terminal<CR>
+if has('terminal')
+  nnoremap <leader>t :below terminal<CR>
+endif
 
 # Quick buffer navigation
 nnoremap <leader>bn :bnext<CR>
@@ -196,12 +215,13 @@ def g:StatuslineMode(): string
     "\<C-s>": 'S-BLOCK',
   }
   var current = mode()
-  return get(mode_map, current, current)
+  # padding lives here so the :set lines need no escaped trailing spaces
+  return ' ' .. get(mode_map, current, current) .. ' '
 enddef
 
 set statusline=
 set statusline+=%#PmenuSel#
-set statusline+=\ %{g:StatuslineMode()}\
+set statusline+=%{g:StatuslineMode()}
 set statusline+=%#StatusLine#
 set statusline+=\ %f\ %m
 set statusline+=%{g:GitBranch()}
@@ -209,7 +229,7 @@ set statusline+=%{g:SfdxOrgStatus()}
 set statusline+=%=
 set statusline+=%{&filetype}
 set statusline+=\ \ %l:%c
-set statusline+=\ \ %p%%\
+set statusline+=\ \ %p%%
 
 # Refresh SFDX org on relevant events
 augroup SfdxStatusline
