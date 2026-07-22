@@ -4,4 +4,5 @@ zsh/.zsh_history
 git/.gitconfig
 nvim/plugin/packer_compiled.lua
 tmux/plugins
+vim/pack/
 
