@@ -1,0 +1,53 @@
+# Fedora-based dev container baseline built around these dotfiles.
+# Build/run via container/dev.sh — see container/README.md.
+FROM registry.fedoraproject.org/fedora:latest
+
+# mise (runtime version manager) ships via its own rpm repo
+RUN curl -fsSL https://mise.jdx.dev/rpm/mise.repo -o /etc/yum.repos.d/mise.repo
+
+RUN dnf -y install \
+    zsh \
+    git \
+    neovim \
+    tmux \
+    fzf \
+    ripgrep \
+    fd-find \
+    bat \
+    jq \
+    zoxide \
+    eza \
+    less \
+    unzip \
+    tar \
+    gcc \
+    gcc-c++ \
+    make \
+    openssh-clients \
+    ca-certificates \
+    glibc-langpack-en \
+    sudo \
+    which \
+    procps-ng \
+    mise \
+  && dnf clean all
+
+ENV LANG=en_US.UTF-8
+
+RUN useradd -m -u 1000 -s /bin/zsh dev \
+  && echo 'dev ALL=(ALL) NOPASSWD:ALL' > /etc/sudoers.d/dev \
+  && chmod 440 /etc/sudoers.d/dev
+
+# Changes when the image changes; the bootstrap stamp compares against this
+# so a rebuilt image triggers a full bootstrap re-run inside the home volume.
+ARG BUILD_ID=dev
+RUN echo "$BUILD_ID" > /etc/container-image-build
+
+COPY --chmod=755 bootstrap.sh /usr/local/bin/container-bootstrap
+COPY --chmod=755 entrypoint.sh /usr/local/bin/container-entrypoint
+
+USER dev
+WORKDIR /home/dev
+ENV DOTFILES_REPO=https://github.com/ethan-sargent/dotfiles.git
+
+ENTRYPOINT ["/usr/local/bin/container-entrypoint"]
