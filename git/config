@@ -4,7 +4,7 @@
 [commit]
 	gpgsign = false
 [core]
-	excludesfile = "$XDG_CONFIG_HOME/git/.gitignore_global"
+	excludesfile = ~/.config/git/gitignore_global
 	ignorecase = false
 	autocrlf = input
 [alias]

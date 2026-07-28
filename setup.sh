@@ -2,7 +2,15 @@
 #
 # Usage: Run when first pulling dotfiles to ensure configuration files are linked to the repo
 #
-SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
+# %x is the zsh equivalent of BASH_SOURCE; without it, running `zsh setup.sh`
+# from another directory silently resolves SCRIPT_DIR to the caller's cwd
+SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]:-${(%):-%x}}" )" &> /dev/null && pwd )
+
+# fetch vendored zsh plugins (powerlevel10k, fzf-tab) if the clone skipped submodules
+if command -v git &> /dev/null && [[ -d "$SCRIPT_DIR/.git" || -f "$SCRIPT_DIR/.git" ]]; then
+  printf "ensuring git submodules are initialised...\n"
+  git -C "$SCRIPT_DIR" submodule update --init --recursive
+fi
 
 if [ -z $XDG_CONFIG_HOME ]; then
   printf "no existing XDG_CONFIG_HOME, using $HOME/.config\n"
@@ -17,7 +25,7 @@ if [[ ! -d "$XDG_CONFIG_HOME" ]]; then
 fi
 
 printf "linking minimal zshenv to $HOME/.zshenv\n"
-if [[ ! -f "$HOME"/.zshenv ]] then 
+if [[ ! -e "$HOME"/.zshenv && ! -L "$HOME"/.zshenv ]] then
   ln -s "$SCRIPT_DIR"/.zshenv "$HOME"/.zshenv
 else
   printf "file found at $HOME/.zshenv, skipping...\n"
@@ -38,7 +46,5 @@ for dir in $dirs; do
   fi
 done
 
-printf "If you would like to add the global gitignore config, run \n"
-printf "git config --global core.excludesfile $XDG_CONFIG_HOME/git/gitignore_global\n"
 printf "Setup complete!\n"
 

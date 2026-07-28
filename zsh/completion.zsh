@@ -65,6 +65,6 @@ zstyle ':fzf-tab:complete:cd:*' fzf-preview 'exa -1 --color=always $realpath'
 zstyle ':fzf-tab:*' switch-group ',' '.'
 
 # Replace completion menu with fzf if installed
-(($+commands[fzf])) && {
+(($+commands[fzf])) && [ -f "$ZDOTDIR/plugins/fzf-tab/fzf-tab.plugin.zsh" ] && {
   source "$ZDOTDIR/plugins/fzf-tab/fzf-tab.plugin.zsh"
-} 
+}

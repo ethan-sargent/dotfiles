@@ -16,6 +16,7 @@ setopt histignorealldups sharehistory histignorespace
 # Keep 10000 lines of history within the shell and save it to ~/.zsh_history:
 HISTSIZE=10000
 SAVEHIST=10000
+mkdir -p "$XDG_CACHE_HOME"/zsh
 HISTFILE="$XDG_CACHE_HOME"/zsh/.zsh_history
 # Set locale explicitly
 export LC_ALL=en_US.UTF-8
@@ -42,15 +43,19 @@ source "$ZDOTDIR/aliases.zsh"
 # export JAVA_HOME=/Library/Java/JavaVirtualMachines/graalvm-ce-java17-22.2.0/Contents/Home
 # export PATH=$JAVA_HOME/bin:$PATH
 
-eval "$(zoxide init zsh)"
+command -v zoxide &> /dev/null && eval "$(zoxide init zsh)"
 
 # setup vim bindings
 source "$ZDOTDIR/bindings.zsh"
 
 # To customize prompt, run `p10k configure` or edit ~/.config/zsh/.p10k.zsh.
 # Moved default installation directory to ensure inclusion in repo
-source "$ZDOTDIR"/plugins/powerlevel10k/powerlevel10k.zsh-theme
-[ -f "$ZDOTDIR"/.p10k.zsh ] && source "$ZDOTDIR"/.p10k.zsh
+if [ -f "$ZDOTDIR"/plugins/powerlevel10k/powerlevel10k.zsh-theme ]; then
+  source "$ZDOTDIR"/plugins/powerlevel10k/powerlevel10k.zsh-theme
+  [ -f "$ZDOTDIR"/.p10k.zsh ] && source "$ZDOTDIR"/.p10k.zsh
+else
+  print -u2 "powerlevel10k missing - run: git -C ~/dotfiles submodule update --init --recursive (or re-run setup.sh)"
+fi
 
 # end profiling
 # zprof > ~/.zstartuplog

@@ -1,7 +1,7 @@
 #!/bin/zsh
 #
 # on macos, 
-source "$HOME/.cargo/env"
+[ -f "$HOME/.cargo/env" ] && source "$HOME/.cargo/env"
 
 # XDG compat
 export XDG_CONFIG_HOME="$HOME"/.config
@@ -28,8 +28,7 @@ if [[ -d "/Applications/Visual Studio Code.app" ]]; then
 fi
 
 # add bison into start of path if exists
-brew --prefix bison &> /dev/null
-if [ $? -eq 0 ]; then  
+if command -v brew &> /dev/null && brew --prefix bison &> /dev/null; then
   export PATH="$(brew --prefix bison)/bin:$PATH"
 fi
 
@@ -43,7 +42,8 @@ export SHELL_SESSIONS_DISABLE=1
 
 # export VOLTA_HOME="$HOME/.volta"
 # export PATH="$VOLTA_HOME/bin:$PATH"
-eval "$(/usr/local/bin/rtx activate zsh)"
+[ -x /usr/local/bin/rtx ] && eval "$(/usr/local/bin/rtx activate zsh)"
+command -v mise &> /dev/null && eval "$(mise activate zsh)"
 export PATH="$HOME/.cache/.bun/bin:$PATH"
 
 fpath=(
