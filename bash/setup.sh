@@ -15,27 +15,26 @@ echo ""
 
 # --- Create required directories ---
 echo "Creating directories..."
-mkdir -p ~/.vim/undodir
-mkdir -p ~/.vim/pack/vendor/start
 mkdir -p "$XDG_CONFIG_HOME/bash"
+mkdir -p "${XDG_STATE_HOME:-$HOME/.local/state}/vim/undo"
 mkdir -p "${XDG_CACHE_HOME:-$HOME/.cache}/sfdx"
 
-# --- Symlink vimrc ---
-echo "Linking vimrc..."
-if [[ -f ~/.vimrc && ! -L ~/.vimrc ]]; then
-  echo "  Backing up existing ~/.vimrc to ~/.vimrc.bak"
+# --- Vim (XDG layout) ---
+# Vim only falls back to $XDG_CONFIG_HOME/vim/vimrc when ~/.vimrc is absent,
+# so move any existing one aside rather than linking to it.
+echo "Linking vim config to $XDG_CONFIG_HOME/vim..."
+if [[ -e ~/.vimrc || -L ~/.vimrc ]]; then
+  echo "  Moving existing ~/.vimrc to ~/.vimrc.bak (it shadows the XDG config)"
   mv ~/.vimrc ~/.vimrc.bak
 fi
-ln -sfn "$DOTFILES_DIR/vim/vimrc" ~/.vimrc
+# clean up the pre-XDG layout from earlier versions of this script
+[[ -L ~/.vim/plugin ]] && rm ~/.vim/plugin
 
-# --- Symlink vim plugin directory ---
-echo "Linking vim plugin directory..."
-if [[ -d ~/.vim/plugin && ! -L ~/.vim/plugin ]]; then
-  echo "  Backing up existing ~/.vim/plugin to ~/.vim/plugin.bak"
-  mv ~/.vim/plugin ~/.vim/plugin.bak
+if [[ -d "$XDG_CONFIG_HOME/vim" && ! -L "$XDG_CONFIG_HOME/vim" ]]; then
+  echo "  Backing up existing $XDG_CONFIG_HOME/vim to $XDG_CONFIG_HOME/vim.BAK"
+  mv "$XDG_CONFIG_HOME/vim" "$XDG_CONFIG_HOME/vim.BAK"
 fi
-# -n: replace an existing dir symlink instead of linking inside it
-ln -sfn "$DOTFILES_DIR/vim/plugin" ~/.vim/plugin
+ln -sfn "$DOTFILES_DIR/vim" "$XDG_CONFIG_HOME/vim"
 
 # --- Symlink bash configs ---
 echo "Linking bash configs..."
@@ -67,27 +66,34 @@ else
 fi
 
 # --- Install Vim plugins via native pack system ---
+# pack/<vendor>/start/<plugin>, inside the (symlinked) XDG vim dir;
+# the repo gitignores vim/pack/
 echo ""
 echo "Installing vim plugins..."
-PACK_DIR="$HOME/.vim/pack/vendor/start"
+PACK_DIR="$DOTFILES_DIR/vim/pack"
+# clean up the old pack/vendor/* layout; plugins are re-cloned below
+[[ -d "$PACK_DIR/vendor" ]] && rm -rf "$PACK_DIR/vendor"
 
 install_plugin() {
   local repo="$1"
-  local name="$2"
-  local dest="$PACK_DIR/$name"
+  local vendor="$2"
+  local name="$3"
+  local dest="$PACK_DIR/$vendor/start/$name"
 
+  mkdir -p "$PACK_DIR/$vendor/start"
   if [[ -d "$dest" ]]; then
-    echo "  $name: already installed, pulling latest..."
-    git -C "$dest" pull --quiet 2>/dev/null || echo "  $name: pull failed, using existing"
+    echo "  $vendor/$name: already installed, pulling latest..."
+    git -C "$dest" pull --quiet 2>/dev/null || echo "  $vendor/$name: pull failed, using existing"
   else
-    echo "  $name: cloning from $repo..."
+    echo "  $vendor/$name: cloning from $repo..."
     git clone --quiet "https://github.com/$repo.git" "$dest"
   fi
 }
 
-install_plugin "tpope/vim-surround" "vim-surround"
-install_plugin "tpope/vim-commentary" "vim-commentary"
-install_plugin "tpope/vim-fugitive" "vim-fugitive"
+install_plugin "tpope/vim-surround" "tpope" "vim-surround"
+install_plugin "tpope/vim-commentary" "tpope" "vim-commentary"
+install_plugin "tpope/vim-fugitive" "tpope" "vim-fugitive"
+install_plugin "catppuccin/vim" "colors" "catppuccin"
 
 # --- Generate helptags ---
 echo ""
@@ -100,12 +106,11 @@ echo ""
 echo "=== Setup Complete ==="
 echo ""
 echo "Configuration files:"
-echo "  ~/.vimrc          -> $DOTFILES_DIR/vim/vimrc"
-echo "  ~/.vim/plugin/    -> $DOTFILES_DIR/vim/plugin/"
-echo "  ~/.inputrc        -> $DOTFILES_DIR/bash/.inputrc"
-echo "  ~/.config/bash/   -> $DOTFILES_DIR/bash/"
+echo "  $XDG_CONFIG_HOME/vim   -> $DOTFILES_DIR/vim"
+echo "  ~/.inputrc             -> $DOTFILES_DIR/bash/.inputrc"
+echo "  $XDG_CONFIG_HOME/bash/ -> $DOTFILES_DIR/bash/"
 echo ""
 echo "Vim plugins installed:"
-ls -1 "$PACK_DIR" 2>/dev/null | sed 's/^/  /'
+ls -1 "$PACK_DIR"/*/start 2>/dev/null | sed 's/^/  /'
 echo ""
 echo "Restart your shell or run: source ~/.bashrc"

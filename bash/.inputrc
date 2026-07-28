@@ -4,12 +4,12 @@
 # Vi editing mode
 set editing-mode vi
 
-# Show vi mode in prompt with cursor shape switching
+# Show vi mode in prompt with cursor shape switching (DECSCUSR)
 set show-mode-in-prompt on
-# Beam cursor for insert mode
-set vi-ins-mode-string \1\e[6 q\2
-# Block cursor for command mode
-set vi-cmd-mode-string \1\e[2 q\2
+# Blinking bar for insert mode
+set vi-ins-mode-string \1\e[5 q\2
+# Blinking block for command mode
+set vi-cmd-mode-string \1\e[1 q\2
 
 # Fast mode switching (equivalent to KEYTIMEOUT=1 in zsh)
 set keyseq-timeout 50

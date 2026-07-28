@@ -27,7 +27,6 @@ set lazyredraw
 set cursorline
 set mouse=a
 set pumheight=10
-set noshowmode
 set timeoutlen=300
 set undolevels=10000
 set updatetime=200
@@ -42,23 +41,31 @@ set encoding=utf-8
 set formatoptions=jcroqlnt
 set hidden
 set noswapfile
+set belloff=all
 
-# Persistent undo directory
-var undodir = expand('~/.vim/undodir')
-if !isdirectory(undodir)
-  mkdir(undodir, 'p')
+# Persistent undo under the XDG state dir
+var undo_dir = (getenv('XDG_STATE_HOME') ?? expand('~/.local/state')) .. '/vim/undo'
+if !isdirectory(undo_dir)
+  mkdir(undo_dir, 'p')
 endif
-&undodir = undodir
+&undodir = undo_dir
 
 # Fix markdown indentation
 g:markdown_recommended_style = 0
 
 # === Colorscheme ===
+# the :colorscheme call lives in after/plugin/colorscheme.vim, which runs
+# once packages are on the runtimepath but still before the first draw
 set background=dark
 if has('termguicolors')
   set termguicolors
 endif
-silent! colorscheme habamax
+
+# === Cursor shape (DECSCUSR — Windows Terminal / mintty) ===
+# blinking bar in insert, blinking underline in replace, blinking block otherwise
+&t_SI = "\e[5 q"
+&t_SR = "\e[3 q"
+&t_EI = "\e[1 q"
 
 # === netrw (file explorer, replaces neo-tree/vinegar) ===
 g:netrw_banner = 0
@@ -162,80 +169,29 @@ nnoremap <leader>/ :grep! <C-r><C-w><CR>:copen<CR>
 
 # === Statusline (replaces lualine) ===
 
-var sfdx_org_cache: string = ''
-var sfdx_org_timer: number = -1
-
+# Org cached in a plain global so the %{} item is just a variable read;
+# refreshed only when it can actually change (enter/dir change)
+g:sfdx_org = ''
 def g:RefreshSfdxOrg()
-  if !filereadable('.sfdx/sfdx-config.json')
-    sfdx_org_cache = ''
-    return
+  g:sfdx_org = ''
+  if filereadable('.sfdx/sfdx-config.json')
+    try
+      g:sfdx_org = json_decode(join(readfile('.sfdx/sfdx-config.json'), ''))
+        ->get('target-org', '')
+    catch
+    endtry
   endif
-  try
-    var config_json = join(readfile('.sfdx/sfdx-config.json'), '')
-    var config = json_decode(config_json)
-    if type(config) == v:t_dict && has_key(config, 'target-org')
-      sfdx_org_cache = config['target-org']
-    else
-      sfdx_org_cache = ''
-    endif
-  catch
-    sfdx_org_cache = ''
-  endtry
 enddef
 
-def g:SfdxOrgStatus(): string
-  if empty(sfdx_org_cache)
-    return ''
-  endif
-  return ' ' .. sfdx_org_cache
-enddef
-
-def g:GitBranch(): string
-  if exists('*FugitiveHead')
-    var branch = FugitiveHead()
-    if !empty(branch)
-      return '  ' .. branch
-    endif
-  endif
-  return ''
-enddef
-
-def g:StatuslineMode(): string
-  var mode_map = {
-    'n': 'NORMAL',
-    'i': 'INSERT',
-    'v': 'VISUAL',
-    'V': 'V-LINE',
-    "\<C-v>": 'V-BLOCK',
-    'c': 'COMMAND',
-    'R': 'REPLACE',
-    't': 'TERMINAL',
-    's': 'SELECT',
-    'S': 'S-LINE',
-    "\<C-s>": 'S-BLOCK',
-  }
-  var current = mode()
-  # padding lives here so the :set lines need no escaped trailing spaces
-  return ' ' .. get(mode_map, current, current) .. ' '
-enddef
-
-set statusline=
-set statusline+=%#PmenuSel#
-set statusline+=%{g:StatuslineMode()}
-set statusline+=%#StatusLine#
-set statusline+=\ %f\ %m
-set statusline+=%{g:GitBranch()}
-set statusline+=%{g:SfdxOrgStatus()}
+set statusline=\ %f\ %m
+set statusline+=\ %{FugitiveStatusline()}
+set statusline+=\ %{g:sfdx_org}
 set statusline+=%=
-set statusline+=%{&filetype}
-set statusline+=\ \ %l:%c
-set statusline+=\ \ %p%%
+set statusline+=%y\ \ %l:%c\ \ %p%%
 
-# Refresh SFDX org on relevant events
 augroup SfdxStatusline
   autocmd!
-  autocmd BufEnter,DirChanged * g:RefreshSfdxOrg()
-  autocmd VimEnter * g:RefreshSfdxOrg()
+  autocmd VimEnter,BufEnter,DirChanged * g:RefreshSfdxOrg()
 augroup END
 
 # === Built-in find/path (replaces telescope for basic file finding) ===
