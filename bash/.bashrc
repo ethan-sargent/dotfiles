@@ -58,74 +58,14 @@ if [[ -f "$XDG_CONFIG_HOME/bash/sfdx.bash" ]]; then
   source "$XDG_CONFIG_HOME/bash/sfdx.bash"
 fi
 
-# === Git Prompt (shipped with Git Bash) ===
-# __git_ps1 is provided by git-prompt.sh in Git for Windows
-
-# Source git-prompt if not already loaded
-if ! type -t __git_ps1 &>/dev/null; then
-  for f in \
-    /etc/bash_completion.d/git-prompt \
-    /usr/share/git/completion/git-prompt.sh \
-    /mingw64/share/git/completion/git-prompt.sh \
-    "/c/Program Files/Git/mingw64/share/git/completion/git-prompt.sh"; do
-    if [[ -f "$f" ]]; then
-      source "$f"
-      break
-    fi
-  done
-fi
-
-# Git prompt config
-export GIT_PS1_SHOWDIRTYSTATE=1
-export GIT_PS1_SHOWSTASHSTATE=1
-export GIT_PS1_SHOWUNTRACKEDFILES=1
-export GIT_PS1_SHOWUPSTREAM="auto"
-
-# === SFDX Org in Prompt ===
-__sfdx_org_ps1() {
-  if [[ -f .sfdx/sfdx-config.json ]]; then
-    node -e "
-      try {
-        const c = require('./.sfdx/sfdx-config.json');
-        const org = c['target-org'] || c['defaultusername'] || '';
-        if (org) process.stdout.write(' [' + org + ']');
-      } catch(e) {}
-    " 2>/dev/null
-  fi
-}
-
 # === Prompt ===
-# Two-line prompt: path + git branch + sfdx org on line 1, prompt char on line 2
-__build_prompt() {
-  local exit_code=$?
-  local reset='\[\e[0m\]'
-  local blue='\[\e[34m\]'
-  local green='\[\e[32m\]'
-  local cyan='\[\e[36m\]'
-  local red='\[\e[31m\]'
-  local yellow='\[\e[33m\]'
-  local bold='\[\e[1m\]'
+# Git Bash's stock prompt (path + branch via /etc/profile.d/git-prompt.sh)
+# is kept as-is: a custom PROMPT_COMMAND spawning node/git per prompt adds
+# noticeable latency on Windows. Use dxenv for the current org on demand.
 
-  # Directory
-  PS1="${bold}${blue}\w${reset}"
-
-  # Git branch
-  if type -t __git_ps1 &>/dev/null; then
-    PS1+="${green}$(__git_ps1 ' (%s)')${reset}"
-  fi
-
-  # SFDX org
-  PS1+="${cyan}$(__sfdx_org_ps1)${reset}"
-
-  # Newline + prompt char (color based on last exit code)
-  if [[ $exit_code -eq 0 ]]; then
-    PS1+="\n${green}>${reset} "
-  else
-    PS1+="\n${red}>${reset} "
-  fi
-}
-
-PROMPT_COMMAND='__build_prompt'
+# === Bell ===
+# belt-and-braces with .inputrc in case it isn't linked
+bind 'set bell-style none' 2>/dev/null
 
 # === Git Bash Completion ===
 # Git for Windows ships bash completion

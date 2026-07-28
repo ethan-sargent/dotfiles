@@ -66,30 +66,34 @@ else
 fi
 
 # --- Install Vim plugins via native pack system ---
-# Lives inside the (symlinked) XDG vim dir; the repo gitignores vim/pack/
+# pack/<vendor>/start/<plugin>, inside the (symlinked) XDG vim dir;
+# the repo gitignores vim/pack/
 echo ""
 echo "Installing vim plugins..."
-PACK_DIR="$DOTFILES_DIR/vim/pack/vendor/start"
-mkdir -p "$PACK_DIR"
+PACK_DIR="$DOTFILES_DIR/vim/pack"
+# clean up the old pack/vendor/* layout; plugins are re-cloned below
+[[ -d "$PACK_DIR/vendor" ]] && rm -rf "$PACK_DIR/vendor"
 
 install_plugin() {
   local repo="$1"
-  local name="$2"
-  local dest="$PACK_DIR/$name"
+  local vendor="$2"
+  local name="$3"
+  local dest="$PACK_DIR/$vendor/start/$name"
 
+  mkdir -p "$PACK_DIR/$vendor/start"
   if [[ -d "$dest" ]]; then
-    echo "  $name: already installed, pulling latest..."
-    git -C "$dest" pull --quiet 2>/dev/null || echo "  $name: pull failed, using existing"
+    echo "  $vendor/$name: already installed, pulling latest..."
+    git -C "$dest" pull --quiet 2>/dev/null || echo "  $vendor/$name: pull failed, using existing"
   else
-    echo "  $name: cloning from $repo..."
+    echo "  $vendor/$name: cloning from $repo..."
     git clone --quiet "https://github.com/$repo.git" "$dest"
   fi
 }
 
-install_plugin "tpope/vim-surround" "vim-surround"
-install_plugin "tpope/vim-commentary" "vim-commentary"
-install_plugin "tpope/vim-fugitive" "vim-fugitive"
-install_plugin "catppuccin/vim" "catppuccin"
+install_plugin "tpope/vim-surround" "tpope" "vim-surround"
+install_plugin "tpope/vim-commentary" "tpope" "vim-commentary"
+install_plugin "tpope/vim-fugitive" "tpope" "vim-fugitive"
+install_plugin "catppuccin/vim" "colors" "catppuccin"
 
 # --- Generate helptags ---
 echo ""
@@ -107,6 +111,6 @@ echo "  ~/.inputrc             -> $DOTFILES_DIR/bash/.inputrc"
 echo "  $XDG_CONFIG_HOME/bash/ -> $DOTFILES_DIR/bash/"
 echo ""
 echo "Vim plugins installed:"
-ls -1 "$PACK_DIR" 2>/dev/null | sed 's/^/  /'
+ls -1 "$PACK_DIR"/*/start 2>/dev/null | sed 's/^/  /'
 echo ""
 echo "Restart your shell or run: source ~/.bashrc"
