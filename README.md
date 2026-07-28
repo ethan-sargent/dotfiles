@@ -8,6 +8,17 @@ git clone https://github.com/ethan-sargent/dotfiles --recurse-submodules
 ```
 To apply the configuration see INSTALL.md - config installation should be as simple as running setup.sh.
 
+## Dev container
+
+A podman-based Fedora dev container with this whole setup pre-wired (persistent
+home volume, Claude Code, mise):
+
+```
+./container/dev.sh build && ./container/dev.sh
+```
+
+See [container/README.md](container/README.md) for details.
+
 Make sure you take a backup of your XDG_CONFIG_HOME dir before executing it! 
 it _should_ back up any existing config rather than overwrite it, but cannot guarantee this.
 

@@ -1,5 +1,7 @@
 # Installation
 
+For a containerised setup, see [container/README.md](container/README.md).
+
 ## Config 
 
 * zsh-only
@@ -12,7 +14,6 @@
 
 * alacritty
 * neovim
-* starship
 * fd-find
 * fzf
 * rg - ergonomic ripgrep
