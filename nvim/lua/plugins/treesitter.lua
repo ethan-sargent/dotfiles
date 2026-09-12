@@ -12,36 +12,6 @@ local M = {
 }
 
 M.config = function()
-  local parser_config = require("nvim-treesitter.parsers").get_parser_configs()
-
-  -- require('utils').override_query("apex", "highlights")
-  -- require('utils').override_query("apex", "indents")
-  -- require('utils').override_query("apex", "locals")
-  -- require('utils').override_query("apex", "tags")
-  parser_config.apex_neo = {
-    install_info = {
-      url = "~/Projects/tree-sitter-sfapex/apex", -- local path or git repo
-      files = { "src/parser.c" },
-      -- optional entries:
-      -- branch = "main", -- default branch in case of git repo if different from master
-      generate_requires_npm = false,       -- if stand-alone parser without npm dependencies
-      requires_generate_from_grammar = true, -- if folder contains pre-generated src/parser.c
-    },
-    filetype = "apex"
-  }
-  vim.treesitter.language.register("apex_neo", "apexcode");
-  -- Apex and SOQL parsers
-  parser_config.soql = {
-    install_info = {
-      url = "~/Projects/tree-sitter-sfapex/soql", -- local path or git repo
-      files = { "src/parser.c" },
-      -- optional entries:
-      -- branch = "main", -- default branch in case of git repo if different from master
-      generate_requires_npm = false,       -- if stand-alone parser without npm dependencies
-      requires_generate_from_grammar = true, -- if folder contains pre-generated src/parser.c
-    },
-    filetype = "soql",                    -- if filetype does not match the parser name
-  }
 
 
   require('ts_context_commentstring').setup {
@@ -49,7 +19,7 @@ M.config = function()
   }
 
 
-  require("nvim-treesitter.configs").setup({
+  require("nvim-treesitter").setup({
     highlight = {
       enable = true,
       additional_vim_regex_highlighting = false,

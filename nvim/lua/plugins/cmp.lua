@@ -26,30 +26,11 @@ _cmp.config = function()
 	local cmp = require("cmp")
 	local lspconfig = require("lspconfig")
 	vim.g.completion_enable_snippet = "luasnip"
-	local lsp_flags = {
-		debounce_text_changes = 150,
-	}
-	-- LSP configuration
-	local on_attach = function(client, bufnr)
-		-- Enable completion triggered by <c-x><c-o>
-		vim.api.nvim_buf_set_option(bufnr, "omnifunc", "v:lua.vim.lsp.omnifunc")
-	end
-	local capabilities = require("cmp_nvim_lsp").default_capabilities(vim.lsp.protocol.make_client_capabilities())
-	capabilities.textDocument.completion.completionItem.snippetSupport = true
 
 	local lspkind = require("lspkind")
 	require("mason").setup()
+  -- TODO: replace mason-lspconfig handlers with appropriate 0.11+ machinery
 	local handlers = {
-		-- The first entry (without a key) will be the default handler
-		-- and will be called for each installed server that doesn't have
-		-- a dedicated handler.
-		function(server_name) -- default handler (optional)
-			lspconfig[server_name].setup({
-				capabilities = capabilities,
-				flags = lsp_flags,
-				on_attach = on_attach,
-			})
-		end,
 		["rust_analyzer"] = function()
 			local rt = require("rust-tools")
 			rt.setup({
@@ -76,7 +57,6 @@ _cmp.config = function()
 	}
 	require("mason-lspconfig").setup({
 		automatic_installation = true,
-		handlers = handlers,
 	})
 	require("mason-nvim-dap").setup({
 		automatic_setup = true,
@@ -201,23 +181,37 @@ _cmp.config = function()
 	-- rounded border on hover document
 	-- vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, { border = "rounded" })
 
-	lspconfig.ts_ls.setup({
+	-- LSP configuration
+	local on_attach = function(client, bufnr)
+		-- Enable completion triggered by <c-x><c-o>
+		vim.api.nvim_buf_set_option(bufnr, "omnifunc", "v:lua.vim.lsp.omnifunc")
+	end
+
+	local capabilities = require("cmp_nvim_lsp").default_capabilities(vim.lsp.protocol.make_client_capabilities())
+	capabilities.textDocument.completion.completionItem.snippetSupport = true
+
+	local lsp_flags = {
+		debounce_text_changes = 150,
+	}
+
+  -- TODO: confirm this is 0.11+ ideal approach?
+  -- Maybe I can move the rest of my config out of this monolithic file now?
+	vim.lsp.config('*', {
 		on_attach = on_attach,
-		flags = lsp_flags,
+		flags = {
+      debounce_text_changes = 150,
+    },
 		capabilities = capabilities,
 	})
 
-	lspconfig.apex_ls.setup({
-		apex_jar_path = vim.fn.stdpath("data")
-			.. "/mason/packages/apex-language-server/extension/dist/apex-jorje-lsp.jar",
-		apex_enable_semantic_errors = false,
+	vim.lsp.config('apex_ls', {
+    apex_jar_path = vim.fn.stdpath('data') .. '/mason/share/packages/apex-language-server/apex-jorje-lsp.jar',
+		apex_enable_semantic_errors = true,
 		apex_enable_completion_statistics = false,
-		on_attach = on_attach,
-		capabilities = capabilities,
 		filetypes = { "apexcode", "apex", "apexanon" },
 	})
 
-	lspconfig.lua_ls.setup({
+	vim.lsp.config('lua_ls', {
 		settings = {
 			Lua = {
 				runtime = {
@@ -242,59 +236,13 @@ _cmp.config = function()
 				},
 			},
 		},
-		on_attach = on_attach,
-		flags = lsp_flags,
-		capabilities = capabilities,
 	})
 
-	lspconfig.html.setup({
-		capabilities = capabilities,
-		flags = lsp_flags,
-		on_attach = function(client, bufnr)
-			on_attach(client, bufnr)
-		end,
+	vim.lsp.config('html', {
 		init_options = {
 			provideFormatter = false,
 		},
 	})
 
-	require("lspconfig").azure_pipelines_ls.setup({
-		settings = {
-			yaml = {
-				schemas = {
-					["https://raw.githubusercontent.com/microsoft/azure-pipelines-vscode/master/service-schema.json"] = {
-						"/azure-pipeline*.y*l",
-						"/*.azure*",
-						"/devops/**/*.y*l",
-						"/runbooks/**/*.y*l",
-					},
-				},
-			},
-		},
-	})
-
-	-- default handlers for language servers installed by Mason that don't have explicit handlers
-	-- require("mason-lspconfig").setup_handlers({
-	-- 	-- The first entry (without a key) will be the default handler
-	-- 	-- and will be called for each installed server that doesn't have
-	-- 	-- a dedicated handler.
-	-- 	function(server_name) -- default handler (optional)
-	-- 		lspconfig[server_name].setup({
-	-- 			capabilities = capabilities,
-	-- 			flags = lsp_flags,
-	-- 			on_attach = on_attach,
-	-- 		})
-	-- 	end,
-
-	-- 	["apex_ls"] = function()
-	-- 		lspconfig.apex_ls.setup({
-	-- 			apex_enable_semantic_errors = false,
-	-- 			apex_enable_completion_statistics = false,
-	-- 			on_attach = on_attach,
-	-- 			capabilities = capabilities,
-	-- 			filetypes = { "apexcode", "apex", "apexanon" },
-	-- 		})
-	-- 	end,
-	-- })
 end
 return _cmp
